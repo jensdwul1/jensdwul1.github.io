@@ -5,10 +5,9 @@
             .doc{
                 display:block;
                 animation: animationFrames linear 4s infinite;
-                animation-iteration-count: 1;
+                -webkit-animation: animationFrames linear 4s infinite;
+                -moz-animation: animationFrames linear 4s infinite;
                 transform-origin: 50% 50%;
-                -webkit-animation: animationFrames linear 4s;
-                -moz-animation: animationFrames linear 4s;
             }
 
             @keyframes animationFrames{
