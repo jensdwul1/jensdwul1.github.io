@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
-
     {% include components/head.html %}
-
     <body>
-        <main role="main" id="main">
-            {% content %}
+        <main id="main" role="main">
+        {{ content }}
         </main>
         {% include components/scripts.html %}
     </body>

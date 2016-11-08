@@ -1,8 +1,7 @@
 ---
-layout: default
-title: "New Media Design and Development"
+layout  : default
+title   : "New Media Design & Development I"
 ---
 
-Content goes here
-
----
+SLA
+===
