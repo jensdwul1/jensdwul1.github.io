@@ -1,0 +1,38 @@
+# Site settings
+# -------------
+baseurl     : "" # the subpath of your site, e.g. /blog/
+colour      : primary
+language    : nl
+host        : 127.0.0.1
+port        : 4000
+
+# SEO
+# ---
+title      : &title Github.io for Jens De Wulf
+description: "Github.io Website for Jens De Wulf in assignment for Artevelde University College Ghent"
+author     : Jens De Wulf
+tracking_id: "UA-87020557-1"
+# url        :
+# image      :
+
+# Build settings
+# --------------
+gems:
+  - jekyll-feed
+  - jekyll-gist
+  - jekyll-mentions
+  - jekyll-paginate
+  - jekyll-redirect-from
+  - jekyll-sitemap
+  - jemoji
+highlighter: rouge
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+sass:
+  style: compressed
+exclude:
+  - Gemfile
+  - LICENSE
+  - README.md
