@@ -8,8 +8,8 @@ port        : 4000
 
 # SEO
 # ---
-title      : &title Github.io for Jens De Wulf
-description: "Github.io Website for Jens De Wulf in assignment for Artevelde University College Ghent"
+title      : &title Doekeewa
+description: "Doekeewa is an application to help people find and discover new places and activities in Ghent. This is an assignment for Artevelde University College Ghent."
 author     : Jens De Wulf
 tracking_id: "UA-87020557-1"
 # url        :

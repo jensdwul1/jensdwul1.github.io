@@ -19,6 +19,13 @@ html {
   box-sizing: inherit;
 } 
 
+body {
+  background-color: $light-pink;
+}
+main {
+
+}
+
 /**
  * Basic styles for links
  */
@@ -31,3 +38,4 @@ a {
     text-decoration: underline;
   }
 }
+

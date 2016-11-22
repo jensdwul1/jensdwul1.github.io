@@ -1,0 +1,201 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the line element components.
+// -----------------------------------------------------------------------------
+.menu-toggle:visited,
+.menu-toggle:focus,
+.menu-toggle:active,
+.menu-toggle {
+  height: 60px;
+  width: 60px;
+  position:relative;
+  top:10px;
+  left:10px;
+  background: none;
+  box-sizing: border-box;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform-style: flat;
+  -moz-transform-style: flat;
+  -ms-transform-style: flat;
+  -o-transform-style: flat;
+  transform-style: flat;
+  padding:20px;
+  cursor:pointer;
+  z-index:120;
+  opacity:1;
+  outline: none;
+  overflow:hidden;
+  -webkit-transition: background 250ms ease-in, opacity 250ms ease-in;
+  -moz-transition: background 250ms ease-in, opacity 250ms ease-in;
+  -o-transition: background 250ms ease-in, opacity 250ms ease-in;
+  transition: background 250ms ease-in, opacity 250ms ease-in;
+  border:none;
+}
+
+.menu-toggle:hover {
+  opacity:1;
+}
+.menu {
+  .line {
+    height: 1px;
+    width: 20px;
+    background-color: #FFFFFF;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+    opacity: 1;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform-style: flat;
+    -moz-transform-style: flat;
+    -ms-transform-style: flat;
+    -o-transform-style: flat;
+    transform-style: flat;
+    -webkit-transition: all 250ms ease-in-out;
+    -moz-transition: all 250ms ease-in-out;
+    -o-transition: all 250ms ease-in-out;
+    transition: all 250ms ease-in-out;
+    &:nth-child(2) {
+      margin: 7px 0;
+    }
+    &:nth-child(4) {
+      -webkit-transform: translateY(-9px);
+      -moz-transform: translateY(-9px);
+      -o-transform: translateY(-9px);
+      -ms-transform: translateY(-9px);
+      transform: translateY(-9px);
+    }
+    &:nth-child(1),
+    &:nth-child(3) {
+      -webkit-transition-delay: 250ms;
+      transition-delay: 250ms;
+    }
+  }
+}
+
+.menu-toggle.active .line:nth-child(1),
+.isMobile .menu-toggle.active:hover .line:nth-child(1){
+  -webkit-transform: rotate(45deg) translateX(6px) translateY(6px);
+  -moz-transform: rotate(45deg) translateX(6px) translateY(6px);
+  -o-transform: rotate(45deg) translateX(6px) translateY(6px);
+  -ms-transform: rotate(45deg) translateX(6px) translateY(6px);
+  transform: rotate(45deg) translateX(6px) translateY(6px);
+}
+
+.menu-toggle.active .line:nth-child(2),
+.menu-toggle.active:hover .line:nth-child(2),
+.menu-toggle.active .line:nth-child(4),
+.isMobile .menu-toggle.active:hover .line:nth-child(4),
+.menu-toggle.project .line:nth-child(2){
+  opacity:0;
+}
+
+.menu-toggle.active .line:nth-child(3),
+.isMobile .menu-toggle.active:hover .line:nth-child(3){
+  -webkit-transform: rotate(-45deg) translateX(5px) translateY(-5px);
+  -moz-transform: rotate(-45deg) translateX(5px) translateY(-5px);
+  -o-transform: rotate(-45deg) translateX(5px) translateY(-5px);
+  -ms-transform: rotate(-45deg) translateX(5px) translateY(-5px);
+  transform: rotate(-45deg) translateX(5px) translateY(-5px);
+}
+
+.menu-toggle.active .line {
+  -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
+}
+.menu-toggle .line:nth-child(1),
+.menu-toggle .line:nth-child(3) {
+  -webkit-transition-delay: 250ms;
+  transition-delay: 250ms;
+}
+
+.menu-toggle.closing .line:nth-child(1),
+.isMobile .menu-toggle.closing .line:nth-child(1),
+.isMobile .menu-toggle.closing:hover .line:nth-child(1),
+.menu-toggle:hover .line:nth-child(1) {
+  -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
+  -webkit-transform: translateY(8px);
+  -moz-transform: translateY(8px);
+  -o-transform: translateY(8px);
+  -ms-transform: translateY(8px);
+  transform: translateY(8px);
+}
+
+.menu-toggle.closing .line:nth-child(3),
+.isMobile .menu-toggle.closing .line:nth-child(3),
+.isMobile .menu-toggle.closing:hover .line:nth-child(3),
+.menu-toggle:hover .line:nth-child(3) {
+  -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
+  -webkit-transform: translateX(0px) translateY(-8px);
+  -moz-transform: translateX(0px) translateY(-8px);
+  -o-transform: translateX(0px) translateY(-8px);
+  -ms-transform: translateX(0px) translateY(-8px);
+  transform: translateX(0px) translateY(-8px);
+}
+
+.menu-toggle.closing .line:nth-child(4),
+.isMobile .menu-toggle.closing .line:nth-child(4),
+.isMobile .menu-toggle.closing:hover .line:nth-child(4),
+.menu-toggle:hover .line:nth-child(4) {
+  opacity:1;
+  -webkit-transition-delay:250ms;
+  transition-delay: 250ms;
+  -webkit-transform: rotate(90deg) translateX(-9px);
+  -moz-transform: rotate(90deg) translateX(-9px);
+  -o-transform: rotate(90deg) translateX(-9px);
+  -ms-transform: rotate(90deg) translateX(-9px);
+  transform: rotate(90deg) translateX(-9px);
+}
+
+.menu-toggle.active:hover .line:nth-child(1),
+.menu-toggle.project .line:nth-child(1) {
+  -webkit-transform: translateY(8px);
+  -moz-transform: translateY(8px);
+  -o-transform: translateY(8px);
+  -ms-transform: translateY(8px);
+  transform: translateY(8px);
+}
+.menu-toggle.active:hover .line:nth-child(3),
+.menu-toggle.project .line:nth-child(3) {
+  -webkit-transform: translateY(-8px);
+  -moz-transform: translateY(-8px);
+  -o-transform: translateY(-8px);
+  -ms-transform: translateY(-8px);
+  transform: translateY(-8px);
+}
+
+.menu-toggle.active:hover .line:nth-child(4),
+.menu-toggle.project .line:nth-child(4) {
+  -webkit-transform: rotate(0deg) translateY(-9px);
+  -moz-transform: rotate(0deg) translateY(-9px);
+  -o-transform: rotate(0deg) translateY(-9px);
+  -ms-transform: rotate(0deg) translateY(-9px);
+  transform: rotate(0deg) translateY(-9px);
+  -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
+}
+
+.isMobile .menu-toggle:hover .line:nth-child(1),
+.isMobile .menu-toggle:hover .line:nth-child(3),
+.isMobile .menu-toggle:hover .line:nth-child(4){
+  -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
+  -webkit-transform: translateY(0px);
+  -moz-transform: translateY(0px);
+  -o-transform: translateY(0px);
+  -ms-transform: translateY(0px);
+  transform: translateY(0px);
+}
+.isMobile .menu-toggle:hover .line:nth-child(4) {
+  opacity:0;
+}

@@ -24,11 +24,25 @@ $text-color: rgb(34, 34, 34) !default;
 
 /// Main brand color
 /// @type Color
-$brand-color: rgb(229, 0, 80) !default;
+$brand-color: rgb(196, 31, 81) !default;
+
+/// Secondary brand color
+/// @type Color
+$secondary-color: rgb(229, 81, 117) !default;
+
+/// Third brand color
+/// @type Color
+$third-color: rgb(239, 161, 174) !default;
+
+
+
+/// Light Pink
+/// @type Color
+$light-pink: rgb(252, 215, 218) !default;
 
 /// Light grey
 /// @type Color
-$light-grey: rgb(237, 237, 237) !default;
+$light-grey: rgb(242, 242, 240) !default;
 
 /// Medium grey
 /// @type Color
@@ -54,10 +68,19 @@ $max-width: 1180px !default;
 /// @prop {String} keys - Keys are identifiers mapped to a given length
 /// @prop {Map} values - Values are actual breakpoints expressed in pixels
 $breakpoints: (
-  'small': 320px,
-  'medium': 768px,
-  'large': 1024px,
+  'xs': 320px,
+  's': 480px,
+  'm': 768px,
+  'l': 1024px,
+  'xl': 1320px,
 ) !default;
+
+
+/// Grid Prefixes map
+/// @prop {String} keys - Keys are identifiers mapped to certain grid component
+/// @prop {Map} values - Values are the class identifiers in implementation
+
+
 
 
 

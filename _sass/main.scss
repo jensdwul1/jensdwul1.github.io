@@ -1,3 +1,7 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
 @charset 'UTF-8';
 
 // 1. Configuration and helpers
@@ -25,6 +29,7 @@
 // 5. Components
 @import
   'components/button';
+  'components/lineelements';
 
 // 6. Page-specific styles
 @import
@@ -33,3 +38,7 @@
 // 7. Themes
 @import
   'themes/default';
+
+// 8. Hacks and such things only hussies would do
+@import
+  'shame';

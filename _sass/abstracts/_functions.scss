@@ -28,3 +28,13 @@
 @function font($path, $base: $base-url) {
   @return asset($base, 'fonts/', $path);
 }
+
+
+
+/// Returns Rem to a fontsize
+/// @param {String} $fontsize - in px
+/// @return {$remFont}
+@function calculateRem($size) {
+  $remSize: $size / 16px;
+  @return $remSize * 1rem;
+}
