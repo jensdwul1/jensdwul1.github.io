@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
     {% include components/head.html %}
-    <body>
+    <body class="flex column">
         {% include components/header.html %}
-        <main id="main" role="main">
+        <main id="main" role="main" class="flex column flex-child stretch">
         {{ content }}
         </main>
         {% include components/scripts.html %}

@@ -3,20 +3,13 @@ layout  : default
 title   : "Time is ticking."
 ---
 
-
-Posts
-==========
-<div class="container">
-    <div class="row">
-        <ul class="posts">
-        {% for post in site.posts %}
-            <li>
-                <a href="{{ post.url }}">
-                    <h2>{{post.title}}</h2> 
-                    <p>{{ post.excerpt | strip_html | truncatewords: 12 }}</p>
-                </a>
-            </li>    
-        {% endfor %}
-        </ul>
+<div class="container flex column flex-child stretch">
+    <div class="row flex centered justified-c flex-child stretch">
+        <button class="btn round app-button xl"></button>
+    </div>
+    <div class="settings flex centered justified-c">
+        <button class="btn round">
+        <i class="fa fa-cog"></i>
+        </button>
     </div>
 </div>

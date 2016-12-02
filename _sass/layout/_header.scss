@@ -3,7 +3,16 @@
 // -----------------------------------------------------------------------------
 
 .header {
-  height: 80px;
+  height: 10px;
   background-color: $brand-color;
   position: relative;
+
+  @include respond-to('xs'){
+
+    content:"";
+  };
+}
+
+.navigation {
+
 }

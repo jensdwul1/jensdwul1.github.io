@@ -1,5 +1,8 @@
 // -----------------------------------------------------------------------------
-// This file contains all @font-face declarations, if any.
+// This file contains CSS Animations.
 // -----------------------------------------------------------------------------
 
-@import "vendor/font-awesome/scss/font-awesome";
+@include keyframes(rotatePulse) {
+  0%   { @include rotate(0) }
+  100% { @include rotate(360)  }
+}
