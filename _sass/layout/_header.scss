@@ -4,13 +4,9 @@
 
 .header {
   height: 10px;
-  background-color: $brand-color;
+  background-color: $primary;
   position: relative;
 
-  @include respond-to('xs'){
-
-    content:"";
-  };
 }
 
 .navigation {

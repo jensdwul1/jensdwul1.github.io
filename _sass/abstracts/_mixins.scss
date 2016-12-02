@@ -32,28 +32,6 @@
   }
 }
 
-/// Responsive breakpoint manager
-/// @access public
-/// @param {String} $breakpoint - Breakpoint
-/// @requires $breakpoints
-@mixin respond-to($breakpoint) {
-  $raw-query: map-get($breakpoints, $breakpoint);
-
-  @if $raw-query {
-    $query: if(
-      type-of($raw-query) == 'string',
-      unquote($raw-query),
-      inspect($raw-query)
-    );
-
-    @media #{$query} {
-      @content;
-    }
-  } @else {
-    @error 'No value found for `#{$breakpoint}`. '
-         + 'Please make sure it is defined in `$breakpoints` map.';
-  }
-}
 
 /// Font-size rem manager
 /// @access public
@@ -156,4 +134,28 @@
   -ms-transform-origin: $origin;
   -webkit-transform-origin: $origin;
   transform-origin: $origin;
+}
+
+$pseudo-phprefix: "::-webkit-input-placeholder" "::-moz-placeholder" ":-ms-input-placeholder" "::placeholder";
+
+@mixin placeholder-theme($styles) {
+  @each $pseudo in $pseudo-phprefix {
+
+    @at-root #{&}#{$pseudo} {
+      @each $key, $value in $styles {
+        #{$key}: #{$value};
+      }
+    }
+
+  }
+}
+
+@mixin placeholder {
+  @each $pseudo in $pseudo-phprefix {
+
+    @at-root #{&}#{$pseudo} {
+      @content
+    }
+
+  }
 }

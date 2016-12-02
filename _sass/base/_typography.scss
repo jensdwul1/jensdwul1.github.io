@@ -5,3 +5,12 @@ body {
   color: $text-color;
   font: normal 125% / 1.4 $text-font-stack;
 }
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}

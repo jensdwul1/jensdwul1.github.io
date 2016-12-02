@@ -10,6 +10,7 @@ title   : "Time is ticking."
     <div class="settings flex centered justified-c">
         <button class="btn round">
         <i class="fa fa-cog"></i>
+        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
         </button>
     </div>
 </div>

@@ -4,7 +4,7 @@
 
 
 
-
+$default-font-size: 16px;
 
 /// Regular font family
 /// @type List
@@ -24,15 +24,15 @@ $text-color: rgb(34, 34, 34) !default;
 
 /// Main brand color
 /// @type Color
-$brand-color: rgb(196, 31, 81) !default;
+$primary: rgb(196, 31, 81) !default;
 
 /// Secondary brand color
 /// @type Color
-$secondary-color: rgb(229, 81, 117) !default;
+$pink: rgb(229, 81, 117) !default;
 
 /// Third brand color
 /// @type Color
-$third-color: rgb(239, 161, 174) !default;
+$salmon: rgb(239, 161, 174) !default;
 
 
 
@@ -60,32 +60,13 @@ $dark-grey: rgb(68, 68, 68) !default;
 /// @type Length
 $max-width: 1180px !default;
 
-
-
-
-
-/// Breakpoints map
-/// @prop {String} keys - Keys are identifiers mapped to a given length
-/// @prop {Map} values - Values are actual breakpoints expressed in pixels
-$breakpoints: (
-  'xs': 320px,
-  's': 480px,
-  'm': 768px,
-  'l': 1024px,
-  'xl': 1320px,
-) !default;
-
-
-/// Grid Prefixes map
-/// @prop {String} keys - Keys are identifiers mapped to certain grid component
-/// @prop {Map} values - Values are the class identifiers in implementation
-
-
-
-
-
-
-
+$xxsm  : 0/$default-font-size * 1rem;
+$xsm   : 320/$default-font-size * 1rem;
+$sm    : 480/$default-font-size * 1rem;
+$md    : 680/$default-font-size * 1rem;
+$lg    : 960/$default-font-size * 1rem;
+$xlg   : 1140/$default-font-size * 1rem;
+$xxlg  : 1440/$default-font-size * 1rem;
 
 /// Relative or absolute URL where all assets are served from
 /// @type String

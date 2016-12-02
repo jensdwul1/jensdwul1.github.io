@@ -31,7 +31,7 @@ main {
  * Basic styles for links
  */
 a {
-  color: $brand-color;
+  color: $primary;
   text-decoration: none;
 
   @include on-event {

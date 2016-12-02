@@ -6,3 +6,21 @@
   0%   { @include rotate(0) }
   100% { @include rotate(360)  }
 }
+
+@include keyframes(inputHighlighter) {
+  from { background: $primary; }
+  to 	{ width: 0; background: transparent; }
+}
+
+
+@include keyframes(ripples) {
+  0% { opacity: 0; }
+
+  25% { opacity: 1; }
+
+  100% {
+    width: 200%;
+    padding-bottom: 200%;
+    opacity: 0;
+  }
+}
