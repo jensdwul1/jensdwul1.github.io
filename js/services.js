@@ -9,15 +9,15 @@ var ApplicationDbContext = {
         this._strConnection = strConnection; // Connection string to the key in the localstorage
         this._dbData = {
             "info": {
-                "title": "Lecturerama",
-                "description": "App for students: See if a lecturer is present",
+                "title": "Doekeewa",
+                "description": "Doekeewa is an application to help people find and discover new places and activities in Ghent. This is an assignment for Artevelde University College Ghent.",
                 "version": "1.0.",
                 "modified": "2016-11-17",
                 "author": "AHS - GDM - MMP"
             },
             "activeuser": null,
-            "lecturers": [],
-            "tinderizedlecturers": [],
+            "users": [],
+            "tinderizedusers": [],
             "timetable": [],
             "settings": []
         }; // JSON-string: The data as value of the previous connection string (key in the localstorage)
@@ -28,158 +28,114 @@ var ApplicationDbContext = {
             Utils.store(this._strConnection, this._dbData);
         }
     },
-    "getLecturers": function() {
-        // Get all lecturers
-        var lecturers = this._dbData.lecturers;
-        if(lecturers == null || (lecturers != null && lecturers.length == 0)) {
+    "getUsers": function() {
+        // Get all users
+        var users = this._dbData.users;
+        if(users == null || (users != null && users.length == 0)) {
             return null;
         }
-        return lecturers;
+        return users;
     },
-    "getTinderizeLecturersByUserId": function(userId) {
-        // Get all lecturers
-        var tinderizedlecturers = this._dbData.tinderizedlecturers;
-        if(tinderizedlecturers != null) {
-           tinderizedlecturers = _.filter(tinderizedlecturers, function(tinderizeLecturer) { return tinderizeLecturer.UserId == userId; });
+    "getActivites": function() {
+        // Get all activites
+        var activites = this._dbData.activites;
+        if(activites == null || (activites != null && activites.length == 0)) {
+            return null;
         }
-
-        var lecturers = this.getLecturers();
-
-        if(tinderizedlecturers == null || (tinderizedlecturers != null && tinderizedlecturers.length == 0)) {
-            return lecturers;
-        } else {
-            var self = this;
-            _.forEach(tinderizedlecturers, function(tinderizedlecturer) {
-                lecturers.splice(self.findLecturerIndexById(tinderizedlecturer.LecturerId), 1);
-            });
-        }
-
-        return lecturers;
+        return activites;
     },
-    "getLecturerById": function(id) {
-        // Get lecturer by id
-        var index = this.findLecturerIndexById(id);
+    "getUserById": function(id) {
+        // Get user by id
+        var index = this.findUserIndexById(id);
         if(index == -1) {
             return null;
         }
-        return this._dbData.lecturers[index];
+        return this._dbData.users[index];
     },
-    "getLecturerByUserName": function(userName) {
-        // Find the index of the lecturer by id
-        var lecturers = this.getLecturers();
-        if(lecturers == null) {
+    "getUserByUserName": function(userName) {
+        // Find the index of the user by id
+        var users = this.getUsers();
+        if(users == null) {
             return null;
         }
-        return _.find(lecturers, function(lecturer) { return lecturer.UserName == userName; });
+        return _.find(users, function(user) { return user.UserName == userName; });
     },
     "setActiveUser": function(user) {
         this._dbData.activeuser = user;
         this.save();
     },
-    "addLecturer": function(lecturer) {
-        // Add a new lecturer (CREATE -> DB INSERT)
-        if(lecturer != null && (lecturer.Id == undefined || this.getLecturerById(lecturer.Id) == null)) {
-            lecturer.Id = Utils.guid();
-            lecturer.CreatedAt = new Date().getTime();
-            this._dbData.lecturers.push(lecturer);
+    "addUser": function(user) {
+        // Add a new user (CREATE -> DB INSERT)
+        if(user != null && (user.Id == undefined || this.getUserById(user.Id) == null)) {
+            user.Id = Utils.guid();
+            user.CreatedAt = new Date().getTime();
+            this._dbData.users.push(user);
             this.save();
-            return lecturer;
+            return user;
         }
         return null;
     },
-    "updateLecturer": function(lecturer) {
-        // Update an existing lecturer (UPDATE -> DB UPDATE)
-        var index = this.findLecturerIndexById(lecturer.Id);
+    "updateUser": function(user) {
+        // Update an existing user (UPDATE -> DB UPDATE)
+        var index = this.findUserIndexById(user.Id);
         if(index == -1) {
             return false;
         }
-        lecturer.UpdatedAt = new Date().getTime();
-        this._dbData.lecturers[index] = lecturer;
+        user.UpdatedAt = new Date().getTime();
+        this._dbData.users[index] = user;
         this.save();
         return true;
     },
-    "deleteLecturer": function(id) {
-        // Delete an existing lecturer (DELETE -> DB DELETE)
-        var index = this.findLecturerIndexById(id);
+    "deleteUser": function(id) {
+        // Delete an existing user (DELETE -> DB DELETE)
+        var index = this.findUserIndexById(id);
         if(index == -1) {
             return false;
         }
-        this._dbData.lecturers.splice(index, 1);
+        this._dbData.users.splice(index, 1);
         this.save();
         return true;
     },
-    "softDeleteLecturer": function(id) {
-        // Soft Delete an existing lecturer (UPDATE -> DB UPDATE)
+    "softDeleteUser": function(id) {
+        // Soft Delete an existing user (UPDATE -> DB UPDATE)
         // Field: DeletedAt = Snapshot in time
-        var index = this.findLecturerIndexById(id);
+        var index = this.findUserIndexById(id);
         if(index == -1) {
             return false;
         }
-        var lecturer =  this._dbData.lecturers[index];
-        lecturer.UpdatedAt = new Date().getTime();
-        lecturer.DeletedAt = new Date().getTime();
-        this._dbData.lecturers[index] = lecturer;
+        var user =  this._dbData.users[index];
+        user.UpdatedAt = new Date().getTime();
+        user.DeletedAt = new Date().getTime();
+        this._dbData.users[index] = user;
         this.save();
         return true;
     },
-    "softUndeleteLecturer": function(id) {
-        // Soft UnDelete an existing lecturer (UPDATE -> DB UPDATE)
+    "softUndeleteUser": function(id) {
+        // Soft UnDelete an existing user (UPDATE -> DB UPDATE)
         // Field: DeletedAt = null
-        var index = this.findLecturerIndexById(id);
+        var index = this.findUserIndexById(id);
         if(index == -1) {
             return false;
         }
-        var lecturer =  this._dbData.lecturers[index];
-        lecturer.UpdatedAt = new Date().getTime();
-        lecturer.DeletedAt = null;
-        this._dbData.lecturers[index] = lecturer;
+        var user =  this._dbData.users[index];
+        user.UpdatedAt = new Date().getTime();
+        user.DeletedAt = null;
+        this._dbData.users[index] = user;
         this.save();
         return true;
-    },
-    "addTinderizeLecturer": function(tinderizedLecturer) {
-        // Add a new lecturer (CREATE -> DB INSERT)
-        if(tinderizedLecturer != null) {
-            tinderizedLecturer.CreatedAt = new Date().getTime();
-            this._dbData.tinderizedlecturers.push(tinderizedLecturer);
-            this.save();
-            return tinderizedLecturer;
-        }
-        return null;
     },
     "save": function() {
         // Save _dbData into the database (localstorage)
         Utils.store(this._strConnection, this._dbData);
         return true;
     },
-    "findLecturerIndexById": function(id) {
-        // Find the index of the lecturer by id
-        var lecturers = this.getLecturers();
-        if(lecturers == null) {
+    "findUserIndexById": function(id) {
+        // Find the index of the user by id
+        var users = this.getUsers();
+        if(users == null) {
             return -1;
         }
-        return _.findIndex(lecturers, function(lecturer) { return lecturer.Id == id; });
-    },
-    "findLecturerIndexByIdOldSchool": function(id) {
-        // Find the index of the lecturer by id
-        var lecturers = this.getLecturers();
-        if(lecturers == null) {
-            return -1;
-        }
-
-        var match = false, i = 0, lecturer = null;
-        while(!match && i < lecturers.length) {
-            lecturer = lecturers[i];
-            if(lecturer.Id == id) {
-                match = true;
-            } else {
-                i++;
-            }
-        }
-
-        if(!match) {
-            return -1;
-        }
-        return i;
+        return _.findIndex(users, function(user) { return user.Id == id; });
     }
 };
 
@@ -194,15 +150,15 @@ var UserManager = {
         this._applicationDbContext = applicationDbContext;
     },
     "login": function(userName, passWord) {
-        var lecturer = this._applicationDbContext.getLecturerByUserName(userName);
-        if(lecturer == null) {
+        var user = this._applicationDbContext.getUserByUserName(userName);
+        if(user == null) {
             return null;
         }
-        if(lecturer.PassWord != passWord) {
+        if(user.PassWord != passWord) {
             return false;
         }
-        this._applicationDbContext.setActiveUser(lecturer);
-        return lecturer;
+        this._applicationDbContext.setActiveUser(user);
+        return user;
     },
     "logout": function() {
         this._applicationDbContext.setActiveUser(null);

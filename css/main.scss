@@ -13,7 +13,8 @@
 // 2. Vendors
 @import
 'vendor/normalize',
-'vendor/mappy-bp';
+'vendor/font-awesome',
+'vendor/mappy';
 
 // 3. Base stuff
 @import
@@ -25,8 +26,8 @@
 
 // 4. Layout-related sections
 @import
-  'layout/header',
-  'layout/footer';
+  'layout/includes/header',
+  'layout/includes/footer';
 
 // 5. Components
 @import

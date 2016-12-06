@@ -1,45 +1,11 @@
 <header class="header">
 
-    <button class="menu-toggle menu">
+    <button class="menu-toggle menu" data-target="navigation">
         <span class="line"></span>
         <span class="line"></span>
         <span class="line"></span>
         <span class="line"></span>
+        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
     </button>
 
 </header>
-<nav class="navigation">
-
-</nav>
-<div class="overlay flex">
-    <!-- Login -->
-    <div id="login" class="login container flex column flex-child stretch centered justified-c ">
-        <div class="panel flex column flex-child centered justified-c ">
-            <div class="title row flex-child ">
-                <h2 class="">Login</h2>
-            </div>
-            <div class="row flex-child">
-                <form id="frm-login" class="flex column">
-                    <div class="flex-child justified-c group">
-                        <input class="input" type="text" id="username" name="username">
-                        <span class="highlight"></span><span class="bar"></span>
-                        <label class="label">Username</label>
-                    </div>
-                    <div class="flex-child justified-c group">
-                        <input class="input" type="password" id="password" name="password">
-                        <span class="highlight"></span><span class="bar"></span>
-                        <label class="label">Password</label>
-                    </div>
-                    <button class="btn group">
-                        Log in
-                        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-                    </button>
-                </form>
-            </div>
-            <div class="row flex-child text-center padded">
-                Need an account? Please <a href="#" title="Register for a new account!">Register</a>.<br>
-                Forget your <a href="#" title="Forget your password?">password</a>?
-            </div>
-        </div>
-    </div>
-</div>

@@ -1,7 +1,7 @@
 /*
-Model: Lecturer
+Model: User
 */
-function Lecturer() {
+function User() {
     this.Id;
     this.FirstName;
     this.SurName;
@@ -22,7 +22,6 @@ function Activity() {
     this.Longitude;
     this.Latitude;
     this.ActivityType;
-
     this.CreatedAt;
     this.UpdatedAt;
     this.DeletedAt;
@@ -76,9 +75,9 @@ Simulation of enumeration in JavaScript
 2 = female,
 9 = not applicable.
 */
-function TinderizeLecturer() {
+function TinderizeUser() {
     this.UserId;
-    this.LecturerId;
+    this.UserId;
     this.Tinderize;
 
     this.CreatedAt;

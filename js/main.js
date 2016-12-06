@@ -52,7 +52,7 @@ ready(function(){
             this.URLRANDOMUSERME = 'http://api.randomuser.me/?results=500&callback=json_callback';// Cache the url with random users in variable URLRANDOMUSERME
 
             this._applicationDbContext = ApplicationDbContext; // Reference to the ApplicationDbContext object
-            this._applicationDbContext.init('ahs.gdm.mmp.lecturerama'); // Initialize the ApplicationDbContext object via the methode init. Do not forget the connection string as a parametervalue of this function
+            this._applicationDbContext.init('ahs.gdm.mmp.doekeewa'); // Initialize the ApplicationDbContext object via the methode init. Do not forget the connection string as a parametervalue of this function
             this._userManager = UserManager; // Reference to the UserManager object
             this._userManager.init(this._applicationDbContext);// Initialize the UserManager object via the methode init. Do not forget the reference to the this._applicationDbContext variable as a parametervalue of this function
 
@@ -65,10 +65,13 @@ ready(function(){
             this._activeUser = null; // Active User
 
 
-            if(this._unitTesting || this._applicationDbContext.getLecturers() == null) {
+            if(this._unitTesting || this._applicationDbContext.getUsers() == null) {
                 this.unitTests();
             }
+
+
         },
+
         "registerEventListeners": function() {
 
             // Event Listeners for Form Login
@@ -94,80 +97,68 @@ ready(function(){
                 });
             }
 
+
         },
         "updateUI": function() {
             /*
             if( this._widthHandlebarsAndLoDash) {
-                this.updateUILecturers('list-lecturers', '#template-list-lecturers');
+                this.updateUIUsers('list-users', '#template-list-users');
             } else {
-                this.updateUIOldSchoolLecturers();
+                this.updateUIOldSchoolUsers();
             }
             */
         },
-        "updateUIOldSchoolLecturers": function() {
-            if(this._applicationDbContext.getTinderizeLecturersByUserId(this._activeUser.Id) != null) {
+        "updateUIOldSchoolUsers": function() {
+            if(this._applicationDbContext.getTinderizeUsersByUserId(this._activeUser.Id) != null) {
                 var tempStr = '';
                 var ch = window.innerHeight - 110;
                 
-                var lecturers = this._applicationDbContext.getTinderizeLecturersByUserId(this._activeUser.Id), lecturer = null;
-                for(var i=0;i<lecturers.length;i++) {
-                    var lecturer = lecturers[i];
-                    tempStr += '<div class="lecturer" data-id="' + lecturer.Id + '">';
-                    tempStr += '<div class="lecturer__meta">' + '<span class="lecturer__gender">' + Genders.properties[lecturer.Gender].name + '</span>' + '<span class="lecturer__age">' + Utils.getAge(new Date(lecturer.DayOfBirth)) + '</span>' + '</div>';
-                    tempStr += '<picture class="lecturer__picture">';
-                    tempStr += '<img src="' + lecturer.Picture + '" />';
+                var users = this._applicationDbContext.getTinderizeUsersByUserId(this._activeUser.Id), user = null;
+                for(var i=0;i<users.length;i++) {
+                    var user = users[i];
+                    tempStr += '<div class="user" data-id="' + user.Id + '">';
+                    tempStr += '<div class="user__meta">' + '<span class="user__gender">' + Genders.properties[user.Gender].name + '</span>' + '<span class="user__age">' + Utils.getAge(new Date(user.DayOfBirth)) + '</span>' + '</div>';
+                    tempStr += '<picture class="user__picture">';
+                    tempStr += '<img src="' + user.Picture + '" />';
                     tempStr += '</picture>';
-                    tempStr += '<h3 class="lecturer__name">' + lecturer.FirstName + ' ' + lecturer.SurName + '</h3>';
-                    tempStr += '<div class="lecturer__actions">';
-                    tempStr += '<span class="material-icons like" data-id="' + lecturer.Id + '" data-tinderize="1">&#xE87D;</span>';
-                    tempStr += '<span class="material-icons dislike" data-id="' + lecturer.Id + '" data-tinderize="2">&#xE043;</span>';
+                    tempStr += '<h3 class="user__name">' + user.FirstName + ' ' + user.SurName + '</h3>';
+                    tempStr += '<div class="user__actions">';
+                    tempStr += '<span class="material-icons like" data-id="' + user.Id + '" data-tinderize="1">&#xE87D;</span>';
+                    tempStr += '<span class="material-icons dislike" data-id="' + user.Id + '" data-tinderize="2">&#xE043;</span>';
                     tempStr += '</div>';
                     tempStr += '</div>';
                 };
 
-                document.querySelector('.list-lecturers-content').innerHTML = tempStr;
+                document.querySelector('.list-users-content').innerHTML = tempStr;
                 
-                this.registerLecturerEventListeners(); // Register EventListeners for all like and dislike buttons
+                this.registerUserEventListeners(); // Register EventListeners for all like and dislike buttons
             }
         },
-        "updateUILecturers": function(hbsTmplName, hbsTmplId) {
+        "updateUIUsers": function(hbsTmplName, hbsTmplId) {
             if(!this._hbsCache[hbsTmplName]) {
 				var src = document.querySelector(hbsTmplId).innerHTML;// Get the contents from the specified hbs template
 				this._hbsCache[hbsTmplName] = Handlebars.compile(src);// Compile the source and add it to the hbs cache
 			}	
-			document.querySelector('.list-lecturers-content').innerHTML = this._hbsCache[hbsTmplName](this._applicationDbContext.getTinderizeLecturersByUserId(this._activeUser.Id));// Write compiled content to the appropriate container
+			document.querySelector('.list-users-content').innerHTML = this._hbsCache[hbsTmplName](this._applicationDbContext.getTinderizeUsersByUserId(this._activeUser.Id));// Write compiled content to the appropriate container
 
-            this.registerLecturerEventListeners(); // Register EventListeners for all like and dislike buttons
+            this.registerUserEventListeners(); // Register EventListeners for all like and dislike buttons
         },
-        "registerLecturerEventListeners": function() {
+        "registerUserEventListeners": function() {
             var self = this;
 
-            var lecturerElements = document.querySelectorAll('.lecturer');
-            if(lecturerElements != null && lecturerElements.length > 0) {
-                var lecturerElement = null;
-                for(var i=0;i<lecturerElements.length;i++) {
-                    lecturerElement = lecturerElements[i];
-                    lecturerElement.querySelector('.like').addEventListener('click', function(ev) {
-                        self.addTinderizeLecturer(this.dataset.id, this.dataset.tinderize);
+            var userElements = document.querySelectorAll('.user');
+            if(userElements != null && userElements.length > 0) {
+                var userElement = null;
+                for(var i=0;i<userElements.length;i++) {
+                    userElement = userElements[i];
+                    /*
+                    userElement.querySelector('.like').addEventListener('click', function(ev) {
+                        self.addTinderizeUser(this.dataset.id, this.dataset.tinderize);
                     });
-                    lecturerElement.querySelector('.dislike').addEventListener('click', function(ev) {
-                        self.addTinderizeLecturer(this.dataset.id, this.dataset.tinderize);
+                    userElement.querySelector('.dislike').addEventListener('click', function(ev) {
+                        self.addTinderizeUser(this.dataset.id, this.dataset.tinderize);
                     });
-                }
-            }
-        },
-        "addTinderizeLecturer": function(lecturerId, tinderize) {
-            var tinderizeLecturer = new TinderizeLecturer();
-            tinderizeLecturer.UserId = this._activeUser.Id;
-            tinderizeLecturer.LecturerId = lecturerId;
-            tinderizeLecturer.Tinderize = tinderize;
-            var tinderizeLecturerAdded = this._applicationDbContext.addTinderizeLecturer(tinderizeLecturer);
-
-            if(tinderizeLecturerAdded != null) {
-                var lecturerElement = document.querySelector(`.lecturer[data-id="${lecturerId}"]`);
-
-                if(lecturerElement != null) {
-                    lecturerElement.parentElement.removeChild(lecturerElement);
+                    */
                 }
             }
         },
@@ -175,29 +166,29 @@ ready(function(){
 
             var self = this; // Closure
         /*
-            //Unit Testing the Lecturers
-            if(this._applicationDbContext.getLecturers() == null) {
+            //Unit Testing the Users
+            if(this._applicationDbContext.getUsers() == null) {
 
                 // Load JSON from corresponding RandomUserMe API with certain URL
                 Utils.getJSONPByPromise(this.URLRANDOMUSERME).then(
                     function(data) {
-                        var users = data.results, lecturer = null, user = null;
+                        var users = data.results, user = null, user = null;
                         for(var i=0;i<users.length;i++) {
                             user = users[i];
-                            lecturer = new Lecturer();
-                            lecturer.FirstName = user.name.first;
-                            lecturer.SurName = user.name.last;
-                            lecturer.DayOfBirth = new Date(user.dob);
-                            lecturer.UserName = user.login.username;
-                            lecturer.PassWord = user.login.password;
-                            lecturer.Email = user.email;
-                            lecturer.Picture = user.picture.large;
+                            user = new User();
+                            user.FirstName = user.name.first;
+                            user.SurName = user.name.last;
+                            user.DayOfBirth = new Date(user.dob);
+                            user.UserName = user.login.username;
+                            user.PassWord = user.login.password;
+                            user.Email = user.email;
+                            user.Picture = user.picture.large;
                             switch(user.gender) {
-                                case 'male': lecturer.Gender = Genders.MALE;break;
-                                case 'female': lecturer.Gender = Genders.FEMALE;break;
-                                default: lecturer.Gender = Genders.NOTKNOWN;break;
+                                case 'male': user.Gender = Genders.MALE;break;
+                                case 'female': user.Gender = Genders.FEMALE;break;
+                                default: user.Gender = Genders.NOTKNOWN;break;
                             }
-                            var lecturerAdded = self._applicationDbContext.addLecturer(lecturer);
+                            var userAdded = self._applicationDbContext.addUser(user);
                         }
                     },
                     function(status) {
@@ -206,33 +197,161 @@ ready(function(){
                 );
 
             } else {
-                // Update a lecturer
-                var id = this._applicationDbContext.getLecturers()[0].Id;
-                var lecturer = this._applicationDbContext.getLecturerById(id);
-                if(lecturer != null) {
-                    lecturer.FirstName = 'Olivia';
-                    var result = this._applicationDbContext.updateLecturer(lecturer);
+                // Update a user
+                var id = this._applicationDbContext.getUsers()[0].Id;
+                var user = this._applicationDbContext.getUserById(id);
+                if(user != null) {
+                    user.FirstName = 'Olivia';
+                    var result = this._applicationDbContext.updateUser(user);
                     console.log(result);
                 }
 
-                // Soft delete or undelete a lecturer
-                lecturer = this._applicationDbContext.getLecturerById(id);
-                if(lecturer != null) {
-                    var result = (lecturer.DeletedAt == null || lecturer.DeletedAt == undefined)?this._applicationDbContext.softDeleteLecturer(lecturer.Id):this._applicationDbContext.softUnDeleteLecturer(lecturer.Id);
+                // Soft delete or undelete a user
+                user = this._applicationDbContext.getUserById(id);
+                if(user != null) {
+                    var result = (user.DeletedAt == null || user.DeletedAt == undefined)?this._applicationDbContext.softDeleteUser(user.Id):this._applicationDbContext.softUnDeleteUser(user.Id);
                     console.log(result);
                 }
 
-                // Delete a lecturer
-                lecturer = this._applicationDbContext.getLecturerById(id);
-                if(lecturer != null) {
-                    var result = this._applicationDbContext.deleteLecturer(lecturer.Id)
+                // Delete a user
+                user = this._applicationDbContext.getUserById(id);
+                if(user != null) {
+                    var result = this._applicationDbContext.deleteUser(user.Id)
                     console.log(result);
                 }
             }
         */
         }
     };
+    var Overlay = {
+        'overlays':[],
+        'init':function(){
+            var overlays = document.querySelectorAll('.overlay');
+            if(overlays != null && overlays.length > 0) {
+                var overlay = null;
+                for(var i=0;i<overlays.length;i++) {
+                    overlay = overlays[i];
+                    var entry = {
+                        id:overlay.dataset.id,
+                        state:overlay.dataset.state,
+                    };
+                    Overlay.overlays.push(entry);
+                    if(entry.state === true){
+                        overlay.className += " active";
+                    }
+                    var overlayId = overlay.dataset.id;
+                    var button = document.querySelector('button[data-target="'+overlayId+'"]');
+                    button.addEventListener('click', function() {
+                        var self = this;
+                        //console.log("Target",self.dataset.target);
+                        Overlay.toggle(self.dataset.target,"close");
+                    });
+
+                    /*
+                     General linking behaviour is here > Should be moved to the general App Init when that is finished
+                     */
+
+                    var links = document.querySelectorAll(".overlay-link[data-target]");
+                    for(var i=0;i<links.length;i++) {
+                        var link = links[i];
+                        link.addEventListener('click', function() {
+                            var self = this;
+                            //console.log("Target: ",self.dataset.target);
+                            Overlay.toggle(self.dataset.target);
+                        });
+                    }
+                }
+            }
+        },
+        "toggle":function(overlayId,override){
+            override = override || 0;
+            //console.log("Overlay:",overlayId);
+            var overlay = document.querySelector('.overlay[data-id="'+overlayId+'"]');
+            //console.log("Overlay:",overlay);
+            var state = overlay.dataset.state;
+            if(state == "false" && override === 0){
+                //console.log("Open Overlay");
+                Overlay.open(overlay);
+            } else {
+                if(override !== null && override !== 0){
+                    switch(override){
+                        case "close":
+                            //console.log("Close Overlay");
+                            Overlay.close(overlay);
+                            break;
+                        case "open":
+                            //console.log("Open Overlay");
+                            Overlay.close(overlay);
+                            break;
+                        default:
+                            //console.log("Close Overlay");
+                            Overlay.close(overlay);
+                            break;
+                    }
+                } else {
+                    //console.log("Close Overlay");
+                    Overlay.close(overlay);
+                }
+            }
+        },
+        'open':function(overlay){
+            overlay.dataset.state = "true";
+            overlay.className += " active";
+        },
+        'close':function(overlay){
+            overlay.dataset.state = "false";
+            overlay.className = overlay.className.replace(new RegExp('(?:^|\\s)'+ 'active' + '(?:\\s|$)'), ' ');
+        }
+
+    }
+    var Navigation = {
+        'object': document.querySelector('.navigation'),
+        'toggler' : document.querySelector('.menu-toggle[data-target="navigation"]'),
+        'state': document.querySelector('.navigation').dataset.state,
+        'init':function(){
+            Navigation.toggler.addEventListener('click', function() {
+                Navigation.toggle();
+            });
+
+            var navLinks = document.querySelectorAll(".navigation a");
+            for(var i=0;i<navLinks.length;i++) {
+                var link = navLinks[i];
+                link.addEventListener('click', function() {
+                    console.log('Closing Menu');
+                    Navigation.close();
+                });
+            }
+
+        },
+        "toggle":function(){
+            //console.log("Navigation:",navigationId);
+            //console.log("Navigation status:",Navigation.state);
+            if(Navigation.state == "false"){
+                //console.log("Open Navigation");
+                Navigation.open();
+            } else {
+                //console.log("Close Navigation");
+                Navigation.close();
+            }
+        },
+        'open':function(){
+            Navigation.object.dataset.state = "true";
+            Navigation.state = "true";
+            Navigation.object.className += " active";
+            Navigation.toggler.className += " active";
+            document.querySelector('body').className += " navigation-open";
+        },
+        'close':function(){
+            Navigation.object.dataset.state = "false";
+            Navigation.state = "false";
+            Navigation.object.className = Navigation.object.className.replace(new RegExp('(?:^|\\s)'+ 'active' + '(?:\\s|$)'), ' ');
+            Navigation.toggler.className = Navigation.toggler.className.replace(new RegExp('(?:^|\\s)'+ 'active' + '(?:\\s|$)'), ' ');
+            document.querySelector('body').className = document.querySelector('body').className.replace(new RegExp('(?:^|\\s)'+ 'navigation-open' + '(?:\\s|$)'), ' ');;
+        }
+    }
+
 
     App.init();
-    
+    Overlay.init();
+    Navigation.init();
 });

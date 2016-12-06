@@ -1,5 +1,5 @@
-Handlebars.registerHelper('fullName', function(lecturer) {
-   return lecturer.FirstName + ' ' + lecturer.SurName; 
+Handlebars.registerHelper('fullName', function(user) {
+   return user.FirstName + ' ' + user.SurName;
 });
 Handlebars.registerHelper('gender', function(gender) {
    return Genders.properties[gender].name;

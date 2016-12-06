@@ -2,10 +2,13 @@
 <html>
     {% include components/head.html %}
     <body class="flex column">
-        {% include components/header.html %}
+        {% include components/navigation.html %}
         <main id="main" role="main" class="flex column flex-child stretch">
+        {% include components/header.html %}
         {{ content }}
         </main>
+
+        {% include components/overlay.html %}
         {% include components/scripts.html %}
     </body>
 </html>

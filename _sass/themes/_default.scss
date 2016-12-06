@@ -3,12 +3,39 @@
 // default one.
 // -----------------------------------------------------------------------------
 
+body {
+  overflow-x: hidden;
+  position: relative;
+  left:0;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+body.navigation-open {
+  left: 240px;
+}
+
 .overlay {
   position: absolute;
   height:100%;
   width: 100%;
   background-color: $light-grey;
   z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transform: scale(0.9);
+  transform: scale(0.9);
+  -webkit-transition: -webkit-transform 0.2s, opacity 0.2s, visibility 0s 0.2s;
+  transition: transform 0.2s, opacity 0.2s, visibility 0s 0.2s;
+  &.active{
+    visibility: visible;
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: -webkit-transform 0.4s, opacity 0.4s;
+    transition: transform 0.4s, opacity 0.4s;
+  }
 
 }
 
