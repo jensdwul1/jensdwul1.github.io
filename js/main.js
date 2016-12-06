@@ -57,6 +57,7 @@ ready(function(){
             this._userManager.init(this._applicationDbContext);// Initialize the UserManager object via the methode init. Do not forget the reference to the this._applicationDbContext variable as a parametervalue of this function
 
             this._frmLogin = document.querySelector('#frm-login'); // Cache Form Login
+            this._frmRegister = document.querySelector('#frm-register'); // Cache Form Login
             this.registerEventListeners(); // Register the Event Listeners for all present elements
 
 			this._hbsCache = {};// Handlebars cache for templates
@@ -93,6 +94,28 @@ ready(function(){
                         self.updateUI();
                     }
                     
+                    return false;
+                });
+            }
+            // Event Listeners for Form Register
+            if(this._frmLogin != null) {
+                var self = this; // Hack for this keyword within an event listener of another object
+
+                this._frmLogin.addEventListener('submit', function(ev) {
+                    ev.preventDefault();
+
+                    var userName = Utils.trim(this.querySelectorAll('[name="username"]')[0].value);
+                    var passWord = Utils.trim(this.querySelectorAll('[name="password"]')[0].value);
+                    var result = self._userManager.login(userName, passWord);
+                    if(result == null) {
+
+                    } else if(result == false) {
+
+                    } else {
+                        self._activeUser = result; // User is Logged in
+                        self.updateUI();
+                    }
+
                     return false;
                 });
             }
@@ -239,27 +262,31 @@ ready(function(){
                     if(entry.state === true){
                         overlay.className += " active";
                     }
-                    var overlayId = overlay.dataset.id;
-                    var button = document.querySelector('button[data-target="'+overlayId+'"]');
+
+                }
+                var buttons = document.querySelectorAll('.overlay button[data-target]');
+
+                for(var i=0;i < buttons.length; ++i) {
+                    var button = buttons[i];
                     button.addEventListener('click', function() {
                         var self = this;
-                        //console.log("Target",self.dataset.target);
-                        Overlay.toggle(self.dataset.target,"close");
+                        //console.log("Target: ",self.dataset.target);
+                        Overlay.toggle(self.dataset.target,'close');
                     });
+                }
 
-                    /*
-                     General linking behaviour is here > Should be moved to the general App Init when that is finished
-                     */
+                /*
+                 General linking behaviour is here > Should be moved to the general App Init when that is finished
+                 */
 
-                    var links = document.querySelectorAll(".overlay-link[data-target]");
-                    for(var i=0;i<links.length;i++) {
-                        var link = links[i];
-                        link.addEventListener('click', function() {
-                            var self = this;
-                            //console.log("Target: ",self.dataset.target);
-                            Overlay.toggle(self.dataset.target);
-                        });
-                    }
+                var links = document.querySelectorAll(".overlay-link[data-target]");
+                for(var i=0;i<links.length;++i) {
+                    var link = links[i];
+                    link.addEventListener('click', function() {
+                        var self = this;
+                        //console.log("Target: ",self.dataset.target);
+                        Overlay.toggle(self.dataset.target);
+                    });
                 }
             }
         },
@@ -312,7 +339,10 @@ ready(function(){
             Navigation.toggler.addEventListener('click', function() {
                 Navigation.toggle();
             });
-
+            var hitboxOffNav = document.querySelector('.navigation-close-hitbox');
+            hitboxOffNav.addEventListener('click', function() {
+                Navigation.close();
+            });
             var navLinks = document.querySelectorAll(".navigation a");
             for(var i=0;i<navLinks.length;i++) {
                 var link = navLinks[i];

@@ -165,3 +165,13 @@ var UserManager = {
         return true;
     }
 }
+// Initialize Firebase
+var dbConfig = {
+    apiKey: "AIzaSyD8FujceRme3cLsSW8h1THRF7Uuq4Y-cxM",
+    authDomain: "doekeewa-ab67a.firebaseapp.com",
+    databaseURL: "https://doekeewa-ab67a.firebaseio.com",
+    storageBucket: "doekeewa-ab67a.appspot.com",
+    messagingSenderId: "582732951659"
+};
+firebase.initializeApp(dbConfig);
+var database = firebase.database();
