@@ -74,6 +74,7 @@ ready(function(){
                     }
                     Navigation.updateNavigation(true);
                     Overlay.toggle('login','close');
+                    Overlay.toggle('register','close');
                 } else {
                     // User is signed out.
                     Navigation.updateNavigation(false);
@@ -97,10 +98,6 @@ ready(function(){
                     var email = Utils.trim(this.querySelectorAll('[name="login_email"]')[0].value);
                     var passWord = Utils.trim(this.querySelectorAll('[name="login_password"]')[0].value);
 
-                    function isValidEmailAddress(emailAddress) {
-                        var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
-                        return pattern.test(emailAddress);
-                    };
                     if(!(email !== 'undefined' && email.length > 4 && isValidEmailAddress(email))){document.querySelector('[name="login_email"]').className += ' error'; error = true;}
                     if(!(passWord !== 'undefined' && passWord.length > 5)){document.querySelector('[name="login_password"]').className += ' error'; error = true;}
                     if(!error){
@@ -116,27 +113,44 @@ ready(function(){
             }
             // Event Listeners for Form Register
             if(this._frmRegister != null) {
-                /*
                 var self = this; // Hack for this keyword within an event listener of another object
 
                 this._frmRegister.addEventListener('submit', function(ev) {
                     ev.preventDefault();
+                    document.querySelector('[name="register_email"]').className = document.querySelector('[name="register_email"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
+                    document.querySelector('[name="register_firstName"]').className = document.querySelector('[name="register_firstName"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
+                    document.querySelector('[name="register_lastName"]').className = document.querySelector('[name="register_lastName"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
+                    document.querySelector('[name="register_username"]').className = document.querySelector('[name="register_username"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
+                    document.querySelector('[name="register_password"]').className = document.querySelector('[name="register_password"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
+                    var error = false;
+                    var errorMessage = [];
+                    var email = Utils.trim(this.querySelectorAll('[name="register_email"]')[0].value);
+                    var firstName = Utils.trim(this.querySelectorAll('[name="register_firstName"]')[0].value);
+                    var lastName = Utils.trim(this.querySelectorAll('[name="register_lastName"]')[0].value);
+                    var username = Utils.trim(this.querySelectorAll('[name="register_username"]')[0].value);
+                    var passWord = Utils.trim(this.querySelectorAll('[name="register_password"]')[0].value);
 
-                    var userName = Utils.trim(this.querySelectorAll('[name="username"]')[0].value);
-                    var passWord = Utils.trim(this.querySelectorAll('[name="password"]')[0].value);
-                    var result = self._userManager.register(userName, passWord);
-                    if(result == null) {
-
-                    } else if(result == false) {
-
+                    if(!(email !== 'undefined' && email.length > 4 && isValidEmailAddress(email))){document.querySelector('[name="register_email"]').className += ' error'; error = true;}
+                    if(!(passWord !== 'undefined' && passWord.length > 5)){document.querySelector('[name="register_password"]').className += ' error'; error = true;}
+                    if(!(username !== 'undefined' && username.length > 4)){document.querySelector('[name="register_username"]').className += ' error'; error = true;}
+                    if(!(lastName !== 'undefined' && lastName.length > 0)){document.querySelector('[name="register_lastName"]').className += ' error'; error = true;}
+                    if(!(firstName !== 'undefined' && firstName.length > 0)){document.querySelector('[name="register_firstName"]').className += ' error'; error = true;}
+                    if(!error){
+                        var register = {
+                            password: passWord,
+                            email:email,
+                            firstName: firstName,
+                            lastName:lastName,
+                            username:username,
+                            avatar: "https://www.mautic.org/media/images/default_avatar.png"
+                        };
+                        handleSignUp(register);
                     } else {
-                        self._activeUser = result; // User is Logged in
-                        self.updateUI();
+
                     }
 
                     return false;
                 });
-                */
             }
 
 
@@ -246,7 +260,7 @@ ready(function(){
             for(var i=0;i<navLinks.length;i++) {
                 var link = navLinks[i];
                 link.addEventListener('click', function() {
-                    console.log('Closing Menu');
+                    //console.log('Closing Menu');
                     Navigation.close();
                 });
             }

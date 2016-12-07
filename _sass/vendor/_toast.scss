@@ -1,0 +1,27 @@
+@import "../../node_modules/toastr/toastr";
+#toast-container {
+  &.toast-top-full-width > div,
+  &.toast-bottom-full-width > div,
+  > div {
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    opacity: 0.9;
+    margin: 2vw auto;
+
+  }
+
+  > .toast:before {
+    position: fixed;
+    font-family: FontAwesome;
+    font-size: 24px;
+    line-height: 18px;
+    float: left;
+    color: #FFF;
+    padding-right: 0.5em;
+    margin: auto 0.5em auto -1.5em;
+  }
+  > .toast-warning:before {
+    content: "\f071";
+  }
+}
