@@ -46,6 +46,7 @@ ready(function(){
 
     var App = {
         "init": function() {
+            var self = this;
             this._unitTesting = false; // Unit Testing the features in ApplicationDbContext or not
             this._widthHandlebarsAndLoDash = true; // Use Handlebars Template Engine And LoDash or Not
 
@@ -60,24 +61,29 @@ ready(function(){
 
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
+                    self._user = user;
                     // User is signed in.
-                    var displayName = user.displayName;
-                    var email = user.email;
-                    var emailVerified = user.emailVerified;
-                    var photoURL = user.photoURL;
-                    var isAnonymous = user.isAnonymous;
-                    var uid = user.uid;
-                    var providerData = user.providerData;
-
-                    if (!emailVerified) {
+                    /*
+                    self._displayName = user.displayName;
+                    self._email = user.email;
+                    self._emailVerified = user.emailVerified;
+                    self._photoURL = user.photoURL;
+                    self._isAnonymous = user.isAnonymous;
+                    self._uid = user.uid;
+                    self._providerData = user.providerData;
+                    */
+                    if (!self._emailVerified) {
 
                     }
                     Navigation.updateNavigation(true);
                     Overlay.toggle('login','close');
                     Overlay.toggle('register','close');
+                    App.settings.init();
                 } else {
                     // User is signed out.
+                    self._user = null;
                     Navigation.updateNavigation(false);
+                    App.settings.init();
                 }
 
             });
@@ -95,17 +101,22 @@ ready(function(){
                     document.querySelector('[name="login_email"]').className = document.querySelector('[name="login_email"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
                     document.querySelector('[name="login_password"]').className = document.querySelector('[name="login_password"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
                     var error = false;
+                    var errorMessages = [];
                     var email = Utils.trim(this.querySelectorAll('[name="login_email"]')[0].value);
                     var passWord = Utils.trim(this.querySelectorAll('[name="login_password"]')[0].value);
 
-                    if(!(email !== 'undefined' && email.length > 4 && isValidEmailAddress(email))){document.querySelector('[name="login_email"]').className += ' error'; error = true;}
-                    if(!(passWord !== 'undefined' && passWord.length > 5)){document.querySelector('[name="login_password"]').className += ' error'; error = true;}
+                    if(!(email !== 'undefined' && email.length > 4 && isValidEmailAddress(email))){document.querySelector('[name="login_email"]').className += ' error'; error = true; errorMessages.push('Please enter a valid email.')}
+                    if(!(passWord !== 'undefined' && passWord.length > 5)){document.querySelector('[name="login_password"]').className += ' error'; error = true; errorMessages.push('Please enter a password of at least 6 characters.')}
                     if(!error){
                         var login = {
                             password: passWord,
                             email:email
                         };
                         toggleSignIn(login);
+                    } else {
+                        var message = prepErrors(errorMessages);
+                        toastr.options.timeOut = 5000 * errorMessages.length;
+                        toastr.error(message, 'You have some errors!');
                     }
 
                     return false;
@@ -123,18 +134,18 @@ ready(function(){
                     document.querySelector('[name="register_username"]').className = document.querySelector('[name="register_username"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
                     document.querySelector('[name="register_password"]').className = document.querySelector('[name="register_password"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
                     var error = false;
-                    var errorMessage = [];
+                    var errorMessages = [];
                     var email = Utils.trim(this.querySelectorAll('[name="register_email"]')[0].value);
                     var firstName = Utils.trim(this.querySelectorAll('[name="register_firstName"]')[0].value);
                     var lastName = Utils.trim(this.querySelectorAll('[name="register_lastName"]')[0].value);
                     var username = Utils.trim(this.querySelectorAll('[name="register_username"]')[0].value);
                     var passWord = Utils.trim(this.querySelectorAll('[name="register_password"]')[0].value);
 
-                    if(!(email !== 'undefined' && email.length > 4 && isValidEmailAddress(email))){document.querySelector('[name="register_email"]').className += ' error'; error = true;}
-                    if(!(passWord !== 'undefined' && passWord.length > 5)){document.querySelector('[name="register_password"]').className += ' error'; error = true;}
-                    if(!(username !== 'undefined' && username.length > 4)){document.querySelector('[name="register_username"]').className += ' error'; error = true;}
-                    if(!(lastName !== 'undefined' && lastName.length > 0)){document.querySelector('[name="register_lastName"]').className += ' error'; error = true;}
-                    if(!(firstName !== 'undefined' && firstName.length > 0)){document.querySelector('[name="register_firstName"]').className += ' error'; error = true;}
+                    if(!(email !== 'undefined' && email.length > 4 && isValidEmailAddress(email))){document.querySelector('[name="register_email"]').className += ' error'; error = true; errorMessages.push('Please enter a valid email.')}
+                    if(!(passWord !== 'undefined' && passWord.length > 5)){document.querySelector('[name="register_password"]').className += ' error'; error = true; errorMessages.push('Please enter a password of at least 6 characters.')}
+                    if(!(username !== 'undefined' && username.length > 4)){document.querySelector('[name="register_username"]').className += ' error'; error = true; errorMessages.push('Please pick a username of at least 4 characters.')}
+                    if(!(lastName !== 'undefined' && lastName.length > 0)){document.querySelector('[name="register_lastName"]').className += ' error'; error = true; errorMessages.push('Please enter a surname.')}
+                    if(!(firstName !== 'undefined' && firstName.length > 0)){document.querySelector('[name="register_firstName"]').className += ' error'; error = true; errorMessages.push('Please enter a first name.')}
                     if(!error){
                         var register = {
                             password: passWord,
@@ -146,7 +157,9 @@ ready(function(){
                         };
                         handleSignUp(register);
                     } else {
-
+                        var message = prepErrors(errorMessages);
+                        toastr.options.timeOut = 5000 * errorMessages.length;
+                        toastr.error(message, 'You have some errors!');
                     }
 
                     return false;
@@ -158,7 +171,58 @@ ready(function(){
         "updateUI": function() {
 
         },
+        'settings': {
+            "properties": {
+                "weather": true,
+                "indoor": true,
+                "outdoor": true,
+            },
+            "init": function (settings) {
+                if(App._user) {
+                    if(App._user){
+                        var settings = getSettings();
+                        console.log('Type of Settings', typeof settings);
+                        if(typeof settings !== 'undefined'){
+                            console.log('Settings',settings);
+                            for(var propertyName in App.settings.properties) {
+                                //console.log('Property',propertyName);
+                                if(settings.hasOwnProperty(propertyName)){
+                                    console.log('This property exists',propertyName);
+                                    //alert("yes, i have that property");
+                                    App.settings.properties[propertyName] = settings[propertyName];
+                                    document.querySelector('#frm-settings #setting_'+propertyName).checked = settings[propertyName];
+                                }
+                            }
+                        } else {
+                            for(var propertyName in App.settings.properties) {
+                                console.log('Property',propertyName);
+                                document.querySelector('#frm-settings #setting_'+propertyName).checked = App.settings.properties[propertyName];
+                            }
+                        }
+                    }
+                } else {
+
+                }
+                App.settings.registerEventListeners();
+
+            },
+            registerEventListeners: function(){
+                var settingInputs = document.querySelectorAll('#frm-settings input[type="checkbox"]');
+                for(var i=0;i<settingInputs.length;i++) {
+                    var settingInput = settingInputs[i];
+                    settingInput.addEventListener('click', function() {
+                        var self = this;
+                        //console.log('Setting '+self.id+' Changed:',self.checked);
+                        var propertyName = self.id.replace('setting_','');
+                        App.settings.properties[propertyName] = self.checked;
+                        //console.log('Settings saving',App.settings.properties);
+                        setSettings(App.settings.properties);
+                    });
+                }
+            }
+        }
     };
+
     var Overlay = {
         'overlays':[],
         'init':function(){
@@ -316,7 +380,6 @@ ready(function(){
             document.querySelector('body').className = document.querySelector('body').className.replace(new RegExp('(?:^|\\s)'+ 'navigation-open' + '(?:\\s|$)'), ' ');;
         }
     }
-
 
     App.init();
     Overlay.init();

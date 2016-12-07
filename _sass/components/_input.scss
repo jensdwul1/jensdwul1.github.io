@@ -108,9 +108,9 @@
       width: 0;
       height: 0;
       &:checked + .lever {
-        background-color: #84c7c1;
+        background-color: $pink;
         &:after {
-          background-color: #26a69a;
+          background-color: $primary;
           left: 24px;
         }
       }

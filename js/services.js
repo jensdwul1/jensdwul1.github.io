@@ -94,11 +94,33 @@ function updateUserProfile(data) {
             firebase.database().ref('users/' + usr.uid).set({
                 firstName: data.firstName,
                 lastName: data.lastName,
+                settings: {"weather": true,"indoor": true,"outdoor": true}
+            });
+
+            firebase.database().ref('settings/' + usr.uid).set({
+                "weather": true,
+                "indoor": true,
+                "outdoor": true
             });
         }, function (error) {
             // An error happened.
         });
     }
+}
+function getSettings(){
+    var usr = firebase.auth().currentUser;
+    var ref = firebase.database().ref('/settings/' + usr.uid);
+    ref.on("value", function(snapshot) {
+        console.log(snapshot.val());
+        return snapshot.val();
+    }, function (error) {
+        console.log("Error: " + error.code);
+        return null;
+    });
+}
+function setSettings(settings){
+    var usr = firebase.auth().currentUser;
+    firebase.database().ref('settings/' + usr.uid).set(settings);
 }
 
 /**

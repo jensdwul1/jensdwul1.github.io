@@ -62,11 +62,12 @@ function prepErrors(messages){
     var errorMessage = "";
     for(var i=0;i<messages.length;++i) {
         var message = messages[i];
-        errorMessage += i+". "+message;
+        errorMessage += i+1 +". "+message;
         if(i +1 !== messages.length){
             errorMessage += "<br>";
         }
     }
+    return errorMessage;
 }
 function popToast(type,message){
     //toastr.error('1. Ducks <br> 2. Tricks', 'You have some errors!')
