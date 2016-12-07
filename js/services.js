@@ -16,6 +16,9 @@ function toggleSignIn(login) {
         // [START signout]
         firebase.auth().signOut();
         // [END signout]
+
+        toastr.options.timeOut = 5000;
+        toastr.warning('You have logged out.');
     } else {
         // Sign in with email and pass.
         // [START authwithemail]
@@ -72,7 +75,7 @@ function handleSignUp(register) {
     // Can't do these actions straight after registration because it the request needs time to get processed
     firebase.auth().onAuthStateChanged(function(user) {
         // Update the profile with the register data
-        updateUserProfile(register);
+        createUserProfile(register);
         setTimeout(function(){
             // After Registration one needs an email - verification
             sendEmailVerification();
@@ -80,6 +83,36 @@ function handleSignUp(register) {
     });
 
 }
+
+/**
+ * Create User Profile
+ */
+function createUserProfile(data) {
+    var usr = firebase.auth().currentUser;
+    if (usr != null) {
+        usr.updateProfile({
+            displayName: data.username,
+            photoURL: data.avatar
+        }).then(function () {
+            firebase.database().ref('users/' + usr.uid).set({
+                firstName: data.firstName,
+                lastName: data.lastName,
+                score: 0
+            });
+
+            firebase.database().ref('settings/' + usr.uid).set({
+                "weather": true,
+                "indoor": true,
+                "outdoor": true
+            });
+            toastr.options.timeOut = 5000;
+            toastr.success('The registration was a success and you have been automatically logged in.', 'Registered and Logged in!');
+        }, function (error) {
+            // An error happened.
+        });
+    }
+}
+
 
 /**
  * Update User Profile
@@ -94,29 +127,61 @@ function updateUserProfile(data) {
             firebase.database().ref('users/' + usr.uid).set({
                 firstName: data.firstName,
                 lastName: data.lastName,
-                settings: {"weather": true,"indoor": true,"outdoor": true}
+                score: data.score
             });
-
-            firebase.database().ref('settings/' + usr.uid).set({
-                "weather": true,
-                "indoor": true,
-                "outdoor": true
-            });
+            toastr.options.timeOut = 5000;
+            toastr.success('Profile updated.');
         }, function (error) {
             // An error happened.
         });
     }
 }
+
+
+function updatePassword(newPassword){
+    var user = firebase.auth().currentUser;
+
+    user.updatePassword(newPassword).then(function() {
+        // Update successful.
+        toastr.options.timeOut = 5000;
+        toastr.success('Password updated.');
+    }, function(error) {
+        // An error happened.
+    });
+}
+function updateEmail(newEmail){
+    var user = firebase.auth().currentUser;
+    user.updateEmail(newEmail).then(function() {
+        // Update successful.
+    }, function(error) {
+        // An error happened.
+    });
+}
+function getUserProfile(){
+    var usr = firebase.auth().currentUser;
+    if (usr != null) {
+        var ref = firebase.database().ref('/users/' + usr.uid);
+        ref.on("value", function(snapshot) {
+            console.log(snapshot.val());
+            return snapshot.val();
+        }, function (error) {
+            console.log("Error: " + error.code);
+            return null;
+        });
+    }
+}
 function getSettings(){
     var usr = firebase.auth().currentUser;
-    var ref = firebase.database().ref('/settings/' + usr.uid);
-    ref.on("value", function(snapshot) {
-        console.log(snapshot.val());
-        return snapshot.val();
-    }, function (error) {
-        console.log("Error: " + error.code);
-        return null;
-    });
+    if (usr != null) {
+        var ref = firebase.database().ref('/settings/' + usr.uid);
+        ref.on("value", function (snapshot) {
+            //console.log(snapshot.val());
+            return snapshot.val();
+        }, function (error) {
+            console.log("Error: " + error.code);
+            return null;
+        });
+    }
 }
 function setSettings(settings){
     var usr = firebase.auth().currentUser;

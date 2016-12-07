@@ -10,7 +10,7 @@
     <div id="login" class="login container flex column flex-child stretch centered justified-c ">
         <div class="panel flex column flex-child centered justified-c ">
             <div class="title row flex-child ">
-                <h2 class="">Login</h2>
+                <h2 class="padded-bottom-xl">Login</h2>
             </div>
             <div class="row flex-child">
                 <form id="frm-login" class="flex column">
@@ -49,7 +49,7 @@
     <div id="register" class="register container flex column flex-child stretch centered justified-c ">
         <div class="panel flex column flex-child centered justified-c ">
             <div class="title row flex-child ">
-                <h2 class="">Register</h2>
+                <h2 class="padded-bottom-xl">Register</h2>
             </div>
             <div class="row flex-child">
                 <form id="frm-register" class="flex row wrap">
@@ -100,35 +100,32 @@
     <div id="settings" class="settings container flex column flex-child stretch centered justified-c ">
         <div class="panel flex column flex-child centered justified-c ">
             <div class="title row flex-child ">
-                <h2 class="">Settings</h2>
+                <h2 class="padded-bottom-xl">Settings</h2>
             </div>
             <div class="row flex-child">
                 <form id="frm-settings" class="flex column">
                     <div class="switch group flex align-stretch">
+                        <i class="fa fa-cloud padded-right flex column justified-c"></i>
                         <span class="flex-child stretch padded-right">Weather influence</span>
-                        <label>
-                            Off
+                        <label class="flex column justified-c">
                             <input type="checkbox" id="setting_weather" type="checkbox" hidden="hidden">
                             <span class="lever"></span>
-                            On
                         </label>
                     </div>
                     <div class="switch group flex align-stretch">
+                        <i class="fa fa-home padded-right flex column justified-c"></i>
                         <span class="flex-child stretch padded-right">Indoor Activities</span>
-                        <label>
-                            Off
+                        <label class="flex column justified-c">
                             <input type="checkbox" id="setting_indoor" type="checkbox" hidden="hidden">
                             <span class="lever"></span>
-                            On
                         </label>
                     </div>
                     <div class="switch group flex align-stretch">
+                        <i class="fa fa-tree padded-right flex column justified-c"></i>
                         <span class="flex-child stretch padded-right">Outdoor Activities</span>
-                        <label>
-                            Off
+                        <label class="flex column justified-c">
                             <input type="checkbox" id="setting_outdoor" type="checkbox" hidden="hidden">
                             <span class="lever"></span>
-                            On
                         </label>
                     </div>
                 </form>
@@ -149,11 +146,34 @@
     <div id="profile" class="profile container flex column flex-child stretch centered justified-c ">
         <div class="panel flex column flex-child centered justified-c ">
             <div class="title row flex-child ">
-                <h2 class="">Profile</h2>
+                <h2 class="padded-bottom-xl">Profile</h2>
             </div>
             <div class="row flex-child">
-                <form id="frm-profile" class="flex column">
-                    profile goes here
+                <form id="frm-profile" class="flex row wrap">
+                    <div class="flex-child justified-c group half">
+                        <input class="input" type="text" id="profile_firstName" name="profile_firstName">
+                        <span class="highlight"></span><span class="bar"></span>
+                        <label class="label">First Name</label>
+                    </div>
+                    <div class="flex-child justified-c group half">
+                        <input class="input" type="text" id="profile_lastName" name="profile_lastName">
+                        <span class="highlight"></span><span class="bar"></span>
+                        <label class="label">Last Name</label>
+                    </div>
+                    <div class="flex-child justified-c group">
+                        <input class="input" type="email" id="profile_email" name="profile_email">
+                        <span class="highlight"></span><span class="bar"></span>
+                        <label class="label">Email</label>
+                    </div>
+                    <div class="flex-child justified-c group">
+                        <input class="input" type="text" id="profile_username" name="profile_username">
+                        <span class="highlight"></span><span class="bar"></span>
+                        <label class="label">Username</label>
+                    </div>
+                    <button class="btn round overlay-link">
+                        <i class="fa fa-save"></i>
+                        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+                    </button>
                 </form>
             </div>
         </div>
@@ -172,7 +192,7 @@
     <div id="forgot" class="forgot container flex column flex-child stretch centered justified-c ">
         <div class="panel flex column flex-child centered justified-c ">
             <div class="title row flex-child ">
-                <h2 class="">Forgot</h2>
+                <h2 class="padded-bottom-xl">Forgot</h2>
             </div>
             <div class="row flex-child">
                 <form id="frm-forgot" class="flex column">

@@ -5,7 +5,6 @@ function User() {
     this.Id;
     this.FirstName;
     this.SurName;
-    this.DayOfBirth;
 
     this.DisplayName;
     this.PassWord;

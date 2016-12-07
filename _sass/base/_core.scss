@@ -125,17 +125,31 @@ a {
     align-self: center;
   }
 }
+$padded: 20;
+$paddedXL: $padded * 2;
 .padded {
   &-top {
-    padding-top: 20px;
+    padding-top: $padded+px;
+    &-xl{
+      padding-top: $paddedXL+px;
+    }
   }
   &-left {
-    padding-left: 20px;
+    padding-left: $padded+px;
+    &-xl{
+      padding-left: $paddedXL+px;
+    }
   }
   &-bottom {
-    padding-bottom: 20px;
+    padding-bottom: $padded+px;
+    &-xl{
+      padding-bottom: $paddedXL+px;
+    }
   }
   &-right {
-    padding-right: 20px;
+    padding-right: $padded+px;
+    &-xl{
+      padding-right: $paddedXL+px;
+    }
   }
 }
