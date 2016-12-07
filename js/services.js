@@ -160,6 +160,12 @@ var UserManager = {
         this._applicationDbContext.setActiveUser(user);
         return user;
     },
+    "register": function(registration) {
+        var user = this._applicationDbContext.addUser(registration);
+
+        this._applicationDbContext.setActiveUser(user);
+        return user;
+    },
     "logout": function() {
         this._applicationDbContext.setActiveUser(null);
         return true;

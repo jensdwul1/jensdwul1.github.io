@@ -49,12 +49,7 @@ ready(function(){
             this._unitTesting = false; // Unit Testing the features in ApplicationDbContext or not
             this._widthHandlebarsAndLoDash = true; // Use Handlebars Template Engine And LoDash or Not
 
-            this.URLRANDOMUSERME = 'http://api.randomuser.me/?results=500&callback=json_callback';// Cache the url with random users in variable URLRANDOMUSERME
 
-            this._applicationDbContext = ApplicationDbContext; // Reference to the ApplicationDbContext object
-            this._applicationDbContext.init('ahs.gdm.mmp.doekeewa'); // Initialize the ApplicationDbContext object via the methode init. Do not forget the connection string as a parametervalue of this function
-            this._userManager = UserManager; // Reference to the UserManager object
-            this._userManager.init(this._applicationDbContext);// Initialize the UserManager object via the methode init. Do not forget the reference to the this._applicationDbContext variable as a parametervalue of this function
 
             this._frmLogin = document.querySelector('#frm-login'); // Cache Form Login
             this._frmRegister = document.querySelector('#frm-register'); // Cache Form Login
@@ -63,13 +58,28 @@ ready(function(){
 			this._hbsCache = {};// Handlebars cache for templates
 			this._hbsPartialsCache = {};// Handlebars cache for partials
 
-            this._activeUser = null; // Active User
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    // User is signed in.
+                    var displayName = user.displayName;
+                    var email = user.email;
+                    var emailVerified = user.emailVerified;
+                    var photoURL = user.photoURL;
+                    var isAnonymous = user.isAnonymous;
+                    var uid = user.uid;
+                    var providerData = user.providerData;
 
+                    if (!emailVerified) {
 
-            if(this._unitTesting || this._applicationDbContext.getUsers() == null) {
-                this.unitTests();
-            }
+                    }
+                    Navigation.updateNavigation(true);
+                    Overlay.toggle('login','close');
+                } else {
+                    // User is signed out.
+                    Navigation.updateNavigation(false);
+                }
 
+            });
 
         },
 
@@ -81,32 +91,40 @@ ready(function(){
 
                 this._frmLogin.addEventListener('submit', function(ev) {
                     ev.preventDefault();
+                    document.querySelector('[name="login_email"]').className = document.querySelector('[name="login_email"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
+                    document.querySelector('[name="login_password"]').className = document.querySelector('[name="login_password"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
+                    var error = false;
+                    var email = Utils.trim(this.querySelectorAll('[name="login_email"]')[0].value);
+                    var passWord = Utils.trim(this.querySelectorAll('[name="login_password"]')[0].value);
 
-                    var userName = Utils.trim(this.querySelectorAll('[name="username"]')[0].value);
-                    var passWord = Utils.trim(this.querySelectorAll('[name="password"]')[0].value);
-                    var result = self._userManager.login(userName, passWord);
-                    if(result == null) {
-
-                    } else if(result == false) {
-
-                    } else {
-                        self._activeUser = result; // User is Logged in
-                        self.updateUI();
+                    function isValidEmailAddress(emailAddress) {
+                        var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+                        return pattern.test(emailAddress);
+                    };
+                    if(!(email !== 'undefined' && email.length > 4 && isValidEmailAddress(email))){document.querySelector('[name="login_email"]').className += ' error'; error = true;}
+                    if(!(passWord !== 'undefined' && passWord.length > 5)){document.querySelector('[name="login_password"]').className += ' error'; error = true;}
+                    if(!error){
+                        var login = {
+                            password: passWord,
+                            email:email
+                        };
+                        toggleSignIn(login);
                     }
-                    
+
                     return false;
                 });
             }
             // Event Listeners for Form Register
-            if(this._frmLogin != null) {
+            if(this._frmRegister != null) {
+                /*
                 var self = this; // Hack for this keyword within an event listener of another object
 
-                this._frmLogin.addEventListener('submit', function(ev) {
+                this._frmRegister.addEventListener('submit', function(ev) {
                     ev.preventDefault();
 
                     var userName = Utils.trim(this.querySelectorAll('[name="username"]')[0].value);
                     var passWord = Utils.trim(this.querySelectorAll('[name="password"]')[0].value);
-                    var result = self._userManager.login(userName, passWord);
+                    var result = self._userManager.register(userName, passWord);
                     if(result == null) {
 
                     } else if(result == false) {
@@ -118,133 +136,14 @@ ready(function(){
 
                     return false;
                 });
+                */
             }
 
 
         },
         "updateUI": function() {
-            /*
-            if( this._widthHandlebarsAndLoDash) {
-                this.updateUIUsers('list-users', '#template-list-users');
-            } else {
-                this.updateUIOldSchoolUsers();
-            }
-            */
+
         },
-        "updateUIOldSchoolUsers": function() {
-            if(this._applicationDbContext.getTinderizeUsersByUserId(this._activeUser.Id) != null) {
-                var tempStr = '';
-                var ch = window.innerHeight - 110;
-                
-                var users = this._applicationDbContext.getTinderizeUsersByUserId(this._activeUser.Id), user = null;
-                for(var i=0;i<users.length;i++) {
-                    var user = users[i];
-                    tempStr += '<div class="user" data-id="' + user.Id + '">';
-                    tempStr += '<div class="user__meta">' + '<span class="user__gender">' + Genders.properties[user.Gender].name + '</span>' + '<span class="user__age">' + Utils.getAge(new Date(user.DayOfBirth)) + '</span>' + '</div>';
-                    tempStr += '<picture class="user__picture">';
-                    tempStr += '<img src="' + user.Picture + '" />';
-                    tempStr += '</picture>';
-                    tempStr += '<h3 class="user__name">' + user.FirstName + ' ' + user.SurName + '</h3>';
-                    tempStr += '<div class="user__actions">';
-                    tempStr += '<span class="material-icons like" data-id="' + user.Id + '" data-tinderize="1">&#xE87D;</span>';
-                    tempStr += '<span class="material-icons dislike" data-id="' + user.Id + '" data-tinderize="2">&#xE043;</span>';
-                    tempStr += '</div>';
-                    tempStr += '</div>';
-                };
-
-                document.querySelector('.list-users-content').innerHTML = tempStr;
-                
-                this.registerUserEventListeners(); // Register EventListeners for all like and dislike buttons
-            }
-        },
-        "updateUIUsers": function(hbsTmplName, hbsTmplId) {
-            if(!this._hbsCache[hbsTmplName]) {
-				var src = document.querySelector(hbsTmplId).innerHTML;// Get the contents from the specified hbs template
-				this._hbsCache[hbsTmplName] = Handlebars.compile(src);// Compile the source and add it to the hbs cache
-			}	
-			document.querySelector('.list-users-content').innerHTML = this._hbsCache[hbsTmplName](this._applicationDbContext.getTinderizeUsersByUserId(this._activeUser.Id));// Write compiled content to the appropriate container
-
-            this.registerUserEventListeners(); // Register EventListeners for all like and dislike buttons
-        },
-        "registerUserEventListeners": function() {
-            var self = this;
-
-            var userElements = document.querySelectorAll('.user');
-            if(userElements != null && userElements.length > 0) {
-                var userElement = null;
-                for(var i=0;i<userElements.length;i++) {
-                    userElement = userElements[i];
-                    /*
-                    userElement.querySelector('.like').addEventListener('click', function(ev) {
-                        self.addTinderizeUser(this.dataset.id, this.dataset.tinderize);
-                    });
-                    userElement.querySelector('.dislike').addEventListener('click', function(ev) {
-                        self.addTinderizeUser(this.dataset.id, this.dataset.tinderize);
-                    });
-                    */
-                }
-            }
-        },
-        "unitTests": function() {
-
-            var self = this; // Closure
-        /*
-            //Unit Testing the Users
-            if(this._applicationDbContext.getUsers() == null) {
-
-                // Load JSON from corresponding RandomUserMe API with certain URL
-                Utils.getJSONPByPromise(this.URLRANDOMUSERME).then(
-                    function(data) {
-                        var users = data.results, user = null, user = null;
-                        for(var i=0;i<users.length;i++) {
-                            user = users[i];
-                            user = new User();
-                            user.FirstName = user.name.first;
-                            user.SurName = user.name.last;
-                            user.DayOfBirth = new Date(user.dob);
-                            user.UserName = user.login.username;
-                            user.PassWord = user.login.password;
-                            user.Email = user.email;
-                            user.Picture = user.picture.large;
-                            switch(user.gender) {
-                                case 'male': user.Gender = Genders.MALE;break;
-                                case 'female': user.Gender = Genders.FEMALE;break;
-                                default: user.Gender = Genders.NOTKNOWN;break;
-                            }
-                            var userAdded = self._applicationDbContext.addUser(user);
-                        }
-                    },
-                    function(status) {
-                        console.log(status);
-                    }
-                );
-
-            } else {
-                // Update a user
-                var id = this._applicationDbContext.getUsers()[0].Id;
-                var user = this._applicationDbContext.getUserById(id);
-                if(user != null) {
-                    user.FirstName = 'Olivia';
-                    var result = this._applicationDbContext.updateUser(user);
-                    console.log(result);
-                }
-
-                // Soft delete or undelete a user
-                user = this._applicationDbContext.getUserById(id);
-                if(user != null) {
-                    var result = (user.DeletedAt == null || user.DeletedAt == undefined)?this._applicationDbContext.softDeleteUser(user.Id):this._applicationDbContext.softUnDeleteUser(user.Id);
-                    console.log(result);
-                }
-
-                // Delete a user
-                user = this._applicationDbContext.getUserById(id);
-                if(user != null) {
-                    var result = this._applicationDbContext.deleteUser(user.Id)
-                    console.log(result);
-                }
-            }
-        */
-        }
     };
     var Overlay = {
         'overlays':[],
@@ -350,6 +249,30 @@ ready(function(){
                     console.log('Closing Menu');
                     Navigation.close();
                 });
+            }
+            var logout = document.querySelector('.logout');
+            logout.addEventListener('click', function() {
+                toggleSignIn();
+            });
+
+        },
+        "updateNavigation":function(state){
+            var navLinks = document.querySelectorAll('.navigation a');
+            for(var i=0;i<navLinks.length;i++) {
+                var link = navLinks[i];
+                link.className = link.className.replace(new RegExp('(?:^|\\s)'+ 'hidden' + '(?:\\s|$)'), ' ');
+                if(link.dataset.user === "anonymous"){
+                    if(state){
+                        link.className += " hidden";
+                    }
+                } else if(link.dataset.user === "user"){
+                    if(!state){
+                        link.className += " hidden";
+                    }
+                } else if(link.dataset.user === "all"){
+                    //Somehow someway
+                }
+
             }
 
         },
