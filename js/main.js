@@ -41,10 +41,10 @@ $(window, document, undefined).ready(function() {
     });
 
 });
-
+var App = {};
 ready(function(){
 
-    var App = {
+    App = {
         "init": function() {
 
             App.Overlay.init();
@@ -68,9 +68,6 @@ ready(function(){
                 if (user) {
                     self._user = user;
                     self._profile = getUserProfile();
-                    setTimeout(function(){
-                        App.Profile.init();
-                    },1000);
                     // User is signed in.
                     /*
                     self._displayName = user.displayName;
@@ -224,7 +221,15 @@ ready(function(){
         },
         'Profile':{
             "init":function(){
-
+                //console.log('Profile: ',App._profile);
+                for(var propertyName in App._profile) {
+                    //console.log('Property Profile: ',propertyName);
+                    document.querySelector('#frm-profile #profile_firstName')
+                    document.querySelector('#frm-profile #profile_firstName').value = App._profile.firstName;
+                    document.querySelector('#frm-profile #profile_lastName').value = App._profile.lastName;
+                    document.querySelector('#frm-profile #profile_username').value = App._user.displayName;
+                    document.querySelector('#frm-profile #profile_email').value = App._user.email;
+                }
             },
             "registerEventListeners": function() {
 

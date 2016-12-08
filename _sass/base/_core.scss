@@ -124,6 +124,11 @@ a {
     -ms-flex-item-align: center;
     align-self: center;
   }
+  &.justified-c {
+     -webkit-justify-content: center;
+     -ms-flex-pack: center;
+     justify-content: center;
+  }
 }
 $padded: 20;
 $paddedXL: $padded * 2;

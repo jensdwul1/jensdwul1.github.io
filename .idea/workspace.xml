@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aa2bb6fc-95ce-48d9-a43f-80017122411e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_includes/components/overlay.html" afterPath="$PROJECT_DIR$/_includes/components/overlay.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_sass/base/_core.scss" afterPath="$PROJECT_DIR$/_sass/base/_core.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_sass/base/_typography.scss" afterPath="$PROJECT_DIR$/_sass/base/_typography.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_sass/base/_helpers.scss" afterPath="$PROJECT_DIR$/_sass/base/_helpers.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_sass/components/_button.scss" afterPath="$PROJECT_DIR$/_sass/components/_button.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_sass/components/_input.scss" afterPath="$PROJECT_DIR$/_sass/components/_input.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/main.js" afterPath="$PROJECT_DIR$/js/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/models.js" afterPath="$PROJECT_DIR$/js/models.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/services.js" afterPath="$PROJECT_DIR$/js/services.js" />
     </list>
     <ignored path="jensdwul1.github.io.iws" />
@@ -29,14 +29,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="169">
-              <caret line="260" column="88" lean-forward="false" selection-start-line="260" selection-start-column="88" selection-end-line="260" selection-end-column="88" />
+            <state relative-caret-position="319">
+              <caret line="223" column="16" lean-forward="false" selection-start-line="223" selection-start-column="16" selection-end-line="223" selection-end-column="16" />
               <folding>
-                <element signature="e#15695#19461#0" expanded="false" />
-                <element signature="e#19484#23014#0" expanded="false" />
+                <element signature="e#16291#20057#0" expanded="false" />
+                <element signature="e#20080#23610#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -55,8 +55,8 @@
       <file leaf-file-name="services.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/services.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-526">
-              <caret line="84" column="1" lean-forward="true" selection-start-line="84" selection-start-column="1" selection-end-line="84" selection-end-column="1" />
+            <state relative-caret-position="256">
+              <caret line="166" column="12" lean-forward="false" selection-start-line="166" selection-start-column="12" selection-end-line="166" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -75,8 +75,18 @@
       <file leaf-file-name="overlay.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/_includes/components/overlay.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="818">
-              <caret line="194" column="56" lean-forward="true" selection-start-line="194" selection-start-column="56" selection-end-line="194" selection-end-column="56" />
+            <state relative-caret-position="444">
+              <caret line="172" column="75" lean-forward="false" selection-start-line="172" selection-start-column="75" selection-end-line="172" selection-end-column="75" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_input.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_sass/components/_input.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-34">
+              <caret line="19" column="37" lean-forward="true" selection-start-line="19" selection-start-column="37" selection-end-line="19" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -98,18 +108,18 @@
       <file leaf-file-name="_core.scss" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/_sass/base/_core.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2567">
-              <caret line="151" column="31" lean-forward="false" selection-start-line="151" selection-start-column="31" selection-end-line="151" selection-end-column="31" />
+            <state relative-caret-position="1789">
+              <caret line="130" column="2" lean-forward="false" selection-start-line="130" selection-start-column="2" selection-end-line="130" selection-end-column="2" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_typography.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/_sass/base/_typography.scss">
+      <file leaf-file-name="_helpers.scss" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/_sass/base/_helpers.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" column="12" lean-forward="false" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
+            <state relative-caret-position="446">
+              <caret line="57" column="26" lean-forward="false" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -166,8 +176,8 @@
       <find>Overlay.</find>
       <find>register</find>
       <find>updateUserProfile</find>
-      <find>properties</find>
       <find>App.settings</find>
+      <find>properties</find>
     </findStrings>
     <replaceStrings>
       <replace>$primary</replace>
@@ -181,8 +191,8 @@
       <replace>register</replace>
       <replace>App.Navigation</replace>
       <replace>App.Overlay.</replace>
-      <replace>profile</replace>
       <replace>App.Settings</replace>
+      <replace>profile</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -208,13 +218,11 @@
         <option value="$PROJECT_DIR$/_sass/abstracts/_variables.scss" />
         <option value="$PROJECT_DIR$/_sass/layout/_header.scss" />
         <option value="$PROJECT_DIR$/_sass/base/_animations.scss" />
-        <option value="$PROJECT_DIR$/_sass/components/_button.scss" />
         <option value="$PROJECT_DIR$/_site/js/helpers.js" />
         <option value="$PROJECT_DIR$/_site/js/models.js" />
         <option value="$PROJECT_DIR$/_sass/vendor/_font-awesom.scss" />
         <option value="$PROJECT_DIR$/_sass/base/_fonts.scss" />
         <option value="$PROJECT_DIR$/_sass/vendor/_mappy.scss" />
-        <option value="$PROJECT_DIR$/_sass/base/_helpers.scss" />
         <option value="$PROJECT_DIR$/_layouts/default.html" />
         <option value="$PROJECT_DIR$/_includes/components/header.html" />
         <option value="$PROJECT_DIR$/_sass/vendor/_font-awesome.scss" />
@@ -234,14 +242,16 @@
         <option value="$PROJECT_DIR$/_includes/components/scripts.html" />
         <option value="$PROJECT_DIR$/_sass/vendor/_toast.scss" />
         <option value="$PROJECT_DIR$/js/helpers.js" />
-        <option value="$PROJECT_DIR$/_sass/components/_input.scss" />
         <option value="$PROJECT_DIR$/_sass/base/_typography.scss" />
-        <option value="$PROJECT_DIR$/_sass/base/_core.scss" />
         <option value="$PROJECT_DIR$/js/models.js" />
-        <option value="$PROJECT_DIR$/_includes/components/overlay.html" />
         <option value="$PROJECT_DIR$/_site/js/main.js" />
         <option value="$PROJECT_DIR$/js/services.js" />
         <option value="$PROJECT_DIR$/js/main.js" />
+        <option value="$PROJECT_DIR$/_sass/base/_core.scss" />
+        <option value="$PROJECT_DIR$/_sass/components/_button.scss" />
+        <option value="$PROJECT_DIR$/_sass/components/_input.scss" />
+        <option value="$PROJECT_DIR$/_includes/components/overlay.html" />
+        <option value="$PROJECT_DIR$/_sass/base/_helpers.scss" />
       </list>
     </option>
   </component>
@@ -319,6 +329,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="_sass" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jensdwul1.github.io" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jensdwul1.github.io" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="_sass" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -481,12 +509,12 @@
       <workItem from="1481035348785" duration="147000" />
       <workItem from="1481052171562" duration="18054000" />
       <workItem from="1481113200347" duration="25591000" />
-      <workItem from="1481149562626" duration="4500000" />
+      <workItem from="1481149562626" duration="6335000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88599000" />
+    <option name="totallyTimeSpent" value="90434000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -553,13 +581,6 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/_sass/layout/_header.scss" />
-    <entry file="file://$PROJECT_DIR$/_sass/components/_button.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="726">
-          <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_includes/components/head.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -623,13 +644,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_sass/base/_helpers.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="57" column="16" lean-forward="false" selection-start-line="57" selection-start-column="16" selection-end-line="57" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -766,6 +780,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -799,14 +814,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
           <caret line="37" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="172" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_sass/components/_input.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2431">
-          <caret line="143" column="3" lean-forward="false" selection-start-line="143" selection-start-column="3" selection-end-line="143" selection-end-column="3" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -850,14 +857,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_sass/base/_core.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2567">
-          <caret line="151" column="31" lean-forward="false" selection-start-line="151" selection-start-column="31" selection-end-line="151" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
@@ -866,14 +865,6 @@
             <folding />
           </first_editor>
           <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_includes/components/overlay.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="818">
-          <caret line="194" column="56" lean-forward="true" selection-start-line="194" selection-start-column="56" selection-end-line="194" selection-end-column="56" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -903,20 +894,60 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/services.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-526">
-          <caret line="84" column="1" lean-forward="true" selection-start-line="84" selection-start-column="1" selection-end-line="84" selection-end-column="1" />
+        <state relative-caret-position="256">
+          <caret line="166" column="12" lean-forward="false" selection-start-line="166" selection-start-column="12" selection-end-line="166" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="260" column="88" lean-forward="false" selection-start-line="260" selection-start-column="88" selection-end-line="260" selection-end-column="88" />
+        <state relative-caret-position="319">
+          <caret line="223" column="16" lean-forward="false" selection-start-line="223" selection-start-column="16" selection-end-line="223" selection-end-column="16" />
           <folding>
-            <element signature="e#15695#19461#0" expanded="false" />
-            <element signature="e#19484#23014#0" expanded="false" />
+            <element signature="e#16291#20057#0" expanded="false" />
+            <element signature="e#20080#23610#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_sass/components/_button.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="385">
+          <caret line="54" column="14" lean-forward="false" selection-start-line="54" selection-start-column="14" selection-end-line="54" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_sass/components/_input.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-34">
+          <caret line="19" column="37" lean-forward="true" selection-start-line="19" selection-start-column="37" selection-end-line="19" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_includes/components/overlay.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="444">
+          <caret line="172" column="75" lean-forward="false" selection-start-line="172" selection-start-column="75" selection-end-line="172" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_sass/base/_core.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1789">
+          <caret line="130" column="2" lean-forward="false" selection-start-line="130" selection-start-column="2" selection-end-line="130" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_sass/base/_helpers.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="57" column="26" lean-forward="false" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>

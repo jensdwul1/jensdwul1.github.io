@@ -16,6 +16,9 @@
   border-radius: 0;
   border-bottom: 1px solid #757575;
 
+  &:disabled{
+    border-bottom-color: transparent;
+  }
   &:focus {
     outline: none;
   }
