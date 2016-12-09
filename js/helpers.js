@@ -73,3 +73,21 @@ function popToast(type,message){
     //toastr.error('1. Ducks <br> 2. Tricks', 'You have some errors!')
 
 }
+
+function dirtyChecker(input){
+    if(input.value.length > 0){
+        switch(input.type){
+            case "text":
+                input.classList.add("used");
+                break;
+            case "password":
+                input.classList.add("used");
+                break;
+            case "email":
+                input.classList.add("used");
+                break;
+            default:
+                break;
+        }
+    }
+}

@@ -206,13 +206,14 @@ function sendEmailVerification() {
     });
     // [END sendemailverification]
 }
-function sendPasswordReset() {
-    var email = document.getElementById('email').value;
+function sendPasswordReset(email) {
     // [START sendpasswordemail]
     auth.sendPasswordResetEmail(email).then(function() {
         // Password Reset Email Sent!
         // [START_EXCLUDE]
-        alert('Password Reset Email Sent!');
+
+        toastr.options.timeOut = 5000;
+        toastr.success('Password Reset Email Sent!');
         // [END_EXCLUDE]
     }).catch(function(error) {
         // Handle Errors here.
@@ -220,9 +221,11 @@ function sendPasswordReset() {
         var errorMessage = error.message;
         // [START_EXCLUDE]
         if (errorCode == 'auth/invalid-email') {
-            alert(errorMessage);
+            toastr.options.timeOut = 5000;
+            toastr.error("That email isn't valid.");
         } else if (errorCode == 'auth/user-not-found') {
-            alert(errorMessage);
+            toastr.options.timeOut = 5000;
+            toastr.error("That user isn't registered with us.");
         }
         console.log(error);
         // [END_EXCLUDE]

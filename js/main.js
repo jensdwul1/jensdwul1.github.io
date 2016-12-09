@@ -58,7 +58,8 @@ ready(function(){
 
             this._frmLogin = document.querySelector('#frm-login'); // Cache Form Login
             this._frmRegister = document.querySelector('#frm-register'); // Cache Form Register
-            this._frmProfile = document.querySelector('#frm-profile'); // Cache Form Register
+            this._frmProfile = document.querySelector('#frm-profile'); // Cache Form Profile
+            this._frmForgot = document.querySelector('#frm-forgot'); // Cache Form ForgotPassword
             this.registerEventListeners(); // Register the Event Listeners for all present elements
 
 			this._hbsCache = {};// Handlebars cache for templates
@@ -212,6 +213,31 @@ ready(function(){
                             score:App._profile.score,
                         };
                         updateUserProfile(profile);
+                    } else {
+                        var message = prepErrors(errorMessages);
+                        toastr.options.timeOut = 5000 * errorMessages.length;
+                        toastr.error(message, 'You have some errors!');
+                    }
+
+                    return false;
+                });
+
+            }
+            
+            // Event Listeners for Form forgot
+            if(this._frmForgot != null) {
+                var self = this; // Hack for this keyword within an event listener of another object
+
+                this._frmForgot.addEventListener('submit', function(ev) {
+                    ev.preventDefault();
+                    document.querySelector('[name="forgot_email"]').className = document.querySelector('[name="forgot_email"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
+                    var error = false;
+                    var errorMessages = [];
+                    var email = Utils.trim(this.querySelectorAll('[name="forgot_email"]')[0].value);
+
+                    if(!(email !== 'undefined' && email.length > 4 && isValidEmailAddress(email))){document.querySelector('[name="forgot_email"]').className += ' error'; error = true; errorMessages.push('Please enter a valid email.')}
+                    if(!error){
+                        sendPasswordReset(email);
                     } else {
                         var message = prepErrors(errorMessages);
                         toastr.options.timeOut = 5000 * errorMessages.length;
@@ -428,6 +454,13 @@ ready(function(){
             'open':function(overlay){
                 overlay.dataset.state = "true";
                 overlay.className += " active";
+                var inputs = overlay.querySelectorAll('input');
+                //console.log('Inputs',inputs);
+                for(var i=0;i<inputs.length;++i) {
+                    var input = inputs[i];
+                    dirtyChecker(input);
+                }
+
             },
             'close':function(overlay){
                 overlay.dataset.state = "false";

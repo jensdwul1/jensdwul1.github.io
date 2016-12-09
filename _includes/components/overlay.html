@@ -201,11 +201,23 @@
     <div id="forgot" class="forgot container flex column flex-child stretch centered justified-c ">
         <div class="panel flex column flex-child centered justified-c ">
             <div class="title row flex-child ">
-                <h2 class="padded-bottom-xl">Forgot</h2>
+                <h2 class="padded-bottom">Forgot your password?</h2>
+            </div>
+
+            <div class="row flex-child padded-bottom-xl">
+                <p>It happens to the best of us. <br> Just enter your email and we'll send you a handy reset link.</p>
             </div>
             <div class="row flex-child">
                 <form id="frm-forgot" class="flex column">
-                    forgot goes here
+                    <div class="flex-child justified-c group padded-bottom">
+                        <input class="input used" type="email" id="forgot_email" name="forgot_email">
+                        <span class="highlight"></span><span class="bar"></span>
+                        <label class="label">Email</label>
+                    </div>
+                    <button class="btn round overlay-link btn-center forgot-submit">
+                        <i class="fa fa-send"></i>
+                        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+                    </button>
                 </form>
             </div>
         </div>
