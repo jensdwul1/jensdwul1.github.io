@@ -85,6 +85,9 @@ ready(function(){
                     App.Navigation.updateNavigation(true);
                     App.Overlay.toggle('login','close');
                     App.Overlay.toggle('register','close');
+
+                    toastr.options.timeOut = 5000;
+                    toastr.success('You have logged in.');
                     App.Settings.init();
 
                 } else {
@@ -293,7 +296,9 @@ ready(function(){
                         var propertyName = self.id.replace('setting_','');
                         App.Settings.properties[propertyName] = self.checked;
                         //console.log('Settings saving',App.Settings.properties);
-                        setSettings(App.Settings.properties);
+                        if(App._user) {
+                            setSettings(App.Settings.properties);
+                        }
                     });
                 }
             }

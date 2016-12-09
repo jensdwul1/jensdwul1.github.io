@@ -162,7 +162,7 @@ function getUserProfile(){
     if (usr != null) {
         var ref = firebase.database().ref('/users/' + usr.uid);
         ref.on("value", function(snapshot) {
-            console.log(snapshot.val());
+            //console.log(snapshot.val());
             App._profile = snapshot.val();
             App.Profile.init();
             return snapshot.val();
