@@ -1,0 +1,24 @@
+{
+  "name": "doekeewa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jensdwul1/jensdwul1.github.io.git"
+  },
+  "author": "Jens De Wulf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jensdwul1/jensdwul1.github.io/issues"
+  },
+  "homepage": "https://github.com/jensdwul1/jensdwul1.github.io#readme",
+  "dependencies": {
+    "font-awesome": "^4.7.0",
+    "mappy-breakpoints": "^0.2.3",
+    "toastr": "^2.1.2"
+  }
+}
