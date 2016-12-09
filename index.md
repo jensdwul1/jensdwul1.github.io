@@ -1,6 +1,6 @@
 ---
 layout  : default
-title   : "Time is ticking."
+title   : "Discover more..."
 ---
 
 <div class="container flex column flex-child stretch">
