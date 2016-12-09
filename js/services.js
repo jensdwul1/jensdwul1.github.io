@@ -8,13 +8,15 @@ var dbConfig = {
 };
 firebase.initializeApp(dbConfig);
 var database = firebase.database();
+var storageRef = firebase.storage().ref();
+var auth = firebase.auth();
 /**
  * Handles the sign in button press.
  */
 function toggleSignIn(login) {
-    if (firebase.auth().currentUser) {
+    if (auth.currentUser) {
         // [START signout]
-        firebase.auth().signOut();
+        auth.signOut();
         // [END signout]
 
         toastr.options.timeOut = 5000;
@@ -22,7 +24,7 @@ function toggleSignIn(login) {
     } else {
         // Sign in with email and pass.
         // [START authwithemail]
-        firebase.auth().signInWithEmailAndPassword(login.email, login.password).catch(function(error) {
+        auth.signInWithEmailAndPassword(login.email, login.password).catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -57,7 +59,7 @@ function handleSignUp(register) {
 
     // Sign in with email and pass.
     // [START createwithemail]
-    firebase.auth().createUserWithEmailAndPassword(register.email, register.password).catch(function(error) {
+    auth.createUserWithEmailAndPassword(register.email, register.password).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -73,7 +75,7 @@ function handleSignUp(register) {
     // [END createwithemail]
 
     // Can't do these actions straight after registration because it the request needs time to get processed
-    firebase.auth().onAuthStateChanged(function(user) {
+    auth.onAuthStateChanged(function(user) {
         // Update the profile with the register data
         createUserProfile(register);
         setTimeout(function(){
@@ -88,7 +90,7 @@ function handleSignUp(register) {
  * Create User Profile
  */
 function createUserProfile(data) {
-    var usr = firebase.auth().currentUser;
+    var usr = auth.currentUser;
     if (usr != null) {
         usr.updateProfile({
             displayName: data.username,
@@ -118,7 +120,7 @@ function createUserProfile(data) {
  * Update User Profile
  */
 function updateUserProfile(data) {
-    var usr = firebase.auth().currentUser;
+    var usr = auth.currentUser;
     if (usr != null) {
         usr.updateProfile({
             displayName: data.username,
@@ -139,7 +141,7 @@ function updateUserProfile(data) {
 
 
 function updatePassword(newPassword){
-    var user = firebase.auth().currentUser;
+    var user = auth.currentUser;
 
     user.updatePassword(newPassword).then(function() {
         // Update successful.
@@ -150,7 +152,7 @@ function updatePassword(newPassword){
     });
 }
 function updateEmail(newEmail){
-    var user = firebase.auth().currentUser;
+    var user = auth.currentUser;
     user.updateEmail(newEmail).then(function() {
         // Update successful.
     }, function(error) {
@@ -158,7 +160,7 @@ function updateEmail(newEmail){
     });
 }
 function getUserProfile(){
-    var usr = firebase.auth().currentUser;
+    var usr = auth.currentUser;
     if (usr != null) {
         var ref = firebase.database().ref('/users/' + usr.uid);
         ref.on("value", function(snapshot) {
@@ -173,7 +175,7 @@ function getUserProfile(){
     }
 }
 function getSettings(){
-    var usr = firebase.auth().currentUser;
+    var usr = auth.currentUser;
     if (usr != null) {
         var ref = firebase.database().ref('/settings/' + usr.uid);
         ref.on("value", function (snapshot) {
@@ -186,7 +188,7 @@ function getSettings(){
     }
 }
 function setSettings(settings){
-    var usr = firebase.auth().currentUser;
+    var usr = auth.currentUser;
     firebase.database().ref('settings/' + usr.uid).set(settings);
 }
 
@@ -195,7 +197,7 @@ function setSettings(settings){
  */
 function sendEmailVerification() {
     // [START sendemailverification]
-    var usr = firebase.auth().currentUser;
+    var usr = auth.currentUser;
     usr.sendEmailVerification().then(function() {
         // Email Verification sent!
         // [START_EXCLUDE]
@@ -207,7 +209,7 @@ function sendEmailVerification() {
 function sendPasswordReset() {
     var email = document.getElementById('email').value;
     // [START sendpasswordemail]
-    firebase.auth().sendPasswordResetEmail(email).then(function() {
+    auth.sendPasswordResetEmail(email).then(function() {
         // Password Reset Email Sent!
         // [START_EXCLUDE]
         alert('Password Reset Email Sent!');
@@ -226,4 +228,28 @@ function sendPasswordReset() {
         // [END_EXCLUDE]
     });
     // [END sendpasswordemail];
+}
+
+function handleAvatarUpload(file,metadata) {
+    // Push to child path.
+    // [START oncomplete]
+    storageRef.child('img/avatars/' + file.name).put(file, metadata).then(function(snapshot) {
+        //console.log('Uploaded', snapshot.totalBytes, 'bytes.');
+        //console.log(snapshot.metadata);
+        var url = snapshot.metadata.downloadURLs[0];
+        console.log('File available at', url);
+        var usr = auth.currentUser;
+        if (usr != null) {
+            usr.updateProfile({
+                displayName: usr.displayName,
+                photoURL: url
+            });
+        }
+        App.Profile.setAvatar(url);
+    }).catch(function(error) {
+        // [START onfailure]
+        console.error('Upload failed:', error);
+        // [END onfailure]
+    });
+    // [END oncomplete]
 }

@@ -18,6 +18,8 @@
   "homepage": "https://github.com/jensdwul1/jensdwul1.github.io#readme",
   "dependencies": {
     "font-awesome": "^4.7.0",
+    "handlebars": "^4.0.6",
+    "lodash": "^4.17.2",
     "mappy-breakpoints": "^0.2.3",
     "toastr": "^2.1.2"
   }

@@ -33,6 +33,7 @@ kramdown:
 sass:
   style: compressed
 exclude:
+  - node_modules
   - Gemfile
   - LICENSE
   - README.md

@@ -150,6 +150,15 @@
             </div>
             <div class="row flex-child">
                 <form id="frm-profile" class="flex row wrap">
+
+                    <div class="btn round overlay-link btn-center editToggle">
+                        <i class="fa fa-pencil"></i>
+                        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+                    </div>
+                    <div class="flex-child justified-c group flex padded-bottom-xl">
+                        <input class="input visually-hidden" type="file" id="profile_avatar" name="profile_avatar">
+                        <img id="profile_avatar_img" src="/assets/img/avatars/default.png" class="avatar large"/>
+                    </div>
                     <div class="flex-child justified-c group half">
                         <input class="input used" type="text" id="profile_firstName" name="profile_firstName" disabled>
                         <span class="highlight"></span><span class="bar"></span>
@@ -170,7 +179,7 @@
                         <span class="highlight"></span><span class="bar"></span>
                         <label class="label">Username</label>
                     </div>
-                    <button class="btn round overlay-link btn-center hidden">
+                    <button class="btn round overlay-link btn-center hidden profile-submit">
                         <i class="fa fa-save"></i>
                         <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
                     </button>

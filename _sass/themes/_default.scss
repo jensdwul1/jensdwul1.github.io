@@ -36,10 +36,15 @@ body.navigation-open {
     -webkit-transition: -webkit-transform 0.3s ease, opacity 0.3s ease;
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
-
+  .editToggle {
+    position: absolute;
+    right:10px;
+    top:10px;
+  }
 }
 
 .panel {
+  position: relative;
   margin: 4em auto;
   padding: 3em 2em 2em 2em;
   background: #fafafa;
@@ -55,5 +60,23 @@ body.navigation-open {
   &.half {
     width:50%;
     padding: 0 5px;
+  }
+}
+
+.avatar {
+  border-radius: 25%;
+  height: 100px;
+  width:100px;
+  &.large {
+    height:200px;
+    width:200px;
+  }
+  &.small {
+    height: 50px;
+    width: 50px;
+  }
+  &.editable {
+    cursor:pointer;
+    border: $primary solid 4px;
   }
 }

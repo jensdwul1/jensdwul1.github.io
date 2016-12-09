@@ -54,7 +54,7 @@ ready(function(){
             this._unitTesting = false; // Unit Testing the features in ApplicationDbContext or not
             this._widthHandlebarsAndLoDash = true; // Use Handlebars Template Engine And LoDash or Not
 
-
+            this._initialLoad = true;
 
             this._frmLogin = document.querySelector('#frm-login'); // Cache Form Login
             this._frmRegister = document.querySelector('#frm-register'); // Cache Form Register
@@ -85,9 +85,12 @@ ready(function(){
                     App.Navigation.updateNavigation(true);
                     App.Overlay.toggle('login','close');
                     App.Overlay.toggle('register','close');
+                    //console.log("Is this initial load?",self._initialLoad);
+                    if(self._initialLoad === false){
+                        toastr.options.timeOut = 5000;
+                        toastr.success('You have logged in.');
 
-                    toastr.options.timeOut = 5000;
-                    toastr.success('You have logged in.');
+                    }
                     App.Settings.init();
 
                 } else {
@@ -98,7 +101,9 @@ ready(function(){
                 }
 
             });
-
+            setTimeout(function(){
+                this._initialLoad = false;
+            },500);
         },
 
         "registerEventListeners": function() {
@@ -204,6 +209,7 @@ ready(function(){
                             firstName: firstName,
                             lastName:lastName,
                             username:username,
+                            score:App._profile.score,
                         };
                         updateUserProfile(profile);
                     } else {
@@ -223,22 +229,63 @@ ready(function(){
 
         },
         'Profile':{
+            "state":"view",
             "init":function(){
                 //console.log('Profile: ',App._profile);
                 for(var propertyName in App._profile) {
                     //console.log('Property Profile: ',propertyName);
-                    document.querySelector('#frm-profile #profile_firstName')
+                    document.querySelector('#frm-profile #profile_avatar_img').src = App._user.photoURL;
+
                     document.querySelector('#frm-profile #profile_firstName').value = App._profile.firstName;
                     document.querySelector('#frm-profile #profile_lastName').value = App._profile.lastName;
                     document.querySelector('#frm-profile #profile_username').value = App._user.displayName;
                     document.querySelector('#frm-profile #profile_email').value = App._user.email;
                 }
+                App.Profile.registerEventListeners();
             },
             "registerEventListeners": function() {
-
+                document.querySelector('#frm-profile #profile_avatar').addEventListener('change', App.Profile.handleFileSelect, false);
+                document.querySelector('#frm-profile .editToggle').addEventListener('click', App.Profile.toggleView, false);
+                document.querySelector('#frm-profile .profile-submit').addEventListener('click', App.Profile.toggleView, false);
+                document.querySelector('#frm-profile #profile_avatar_img').addEventListener('click', function(){
+                    if(App.Profile.state == "edit"){
+                        document.querySelector('#frm-profile #profile_avatar').click();
+                    }
+                }, false);
+            },
+            "setAvatar":function(url){
+                document.querySelector('#frm-profile #profile_avatar').src = url;
+            },
+            "handleFileSelect":function(evt){
+                evt.stopPropagation();
+                evt.preventDefault();
+                var file = evt.target.files[0];
+                var metadata = {
+                    'contentType': file.type
+                };
+                handleAvatarUpload(file,metadata);
             },
             "toggleView":function(){
+                if(App.Profile.state === "view"){
+                    document.querySelector('#frm-profile .editToggle').classList.add('hidden');
+                    document.querySelector('#frm-profile #profile_avatar_img').classList.add('editable');
+                    document.querySelector('#frm-profile .profile-submit').classList.remove('hidden');
+                    document.querySelector('#frm-profile #profile_firstName').disabled = false;
+                    document.querySelector('#frm-profile #profile_lastName').disabled = false
+                    document.querySelector('#frm-profile #profile_username').disabled = false
+                    document.querySelector('#frm-profile #profile_email').disabled = false;
 
+                    App.Profile.state = "edit";
+                } else if(App.Profile.state === "edit"){
+                    document.querySelector('#frm-profile .editToggle').classList.remove('hidden');
+                    document.querySelector('#frm-profile #profile_avatar_img').classList.remove('editable');
+                    document.querySelector('#frm-profile .profile-submit').classList.add('hidden');
+                    document.querySelector('#frm-profile #profile_firstName').disabled = true;
+                    document.querySelector('#frm-profile #profile_lastName').disabled = true
+                    document.querySelector('#frm-profile #profile_username').disabled = true
+                    document.querySelector('#frm-profile #profile_email').disabled = true;
+                    App.Profile.state = "view";
+                }
             },
             "edit":function(){
 
@@ -272,7 +319,7 @@ ready(function(){
                         }, function (error) {
                             console.log("An Error occured while loading your settings: " + error.code);
                             toastr.options.timeOut = 5000;
-                            toastr.error(message,"An error occured while loading your settings. Default settings have been applied.");
+                            toastr.error("An error occured while loading your settings. Default settings have been applied.");
                             for(var propertyName in App.Settings.properties) {
                                 document.querySelector('#frm-settings #setting_'+propertyName).checked = App.Settings.properties[propertyName];
                             }
