@@ -45,6 +45,28 @@ var App = {};
 ready(function(){
 
     App = {
+        "_location":{
+            "_latitude":51.0500363,
+            "_longitude":3.733,
+            "setLocation":function(coords){
+                this._latitude = coords.latitude;
+                this._longitude = coords.longitude;
+            },
+            "getLocation":function(){
+                var coords = getLocation();
+                /*
+                this._latitude = coords.latitude;
+                this._longitude = coords.longitude;
+                */
+            },
+        },
+        "_weather":{
+            "fetchTime": new Date(),
+            "properties":{},
+            "getWeather":function(){
+                var weather = getWeather(App._location);
+            }
+        },
         "init": function() {
             this._isMobile = mobileAndTabletcheck();
             if(this._isMobile){
@@ -52,13 +74,21 @@ ready(function(){
             }
             App.Overlay.init();
             App.Navigation.init();
-
+            App._location.getLocation();
             var self = this;
             this._unitTesting = false; // Unit Testing the features in ApplicationDbContext or not
             this._widthHandlebarsAndLoDash = true; // Use Handlebars Template Engine And LoDash or Not
-
+            this._activityTypes = [];
+            this._locations= {
+                book: [],
+                movie: [],
+                sports: [],
+                frisbee: [],
+                badminton: [],
+                drink: [],
+                tree: []
+            }
             this._initialLoad = true;
-            this.
             this._frmLogin = document.querySelector('#frm-login'); // Cache Form Login
             this._frmRegister = document.querySelector('#frm-register'); // Cache Form Register
             this._frmProfile = document.querySelector('#frm-profile'); // Cache Form Profile
@@ -360,6 +390,10 @@ ready(function(){
                         document.querySelector('#frm-settings #setting_'+propertyName).checked = App.Settings.properties[propertyName];
                     }
                 }
+
+                if(App.Settings.properties.weather){
+                    App._weather.getWeather();
+                }
                 App.Settings.registerEventListeners();
 
             },
@@ -386,7 +420,7 @@ ready(function(){
                 var overlays = document.querySelectorAll('.overlay');
                 if(overlays != null && overlays.length > 0) {
                     var overlay = null;
-                    for(var i=0;i<overlays.length;i++) {
+                    for(var i=0;i<overlays.length;++i) {
                         overlay = overlays[i];
                         var entry = {
                             id:overlay.dataset.id,
@@ -485,7 +519,7 @@ ready(function(){
                     App.Navigation.close();
                 });
                 var navLinks = document.querySelectorAll(".navigation a");
-                for(var i=0;i<navLinks.length;i++) {
+                for(var i=0;i<navLinks.length;++i) {
                     var link = navLinks[i];
                     link.addEventListener('click', function() {
                         //console.log('Closing Menu');
@@ -500,7 +534,7 @@ ready(function(){
             },
             "updateNavigation":function(state){
                 var navLinks = document.querySelectorAll('.navigation a');
-                for(var i=0;i<navLinks.length;i++) {
+                for(var i=0;i<navLinks.length;++i) {
                     var link = navLinks[i];
                     link.classList.remove('hidden');
                     if(link.dataset.user === "anonymous"){

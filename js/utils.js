@@ -11,7 +11,7 @@ var Utils = {
     getJSONByPromise: function(url) {
         return new Promise(function(resolve, reject) {
             var xhr = new XMLHttpRequest();
-            xhr.open('get', this.API_URL, true);
+            xhr.open('get', url, true);
             xhr.responseType = 'json';
             xhr.onload = function() {
                 if(xhr.status == 200) {
@@ -28,9 +28,7 @@ var Utils = {
         });
     },
     getJSONPByPromise: function(url) {
-        
-        url = url + '_' + new Date().getTime() + '_' + Math.round(new Date().getTime()/(Math.random()*10));
-        
+
         var script = document.createElement('script');
         script.src = url;
         
