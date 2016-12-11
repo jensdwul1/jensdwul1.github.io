@@ -7,7 +7,7 @@ title   : "Discover more..."
     <div class="row flex centered justified-c flex-child stretch">
         <button class="btn round app-button xl"></button>
     </div>
-    <div class="settings flex centered justified-c">
+    <div class="settings btn-settings flex centered justified-c">
         <button class="btn round overlay-link" data-target="settings">
         <i class="fa fa-cog"></i>
         <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>

@@ -256,3 +256,64 @@ function handleAvatarUpload(file,metadata) {
     });
     // [END oncomplete]
 }
+
+function seedActivities(){
+    var activityTypesData = {
+        0:{
+            name: "Rent a book",
+        },
+        1:{
+            name: "See a movie",
+        },
+        2:{
+            name: "Do some sportsball",
+        },
+        3:{
+            name: "It's time to play extreme frizbee",
+        },
+        4:{
+            name: "Play some badminton",
+        },
+    };
+
+    updates['/activitytypes'] = activityTypesData;
+
+    return firebase.database().ref().update(updates);
+
+}
+function getLocation(){
+
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+
+    function success(pos) {
+        var crd = pos.coords;
+        console.log('Your current position is:');
+        console.log('Latitude : ' + crd.latitude);
+        console.log('Longitude: ' + crd.longitude);
+        console.log('More or less ' + crd.accuracy + ' meters.');
+    };
+    function error(err) {
+        toastr.options.timeOut = 5000;
+        toastr.error('ERROR(' + err.code + '): ' + err.message);
+    };
+
+    if (navigator.geolocation) {
+        return navigator.geolocation.getCurrentPosition(success, error, options);
+
+    } else {
+        toastr.options.timeOut = 5000;
+        toastr.error("Geolocation is not supported by this browser.");
+    }
+
+
+}
+function getWeather(location){
+
+}
+
+/* DATASETS */
+//DATA: Bibliotheek

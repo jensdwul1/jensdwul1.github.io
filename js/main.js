@@ -46,7 +46,10 @@ ready(function(){
 
     App = {
         "init": function() {
-
+            this._isMobile = mobileAndTabletcheck();
+            if(this._isMobile){
+                document.querySelector('body').classList.add('isMobile');
+            }
             App.Overlay.init();
             App.Navigation.init();
 
@@ -55,7 +58,7 @@ ready(function(){
             this._widthHandlebarsAndLoDash = true; // Use Handlebars Template Engine And LoDash or Not
 
             this._initialLoad = true;
-
+            this.
             this._frmLogin = document.querySelector('#frm-login'); // Cache Form Login
             this._frmRegister = document.querySelector('#frm-register'); // Cache Form Register
             this._frmProfile = document.querySelector('#frm-profile'); // Cache Form Profile
@@ -97,6 +100,7 @@ ready(function(){
                 } else {
                     // User is signed out.
                     self._user = null;
+                    self._profile = null;
                     App.Navigation.updateNavigation(false);
                     App.Settings.init();
                 }
@@ -498,7 +502,7 @@ ready(function(){
                 var navLinks = document.querySelectorAll('.navigation a');
                 for(var i=0;i<navLinks.length;i++) {
                     var link = navLinks[i];
-                    link.className = link.className.replace(new RegExp('(?:^|\\s)'+ 'hidden' + '(?:\\s|$)'), ' ');
+                    link.classList.remove('hidden');
                     if(link.dataset.user === "anonymous"){
                         if(state){
                             link.className += " hidden";
@@ -528,16 +532,16 @@ ready(function(){
             'open':function(){
                 App.Navigation.object.dataset.state = "true";
                 App.Navigation.state = "true";
-                App.Navigation.object.className += " active";
-                App.Navigation.toggler.className += " active";
-                document.querySelector('body').className += " navigation-open";
+                App.Navigation.object.classList.add('active');
+                App.Navigation.toggler.classList.add('active');
+                document.querySelector('.wrapper').classList.add('navigation-open');
             },
             'close':function(){
                 App.Navigation.object.dataset.state = "false";
                 App.Navigation.state = "false";
-                App.Navigation.object.className = App.Navigation.object.className.replace(new RegExp('(?:^|\\s)'+ 'active' + '(?:\\s|$)'), ' ');
-                App.Navigation.toggler.className = App.Navigation.toggler.className.replace(new RegExp('(?:^|\\s)'+ 'active' + '(?:\\s|$)'), ' ');
-                document.querySelector('body').className = document.querySelector('body').className.replace(new RegExp('(?:^|\\s)'+ 'navigation-open' + '(?:\\s|$)'), ' ');;
+                App.Navigation.object.classList.remove('active');
+                App.Navigation.toggler.classList.remove('active');
+                document.querySelector('.wrapper').classList.remove('navigation-open');
             }
         }
     };

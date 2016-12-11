@@ -2,19 +2,26 @@
 // When having several themes, this file contains everything related to the
 // default one.
 // -----------------------------------------------------------------------------
+html, body {
+  overflow: hidden;
+  height:100%;
+}
 
-body {
-  overflow-x: hidden;
+
+.wrapper {
+  height:100%;
   position: relative;
   left:0;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   transition: all 0.3s ease;
+  overflow-x: hidden;
 }
 
-body.navigation-open {
+.navigation-open {
   left: 240px;
 }
+
 
 .overlay {
   position: absolute;
@@ -50,6 +57,13 @@ body.navigation-open {
   background: #fafafa;
   border: 1px solid #ebebeb;
   box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
+  max-width: 100%;
+
+  @media (max-width: $sm){
+    margin: 1em auto;
+    padding: 1em;
+
+  }
 
 }
 
@@ -70,6 +84,10 @@ body.navigation-open {
   &.large {
     height:200px;
     width:200px;
+    @media (max-width: $sm){
+      width: 100px;
+      height: 100px;
+    }
   }
   &.small {
     height: 50px;
