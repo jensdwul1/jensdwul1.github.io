@@ -388,6 +388,7 @@ function getWeather(location){
 }
 function getDoekeewa(){
     App._processing.value = true;
+    App._processing.animating = true;
     App._processing.step = 1;
     App._processing.animate(App._processing.step);
     getRandomActivityType();

@@ -98,3 +98,25 @@ html, body {
     border: $primary solid 4px;
   }
 }
+.byline{
+  position: absolute;
+  color: white;
+  background: tint($primary,30);
+  bottom: 140px;
+  border-radius: 4px;
+  border: $primary solid 1px;
+  opacity: 0;
+  visibility: hidden;
+
+  -webkit-transition: -webkit-transform 0.3s 0.3s ease, opacity 0.3s ease, padding 0.3s ease, width 0.3s ease;
+  transition: transform 0.3s 0.3s ease, opacity 0.3s ease, padding 0.3s ease, width 0.3s ease;
+
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+    padding: 5px;
+    width: 200px;
+    -webkit-transition: -webkit-transform 0.3s 0s ease, opacity 0.3s ease, padding 0.3s ease, width 0.3s ease;
+    transition: transform 0.3s 0s ease, opacity 0.3s ease, padding 0.3s ease, width 0.3s ease;
+  }
+}

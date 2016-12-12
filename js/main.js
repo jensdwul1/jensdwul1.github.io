@@ -52,6 +52,15 @@ ready(function(){
             "quotes":["Fetching your position","Spinning the button","Checking if the city still exists","Asking google nicely for a map","They said no","Threatening google with a knife for a map","Serving map"],
             "animate":function(step){
                 App._doekeewaButton.classList.add('doekeewa-animate-'+step);
+                if(step > 0){
+                    App._doekeewaByline.classList.add('visible');
+                } else {
+                    App._doekeewaByline.classList.remove('visible');
+                }
+            },
+            "setQuotes":function(){
+                var quote = this._processing.quotes[Math.floor(Math.random()*this._processing.quotes.length)];
+                //App._doekeewaByline.
             }
         },
         "_location":{
@@ -160,6 +169,7 @@ ready(function(){
             // Event Listeners for the Core
             this._doekeewaButton = document.querySelector('.app-button');
             this._doekeewaButton.addEventListener('click', getDoekeewa, false);
+            this._doekeewaByline = document.querySelector('.app-byline');
 
             // Register all other forms
             this.registerForms();
