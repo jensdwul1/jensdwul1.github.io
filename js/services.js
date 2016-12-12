@@ -653,6 +653,7 @@ function calculateClosest(userLocation,activityLocations){
 
     // echo the nearest activityLocation
     console.log(activityLocations[closest]);
+    App._processing.properties.currentCoords = activityLocations[closest];
     return activityLocations[closest];
 }
 

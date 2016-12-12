@@ -2,14 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aa2bb6fc-95ce-48d9-a43f-80017122411e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_sass/abstracts/_variables.scss" afterPath="$PROJECT_DIR$/_sass/abstracts/_variables.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_sass/base/_animations.scss" afterPath="$PROJECT_DIR$/_sass/base/_animations.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_sass/base/_core.scss" afterPath="$PROJECT_DIR$/_sass/base/_core.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_sass/base/_fonts.scss" afterPath="$PROJECT_DIR$/_sass/base/_fonts.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_sass/base/_typography.scss" afterPath="$PROJECT_DIR$/_sass/base/_typography.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_sass/components/_button.scss" afterPath="$PROJECT_DIR$/_sass/components/_button.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_sass/themes/_default.scss" afterPath="$PROJECT_DIR$/_sass/themes/_default.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.md" afterPath="$PROJECT_DIR$/index.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/main.js" afterPath="$PROJECT_DIR$/js/main.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/services.js" afterPath="$PROJECT_DIR$/js/services.js" />
@@ -33,21 +25,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="297" column="20" selection-start-line="297" selection-start-column="20" selection-end-line="297" selection-end-column="20" />
+            <state relative-caret-position="272">
+              <caret line="318" column="26" selection-start-line="318" selection-start-column="26" selection-end-line="318" selection-end-column="26" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="services.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="services.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/services.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="323" column="47" selection-start-line="323" selection-start-column="47" selection-end-line="323" selection-end-column="47" />
+            <state relative-caret-position="424">
+              <caret line="655" column="74" selection-start-line="655" selection-start-column="74" selection-end-line="655" selection-end-column="74" />
               <folding>
                 <element signature="n#!!block;n#getBookLocations#0" expanded="false" />
                 <element signature="n#!!block;n#getMovieLocations#0" expanded="false" />
@@ -64,8 +56,8 @@
         <entry file="file://$PROJECT_DIR$/index.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="FIRST">
-              <first_editor relative-caret-position="306">
-                <caret line="18" column="44" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
+              <first_editor relative-caret-position="646">
+                <caret line="38" column="44" selection-start-line="38" selection-start-column="44" selection-end-line="38" selection-end-column="44" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -88,7 +80,7 @@
       <file leaf-file-name="_variables.scss" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/_sass/abstracts/_variables.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
+            <state relative-caret-position="17">
               <caret line="10" column="26" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="26" />
               <folding />
             </state>
@@ -252,10 +244,10 @@
         <option value="$PROJECT_DIR$/_sass/base/_fonts.scss" />
         <option value="$PROJECT_DIR$/_sass/base/_typography.scss" />
         <option value="$PROJECT_DIR$/_sass/base/_core.scss" />
-        <option value="$PROJECT_DIR$/index.md" />
         <option value="$PROJECT_DIR$/_sass/themes/_default.scss" />
-        <option value="$PROJECT_DIR$/js/services.js" />
+        <option value="$PROJECT_DIR$/index.md" />
         <option value="$PROJECT_DIR$/js/main.js" />
+        <option value="$PROJECT_DIR$/js/services.js" />
       </list>
     </option>
   </component>
@@ -802,12 +794,12 @@
       <workItem from="1481529256181" duration="11837000" />
       <workItem from="1481552749471" duration="4207000" />
       <workItem from="1481562050194" duration="8733000" />
-      <workItem from="1481574260131" duration="3524000" />
+      <workItem from="1481574260131" duration="4473000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="165478000" />
+    <option name="totallyTimeSpent" value="166427000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -1158,14 +1150,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_sass/abstracts/_variables.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="26" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_sass/base/_core.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
@@ -1182,17 +1166,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="306">
-            <caret line="18" column="44" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_sass/themes/_default.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="512">
@@ -1203,10 +1176,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/_sass/abstracts/_variables.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="10" column="26" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="646">
+            <caret line="38" column="44" selection-start-line="38" selection-start-column="44" selection-end-line="38" selection-end-column="44" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="318" column="26" selection-start-line="318" selection-start-column="26" selection-end-line="318" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/services.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="323" column="47" selection-start-line="323" selection-start-column="47" selection-end-line="323" selection-end-column="47" />
+        <state relative-caret-position="424">
+          <caret line="655" column="74" selection-start-line="655" selection-start-column="74" selection-end-line="655" selection-end-column="74" />
           <folding>
             <element signature="n#!!block;n#getBookLocations#0" expanded="false" />
             <element signature="n#!!block;n#getMovieLocations#0" expanded="false" />
@@ -1215,14 +1215,6 @@
             <element signature="n#!!block;n#getBadmintonLocations#0" expanded="false" />
             <element signature="n#!!block;n#getDrinkLocations#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="297" column="20" selection-start-line="297" selection-start-column="20" selection-end-line="297" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>

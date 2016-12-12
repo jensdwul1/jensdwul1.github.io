@@ -37,7 +37,6 @@ title   : "Discover more..."
             </div>
         </div>
         <div class="map flex-child stretch">
-        
         </div>
     </div>
 </div>
