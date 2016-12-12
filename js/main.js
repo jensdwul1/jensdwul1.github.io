@@ -45,6 +45,11 @@ var App = {};
 ready(function(){
 
     App = {
+        "_processing":{
+            "value":false,
+            "animating":false,
+            "quotes":["Fetching your position","C"]
+        },
         "_location":{
             "_latitude":51.0500363,
             "_longitude":3.733,
@@ -101,7 +106,7 @@ ready(function(){
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
                     self._user = user;
-                    self._profile = getUserProfile();
+                    self.isAnon = user.isAnonymous;
                     // User is signed in.
                     /*
                     self._displayName = user.displayName;
@@ -115,21 +120,26 @@ ready(function(){
                     if (!self._emailVerified) {
 
                     }
+                    if(!user.isAnonymous){
+                        self._profile = getUserProfile();
+                        App.Navigation.updateNavigation(true);
+                        App.Overlay.toggle('login','close');
+                        App.Overlay.toggle('register','close');
+                        //console.log("Is this initial load?",self._initialLoad);
+                        if(self._initialLoad === false){
+                            toastr.options.timeOut = 5000;
+                            toastr.success('You have logged in.');
 
-                    App.Navigation.updateNavigation(true);
-                    App.Overlay.toggle('login','close');
-                    App.Overlay.toggle('register','close');
-                    //console.log("Is this initial load?",self._initialLoad);
-                    if(self._initialLoad === false){
-                        toastr.options.timeOut = 5000;
-                        toastr.success('You have logged in.');
-
+                        }
+                    } else {
+                        // User is signed out.
+                        self._profile = null;
+                        App.Navigation.updateNavigation(false);
                     }
                     App.Settings.init();
 
                 } else {
                     // User is signed out.
-                    self._user = null;
                     self._profile = null;
                     App.Navigation.updateNavigation(false);
                     App.Settings.init();
@@ -137,8 +147,8 @@ ready(function(){
 
             });
             setTimeout(function(){
-                this._initialLoad = false;
-            },500);
+                self._initialLoad = false;
+            },1000);
         },
 
         "registerEventListeners": function() {
@@ -163,7 +173,7 @@ ready(function(){
                             password: passWord,
                             email:email
                         };
-                        toggleSignIn(login);
+                        signIn(login);
                     } else {
                         var message = prepErrors(errorMessages);
                         toastr.options.timeOut = 5000 * errorMessages.length;
@@ -358,7 +368,7 @@ ready(function(){
                 "outdoor": true,
             },
             "init": function (settings) {
-                if(App._user) {
+                if(App._user && App._user.isAnon === false) {
 
                         var settings = App.Settings.properties;
 
@@ -401,16 +411,18 @@ ready(function(){
                 var settingInputs = document.querySelectorAll('#frm-settings input[type="checkbox"]');
                 for(var i=0;i<settingInputs.length;i++) {
                     var settingInput = settingInputs[i];
-                    settingInput.addEventListener('click', function() {
-                        var self = this;
-                        //console.log('Setting '+self.id+' Changed:',self.checked);
-                        var propertyName = self.id.replace('setting_','');
-                        App.Settings.properties[propertyName] = self.checked;
-                        //console.log('Settings saving',App.Settings.properties);
-                        if(App._user) {
-                            setSettings(App.Settings.properties);
-                        }
-                    });
+                    settingInput.removeEventListener("click", ClickHandler);
+                    settingInput.addEventListener('click', ClickHandler);
+                }
+                function ClickHandler(){
+                    var self = this;
+                    //console.log('Setting '+self.id+' Changed:',self.checked);
+                    var propertyName = self.id.replace('setting_','');
+                    App.Settings.properties[propertyName] = self.checked;
+                    //console.log('Settings saving',App.Settings.properties);
+                    if(App._user) {
+                        setSettings(App.Settings.properties);
+                    }
                 }
             }
         },
@@ -528,7 +540,7 @@ ready(function(){
                 }
                 var logout = document.querySelector('.logout');
                 logout.addEventListener('click', function() {
-                    toggleSignIn();
+                    logOut();
                 });
 
             },

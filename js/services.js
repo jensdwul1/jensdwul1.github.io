@@ -13,7 +13,7 @@ var auth = firebase.auth();
 /**
  * Handles the sign in button press.
  */
-function toggleSignIn(login) {
+function logOut() {
     if (auth.currentUser) {
         // [START signout]
         auth.signOut();
@@ -21,36 +21,48 @@ function toggleSignIn(login) {
 
         toastr.options.timeOut = 5000;
         toastr.warning('You have logged out.');
-    } else {
-        // Sign in with email and pass.
-        // [START authwithemail]
-        auth.signInWithEmailAndPassword(login.email, login.password).catch(function(error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
 
-            switch(errorCode){
-                case "auth/wrong-password":
-                    alert('The entered password is wrong.');
-                    break;
-                case "auth/invalid-email":
-                    alert("This email is not valid.");
-                    break;
-                case "auth/user-disabled":
-                    alert("You've been banned. Impressive.");
-                    break;
-                case "auth/user-not-found":
-                    alert('This email is not registered.');
-                    break;
-                default:
-                    alert(errorMessage);
-                    break;
-
-            }
-            console.log(error);
-            // [END_EXCLUDE]
-        });
+        //Log in with anon
+        signInAnonymous();
     }
+}
+function signIn(login){
+    // Sign in with email and pass.
+    // [START authwithemail]
+    auth.signInWithEmailAndPassword(login.email, login.password).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+
+        switch(errorCode){
+            case "auth/wrong-password":
+                alert('The entered password is wrong.');
+                break;
+            case "auth/invalid-email":
+                alert("This email is not valid.");
+                break;
+            case "auth/user-disabled":
+                alert("You've been banned. Impressive.");
+                break;
+            case "auth/user-not-found":
+                alert('This email is not registered.');
+                break;
+            default:
+                alert(errorMessage);
+                break;
+
+        }
+        console.log(error);
+        // [END_EXCLUDE]
+    });
+}
+function signInAnonymous(){
+    firebase.auth().signInAnonymously().catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+    });
+    console.log("Anonymously Authenticated");
 }
 /**
  * Handles the sign up button press.
@@ -263,44 +275,50 @@ function seedActivityTypes(){
         0:{
             id:i++,
             name: "Rent a book",
+            type:"indoor",
+            neutralWeather:"1",
             goodWeather:"1",
             badWeather:"2"
         },
         1:{
             id:i++,
             name: "See a movie",
+            type:"indoor",
+            neutralWeather:"1",
             goodWeather:"1",
             badWeather:"2"
         },
         2:{
             id:i++,
             name: "Do some sportsball",
+            type:"indoor",
+            neutralWeather:"1",
             goodWeather:"1",
             badWeather:"1"
         },
         3:{
             id:i++,
             name: "It's time to play extreme frisbee",
+            type:"outdoor",
+            neutralWeather:"1",
             goodWeather:"1",
             badWeather:"0"
         },
         4:{
             id:i++,
             name: "Play some badminton",
+            type:"outdoor",
+            neutralWeather:"1",
             goodWeather:"1",
             badWeather:"1"
         },
         5:{
             id:i++,
             name: "Get a drink",
+            type:"indoor",
+            neutralWeather:"1",
             goodWeather:"1",
             badWeather:"1"
-        },
-        6:{
-            id:i++,
-            name: "Hug a tree",
-            goodWeather:"2",
-            badWeather:"0"
         },
     };
     firebase.database().ref('activitytypes').set(activityTypesData);
@@ -357,6 +375,9 @@ function getWeather(location){
             App._weather.properties = that.results;
             App._weather.fetchTime = new Date();
             App._weather.state = ((App._weather.properties.main.humidity > 50)?"bad":"good");
+            if(App._weather.properties.main.humidity >= 30 && App._weather.properties.main.humidity <= 60){
+                App._weather.state = "neutral";
+            }
             //console.log('Weather be like',that.results);
             return that.results ;
         },
@@ -366,88 +387,264 @@ function getWeather(location){
     );
 }
 function getDoekeewa(){
-    var activityType = getRandomActivityType();
-    var actitivity = getActivity(activityType);
-
+    getRandomActivityType();
 }
 function getRandomActivityType(){
     var date = new Date();
     date = Date.now();
     var last = App._weather.properties.dt; // or a previous millisecond timestamp
     var activityTypesArray = [];
-    if ( ( date - last ) > ( 10 * 60 * 1000 ) ) {
-        // If the weather time is less than ten minutes proceed with getting activitytypes
-        if(App._activityTypes.length > 0){
-            for(var i=0;i<App._activityTypes.length;) {
-                for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
-                        activityTypesArray.push(App._activityTypes[i].id);
-                }
-                i++;
-            }
-            console.log('ActivityTypeArray',activityTypesArray);
-            var activityType = activityTypesArray[Math.floor(Math.random()*activityTypesArray.length)];
-            return activityType;
-        } else {
-            firebase.database().ref('/activitytypes').once('value').then(function(snapshot) {
-                //console.log('These are the activityTypes', snapshot.val());
-                App._activityTypes = snapshot.val();
-                getRandomActivityType();
-            });
-        }
 
-    } else {
-        getWeather(App._location), getRandomActivityType();
-    }
+    firebase.database().ref('/activitytypes').once('value').then(function(snapshot) {
+        //console.log('These are the activityTypes', snapshot.val());
+        App._activityTypes = snapshot.val();
+        if(App.Settings.properties.weather){
+            if ( ( date - last ) > ( 10 * 60 * 1000 ) ) {
+                for(var i=0;i<App._activityTypes.length;) {
+                    if(App.Settings.properties.indoor && App.Settings.properties.outdoor){
+                        for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
+                            activityTypesArray.push(App._activityTypes[i].id);
+                        }
+                    } else if(App.Settings.properties.indoor){
+                        for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
+                            if(App._activityTypes[i].type == 'indoor'){
+                                activityTypesArray.push(App._activityTypes[i].id);
+                            }
+                        }
+                    } else if(App.Settings.properties.outdoor){
+                        for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
+                            if(App._activityTypes[i].type == 'outdoor'){
+                                activityTypesArray.push(App._activityTypes[i].id);
+                            }
+                        }
+                    } else {
+                        for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
+                            activityTypesArray.push(App._activityTypes[i].id);
+                        }
+                    }
+                    i++;
+                }
+                var activityType = activityTypesArray[Math.floor(Math.random()*activityTypesArray.length)];
+                getActivity(activityType);
+            } else {
+                getWeather(App._location), getRandomActivityType();
+            }
+        } else {
+            for(var i=0;i<App._activityTypes.length;i++) {
+                if(App.Settings.properties.indoor && App.Settings.properties.outdoor) {
+                    activityTypesArray.push(App._activityTypes[i].id);
+                } else if(App.Settings.properties.indoor && App._activityTypes[i].type == "indoor"){
+                    activityTypesArray.push(App._activityTypes[i].id);
+                } else if(App.Settings.properties.outdoor && App._activityTypes[i].type == "outdoor"){
+                    activityTypesArray.push(App._activityTypes[i].id);
+                } else {
+                    activityTypesArray.push(App._activityTypes[i].id);
+                }
+            }
+            var activityType = activityTypesArray[Math.floor(Math.random()*activityTypesArray.length)];
+            getActivity(activityType);
+        }
+    });
+
 }
 
+var fetched = false;
+var attempts = 0;
 function getActivity(type){
     switch(type){
         case 0://Book
+            console.log("Activity Type: Book");
             if(App._locations.book.length > 0){
-                var mindif = 99999;
-                var closest;
-
-                for (var i = 0; i < App._locations.book.length; ++i) {
-                    var dif = PythagorasEquirectangular(App._location._latitude, App._location._longitude, App._locations.book[i][1], App._locations.book[i][2]);
-                    if (dif < mindif) {
-                        closest = i;
-                        mindif = dif;
+                //console.log("Prep for Closest Calculation",App._locations.book);
+                var userLocation = {latitude: App._location._latitude,longitude: App._location._longitude};
+                var destination = calculateClosest(userLocation,App._locations.book);
+                setTimeout(function(){
+                    mapRoute(destination);
+                },1000);
+            } else {
+                if(fetched === false){
+                    fetched = true;
+                    getBookLocations();
+                    getActivity(type);
+                } else {
+                    if(attempts < 10){
+                        console.log("Try again after 1000ms");
+                        ++attempts;
+                        setTimeout(function(){
+                            getActivity(type);
+                        },1000);
+                    } else {
+                        console.log('We have failed my lord.')
                     }
                 }
-
-                // echo the nearest city
-                console.log(App._locations.book[closest]);
-            } else {
-                var locations = getBookLocations();
-                getActivity(0);
             }
             break;
         case 1://Movie
+            console.log("Activity Type: Movie");
+            if(App._locations.movie.length > 0){
+                //console.log("Prep for Closest Calculation",App._locations.movie);
+                var userLocation = {latitude: App._location._latitude,longitude: App._location._longitude};
+                var destination = calculateClosest(userLocation,App._locations.movie);
+                setTimeout(function(){
+                    mapRoute(destination);
+                },1000);
+            } else {
+                if(fetched === false){
+                    fetched = true;
+                    getMovieLocations();
+                    getActivity(type);
+                } else {
+                    if(attempts < 10){
+                        console.log("Try again after 1000ms");
+                        ++attempts;
+                        setTimeout(function(){
+                            getActivity(type);
+                        },1000);
+                    } else {
+                        console.log('We have failed my lord.')
+                    }
+                }
+            }
 
             break;
         case 2://Sports
-
+            console.log("Activity Type: Sports");
+            if(App._locations.sports.length > 0){
+                //console.log("Prep for Closest Calculation",App._locations.sports);
+                var userLocation = {latitude: App._location._latitude,longitude: App._location._longitude};
+                var destination = calculateClosest(userLocation,App._locations.sports);
+                setTimeout(function(){
+                    mapRoute(destination);
+                },1000);
+            } else {
+                if(fetched === false){
+                    fetched = true;
+                    getSportsLocations();
+                    getActivity(type);
+                } else {
+                    if(attempts < 10){
+                        console.log("Try again after 1000ms");
+                        ++attempts;
+                        setTimeout(function(){
+                            getActivity(type);
+                        },1000);
+                    } else {
+                        console.log('We have failed my lord.')
+                    }
+                }
+            }
             break;
         case 3://Frisbee
-
+            console.log("Activity Type: Frisbee");
+            /* DATASET IS BROKEN -- REPORTED @ Pieter Colpaert
+            if(App._locations.frisbee.length > 0){
+                console.log("Prep for Closest Calculation",App._locations.frisbee);
+                var userLocation = {latitude: App._location._latitude,longitude: App._location._longitude};
+                var destination = calculateClosest(userLocation,App._locations.frisbee);
+                setTimeout(function(){
+                    mapRoute(destination);
+                },1000);
+            } else {
+                if(fetched === false){
+                    fetched = true;
+                    getFrisbeeLocations();
+                    getActivity(type);
+                } else {
+                    if(attempts < 10){
+                        console.log("Try again after 1000ms");
+                        ++attempts;
+                        setTimeout(function(){
+                            getActivity(type);
+                        },1000);
+                    } else {
+                        console.log('We have failed my lord.')
+                    }
+                }
+            }
+            */
+            getActivity(4);
             break;
         case 4://Badminton
-
+            console.log("Activity Type: Badminton");
+            if(App._locations.badminton.length > 0){
+                //console.log("Prep for Closest Calculation",App._locations.badminton);
+                var userLocation = {latitude: App._location._latitude,longitude: App._location._longitude};
+                var destination = calculateClosest(userLocation,App._locations.badminton);
+                setTimeout(function(){
+                    mapRoute(destination);
+                },1000);
+            } else {
+                if(fetched === false){
+                    fetched = true;
+                    getBadmintonLocations();
+                    getActivity(type);
+                } else {
+                    if(attempts < 10){
+                        console.log("Try again after 1000ms");
+                        ++attempts;
+                        setTimeout(function(){
+                            getActivity(type);
+                        },1000);
+                    } else {
+                        console.log('We have failed my lord.')
+                    }
+                }
+            }
             break;
         case 5://Get a drink
-
-            break;
-        case 6://Hug a tree
-
-            break;
-        default:
+            console.log("Activity Type: Drink");
+            if(App._locations.drink.length > 0){
+                //console.log("Prep for Closest Calculation",App._locations.drink);
+                var userLocation = {latitude: App._location._latitude,longitude: App._location._longitude};
+                var destination = calculateClosest(userLocation,App._locations.drink);
+                setTimeout(function(){
+                    mapRoute(destination);
+                },1000);
+            } else {
+                if(fetched === false){
+                    fetched = true;
+                    getDrinkLocations();
+                    getActivity(type);
+                } else {
+                    if(attempts < 10){
+                        console.log("Try again after 1000ms");
+                        ++attempts;
+                        setTimeout(function(){
+                            getActivity(type);
+                        },1000);
+                    } else {
+                        console.log('We have failed my lord.')
+                    }
+                }
+            }
             break;
     }
 }
 
+function calculateClosest(userLocation,activityLocations){
+    var mindif = 99999;
+    var closest;
+
+    for (var i = 0; i < activityLocations.length; ++i) {
+        var dif = PythagorasEquirectangular(userLocation.latitude, userLocation.longitude, activityLocations[i][0], activityLocations[i][1]);
+        if (dif < mindif) {
+            closest = i;
+            mindif = dif;
+        }
+    }
+
+    // echo the nearest activityLocation
+    console.log(activityLocations[closest]);
+    return activityLocations[closest];
+}
+
+function mapRoute(destination){
+
+}
+
+
 /* DATASETS */
 //DATA: Bibliotheek
-
 function getBookLocations(){
     this.API_URL_PREFIX = 'https://datatank.stad.gent/4/';
     this.API_URL_SUFFIX = 'cultuursportvrijetijd/bibliotheek.geojson?callback=json_callback';
@@ -460,7 +657,7 @@ function getBookLocations(){
         function(data) {
             that.results = data.coordinates;
             //console.log('Weather be like',that.results);
-            console.log('RESULTS', that.results);
+            //console.log('RESULTS', that.results);
             App._locations.book = that.results;
             return that.results;
         },
@@ -468,6 +665,123 @@ function getBookLocations(){
             console.log(error);
         }
     );
+}
 
+//DATA: Movie
+function getMovieLocations(){
+    this.API_URL_PREFIX = 'https://datatank.stad.gent/4/';
+    this.API_URL_SUFFIX = 'cultuursportvrijetijd/bioscopen.geojson?callback=json_callback';
+    // The results within the JSON-object
+    this.results;
+    var that = this;
+    var API_URL = this.API_URL_PREFIX + this.API_URL_SUFFIX;
+    //console.log(API_URL);
+    Utils.getJSONByPromise(API_URL).then(
+        function(data) {
+            that.results = data.coordinates;
+            //console.log('Weather be like',that.results);
+            //console.log('RESULTS', that.results);
+            App._locations.movie = that.results;
+            return that.results;
+        },
+        function(error) {
+            console.log(error);
+        }
+    );
+}
 
+//DATA: Sporthal
+function getSportsLocations(){
+    this.API_URL_PREFIX = 'https://datatank.stad.gent/4/';
+    this.API_URL_SUFFIX = 'cultuursportvrijetijd/sportcentra.geojson?callback=json_callback';
+    // The results within the JSON-object
+    this.results;
+    var that = this;
+    var API_URL = this.API_URL_PREFIX + this.API_URL_SUFFIX;
+    //console.log(API_URL);
+    Utils.getJSONByPromise(API_URL).then(
+        function(data) {
+            that.results = data.coordinates;
+            App._locations.sports = that.results;
+            return that.results;
+        },
+        function(error) {
+            console.log(error);
+        }
+    );
+}
+
+//DATA: Frisbee
+function getFrisbeeLocations(){
+    this.API_URL_PREFIX = 'https://datatank.stad.gent/4/';
+    this.API_URL_SUFFIX = 'cultuursportvrijetijd/buurtsportlocaties.json?callback=json_callback';
+    // The results within the JSON-object
+    this.results;
+    var that = this;
+    var API_URL = this.API_URL_PREFIX + this.API_URL_SUFFIX;
+    //console.log(API_URL);
+    Utils.getJSONByPromise(API_URL).then(
+        function(data) {
+            that.results = data.features;
+            for (var i = 0; i < that.results.length; i++) {
+                //that.results[i] = that.results[i].geometry.coordinates;
+            }
+
+            App._locations.frisbee = that.results;
+            return that.results;
+        },
+        function(error) {
+            console.log(error);
+        }
+    );
+}
+
+//DATA: Badminton
+function getBadmintonLocations(){
+    this.API_URL_PREFIX = 'https://datatank.stad.gent/4/';
+    this.API_URL_SUFFIX = 'milieuennatuur/parken.geojson?callback=json_callback';
+    // The results within the JSON-object
+    this.results;
+    var that = this;
+    var API_URL = this.API_URL_PREFIX + this.API_URL_SUFFIX;
+    //console.log(API_URL);
+    Utils.getJSONByPromise(API_URL).then(
+        function(data) {
+            that.results = data.coordinates;
+            for (var i = 0; i < that.results.length; i++) {
+                that.results[i] = that.results[i][0][0];
+            }
+
+            App._locations.badminton = that.results;
+            return that.results;
+        },
+        function(error) {
+            console.log(error);
+        }
+    );
+}
+
+//DATA: Drink
+function getDrinkLocations(){
+    this.API_URL_PREFIX = '/assets/files/';
+    this.API_URL_SUFFIX = 'cafes.json?callback=json_callback';
+    // The results within the JSON-object
+    this.results;
+    var that = this;
+    var API_URL = this.API_URL_PREFIX + this.API_URL_SUFFIX;
+    //console.log(API_URL);
+    Utils.getJSONByPromise(API_URL).then(
+        function(data) {
+            that.results = data.features;
+            for (var i = 0; i < that.results.length; i++) {
+                that.results[i] = that.results[i].geometry.coordinates[0][0];
+            }
+
+            App._locations.drink = that.results;
+            return that.results;
+        },
+        function(error) {
+            console.log(error);
+        }
+    );
 }
