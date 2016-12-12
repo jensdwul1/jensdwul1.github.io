@@ -40,7 +40,7 @@
 
       @for $i from 1 through 5 {
         &.doekeewa-animate-#{$i}{
-          @include animation('doekeewa-animate-#{$i} 2s infinite ease');
+          @include animation('doekeewa-animate-#{$i} 3s infinite ease alternate');
         }
 
       }

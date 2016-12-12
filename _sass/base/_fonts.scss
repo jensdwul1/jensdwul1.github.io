@@ -1,3 +1,33 @@
 // -----------------------------------------------------------------------------
 // This file contains all @font-face declarations, if any.
 // -----------------------------------------------------------------------------
+$font-path-museo : '/assets/fonts/museo/';
+@font-face {
+  font-family: 'Museo';
+  src: url('#{$font-path-museo}Museo-500.eot');
+  src: url('#{$font-path-museo}Museo-500.eot?#iefix') format('embedded-opentype'),
+  url('#{$font-path-museo}Museo-500.woff') format('woff'),
+  url('#{$font-path-museo}Museo-500.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Museo';
+  src: url('#{$font-path-museo}Museo-300.eot');
+  src: url('#{$font-path-museo}Museo-300.eot?#iefix') format('embedded-opentype'),
+  url('#{$font-path-museo}Museo-300.woff') format('woff'),
+  url('#{$font-path-museo}Museo-300.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Museo';
+  src: url('#{$font-path-museo}Museo-700.eot');
+  src: url('#{$font-path-museo}Museo-700.eot?#iefix') format('embedded-opentype'),
+  url('#{$font-path-museo}Museo-700.woff') format('woff'),
+  url('#{$font-path-museo}Museo-700.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}

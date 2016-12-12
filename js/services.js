@@ -276,6 +276,7 @@ function seedActivityTypes(){
             id:i++,
             name: "Rent a book",
             type:"indoor",
+            url:"/assets/img/activity/"+(i - 1)+".png",
             neutralWeather:"1",
             goodWeather:"1",
             badWeather:"2"
@@ -284,6 +285,7 @@ function seedActivityTypes(){
             id:i++,
             name: "See a movie",
             type:"indoor",
+            url:"/assets/img/activity/"+(i - 1)+".png",
             neutralWeather:"1",
             goodWeather:"1",
             badWeather:"2"
@@ -292,6 +294,7 @@ function seedActivityTypes(){
             id:i++,
             name: "Do some sportsball",
             type:"indoor",
+            url:"/assets/img/activity/"+(i - 1)+".png",
             neutralWeather:"1",
             goodWeather:"1",
             badWeather:"1"
@@ -300,6 +303,7 @@ function seedActivityTypes(){
             id:i++,
             name: "It's time to play extreme frisbee",
             type:"outdoor",
+            url:"/assets/img/activity/"+(i - 1)+".png",
             neutralWeather:"1",
             goodWeather:"1",
             badWeather:"0"
@@ -308,6 +312,7 @@ function seedActivityTypes(){
             id:i++,
             name: "Play some badminton",
             type:"outdoor",
+            url:"/assets/img/activity/"+(i - 1)+".png",
             neutralWeather:"1",
             goodWeather:"1",
             badWeather:"1"
@@ -316,6 +321,7 @@ function seedActivityTypes(){
             id:i++,
             name: "Get a drink",
             type:"indoor",
+            url:"/assets/img/activity/"+(i - 1)+".png",
             neutralWeather:"1",
             goodWeather:"1",
             badWeather:"1"
@@ -391,6 +397,7 @@ function getDoekeewa(){
     App._processing.animating = true;
     App._processing.step = 1;
     App._processing.animate(App._processing.step);
+    App._processing.setQuotes();
     getRandomActivityType();
 }
 function getRandomActivityType(){
@@ -463,7 +470,8 @@ function getActivity(type){
                 var userLocation = {latitude: App._location._latitude,longitude: App._location._longitude};
                 var destination = calculateClosest(userLocation,App._locations.book);
                 setTimeout(function(){
-                    mapRoute(destination);
+                    App.updateUI(type);
+                    mapRoute(userLocation,destination);
                 },1000);
             } else {
                 if(fetched === false){
@@ -490,7 +498,8 @@ function getActivity(type){
                 var userLocation = {latitude: App._location._latitude,longitude: App._location._longitude};
                 var destination = calculateClosest(userLocation,App._locations.movie);
                 setTimeout(function(){
-                    mapRoute(destination);
+                    App.updateUI(type);
+                    mapRoute(userLocation,destination);
                 },1000);
             } else {
                 if(fetched === false){
@@ -518,7 +527,8 @@ function getActivity(type){
                 var userLocation = {latitude: App._location._latitude,longitude: App._location._longitude};
                 var destination = calculateClosest(userLocation,App._locations.sports);
                 setTimeout(function(){
-                    mapRoute(destination);
+                    App.updateUI(type);
+                    mapRoute(userLocation,destination);
                 },1000);
             } else {
                 if(fetched === false){
@@ -546,7 +556,8 @@ function getActivity(type){
                 var userLocation = {latitude: App._location._latitude,longitude: App._location._longitude};
                 var destination = calculateClosest(userLocation,App._locations.frisbee);
                 setTimeout(function(){
-                    mapRoute(destination);
+                    App.updateUI(type);
+                    mapRoute(userLocation,destination);
                 },1000);
             } else {
                 if(fetched === false){
@@ -575,7 +586,8 @@ function getActivity(type){
                 var userLocation = {latitude: App._location._latitude,longitude: App._location._longitude};
                 var destination = calculateClosest(userLocation,App._locations.badminton);
                 setTimeout(function(){
-                    mapRoute(destination);
+                    App.updateUI(type);
+                    mapRoute(userLocation,destination);
                 },1000);
             } else {
                 if(fetched === false){
@@ -602,7 +614,8 @@ function getActivity(type){
                 var userLocation = {latitude: App._location._latitude,longitude: App._location._longitude};
                 var destination = calculateClosest(userLocation,App._locations.drink);
                 setTimeout(function(){
-                    mapRoute(destination);
+                    App.updateUI(type);
+                    mapRoute(userLocation,destination);
                 },1000);
             } else {
                 if(fetched === false){
@@ -622,6 +635,7 @@ function getActivity(type){
                 }
             }
             break;
+
     }
 }
 
@@ -642,7 +656,11 @@ function calculateClosest(userLocation,activityLocations){
     return activityLocations[closest];
 }
 
-function mapRoute(destination){
+function mapRoute(userLocation,destination){
+    if(App._processing.animating){
+        App._processing.step++;
+        App._processing.animate(App._processing.step);
+    }
 
 }
 

@@ -45,46 +45,6 @@ var App = {};
 ready(function(){
 
     App = {
-        "_processing":{
-            "value":false,
-            "animating":false,
-            "step":0,
-            "quotes":["Fetching your position","Spinning the button","Checking if the city still exists","Asking google nicely for a map","They said no","Threatening google with a knife for a map","Serving map"],
-            "animate":function(step){
-                App._doekeewaButton.classList.add('doekeewa-animate-'+step);
-                if(step > 0){
-                    App._doekeewaByline.classList.add('visible');
-                } else {
-                    App._doekeewaByline.classList.remove('visible');
-                }
-            },
-            "setQuotes":function(){
-                var quote = this._processing.quotes[Math.floor(Math.random()*this._processing.quotes.length)];
-                //App._doekeewaByline.
-            }
-        },
-        "_location":{
-            "_latitude":51.0500363,
-            "_longitude":3.733,
-            "setLocation":function(coords){
-                this._latitude = coords.latitude;
-                this._longitude = coords.longitude;
-            },
-            "getLocation":function(){
-                var coords = getLocation();
-                /*
-                this._latitude = coords.latitude;
-                this._longitude = coords.longitude;
-                */
-            },
-        },
-        "_weather":{
-            "fetchTime": new Date(),
-            "properties":{},
-            "getWeather":function(){
-                var weather = getWeather(App._location);
-            }
-        },
         "init": function() {
             this._isMobile = mobileAndTabletcheck();
             if(this._isMobile){
@@ -161,6 +121,9 @@ ready(function(){
             });
             setTimeout(function(){
                 self._initialLoad = false;
+                if(App._user == null){
+                    signInAnonymous();
+                }
             },1000);
         },
 
@@ -170,6 +133,15 @@ ready(function(){
             this._doekeewaButton = document.querySelector('.app-button');
             this._doekeewaButton.addEventListener('click', getDoekeewa, false);
             this._doekeewaByline = document.querySelector('.app-byline');
+
+            //Detailview registers
+            this._detailView = document.querySelector('.detail-view');
+            this._detailViewCloser  = document.querySelector('.detail-view .detail-closer');
+            this._detailViewCloser.addEventListener('click', App.closeDetailView, false);
+            this._sidebar = {};
+            this._sidebar.img = document.querySelector('.detail-view .sidebar .activity-img');
+            this._sidebar.title = document.querySelector('.detail-view .sidebar .activity-title');
+
 
             // Register all other forms
             this.registerForms();
@@ -317,6 +289,96 @@ ready(function(){
                     return false;
                 });
 
+            }
+        },
+        "updateUI":function(type){
+            App._detailView.classList.add('active');
+            setTimeout(function(){
+                App.resetUI();
+            },1000);
+            if(App._activityTypes){
+                App._sidebar.img.src = App._activityTypes[type].url;
+                App._sidebar.title.innerHTML = App._activityTypes[type].name;
+            }
+        },
+        resetUI:function(){
+            App._processing.value = false;
+            App._processing.animating = false;
+            App._processing.step = 0;
+            App._doekeewaButton.classList.remove('doekeewa-animate-1');
+            App._doekeewaButton.classList.remove('doekeewa-animate-2');
+            App._doekeewaByline.classList.remove('visible');
+        },
+        "closeDetailView":function(){
+            App._detailView.classList.remove('active');
+        },
+        "_processing":{
+            "value":false,
+            "animating":false,
+            "step":0,
+            "quotes":[
+                "Fetching your position",
+                "Spinning the button",
+                "Checking if the city still exists",
+                "Asking google nicely for a map",
+                "Traveling through time",
+                "Threatening google with a knife for a map",
+                "Drawing a map with crayons",
+                "Erasing part of the map because it was drawn wrong",
+                "Pouring a glass of milk",
+                "Pretending to do work",
+                "Planning a trip to Narnia",
+                "Painting trees to hug",
+                "Enjoying life",
+                "Wishing you were here",
+                "Staring blankly forward",
+                "Causing awkward silences",
+                "Petting the dog",
+                "Reading the button manual",
+                "Burning the button manual",
+            ],
+            "animate":function(step){
+                this.currentQuote = Math.floor(Math.random()*this.quotes.length);
+                App._doekeewaButton.classList.add('doekeewa-animate-'+step);
+                if(step > 0){
+                    App._doekeewaByline.classList.add('visible');
+                } else {
+                    App._doekeewaByline.classList.remove('visible');
+                }
+            },
+            "currentQuote":0,
+            "setQuotes":function(){
+                var quote = this.quotes[App._processing.currentQuote];
+                App._doekeewaByline.innerHTML = quote;
+                if(App._processing.animating){
+                    setTimeout(function(){
+                        App._processing.currentQuote = Math.floor(Math.random()*App._processing.quotes.length);
+                        App._processing.setQuotes();
+                    },2000);
+
+                }
+            }
+        },
+        "_location":{
+            "_latitude":51.0500363,
+            "_longitude":3.733,
+            "setLocation":function(coords){
+                this._latitude = coords.latitude;
+                this._longitude = coords.longitude;
+            },
+            "getLocation":function(){
+                var coords = getLocation();
+                /*
+                 this._latitude = coords.latitude;
+                 this._longitude = coords.longitude;
+                 */
+            },
+        },
+        "_weather":{
+            "fetchTime": new Date(),
+            "properties":{},
+            "getWeather":function(){
+                var weather = getWeather(App._location);
             }
         },
         'Profile':{

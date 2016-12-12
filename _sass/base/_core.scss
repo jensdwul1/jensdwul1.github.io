@@ -22,9 +22,11 @@ html {
 body {
   background-color: $light-pink;
   min-height: 100vh;
+  font-family:'Museo';
 }
 
 main {
+  overflow: hidden;
 }
 
 /**
@@ -125,9 +127,9 @@ a {
     align-self: center;
   }
   &.justified-c {
-     -webkit-justify-content: center;
-     -ms-flex-pack: center;
-     justify-content: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
   }
 }
 $padded: 20;

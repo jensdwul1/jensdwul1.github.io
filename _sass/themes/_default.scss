@@ -15,7 +15,7 @@ html, body {
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   transition: all 0.3s ease;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .navigation-open {
@@ -23,7 +23,8 @@ html, body {
 }
 
 
-.overlay {
+.overlay,
+.detail-view{
   position: absolute;
   height:100%;
   width: 100%;
@@ -33,20 +34,40 @@ html, body {
   opacity: 0;
   -webkit-transform: scale(0.9);
   transform: scale(0.9);
-  -webkit-transition: -webkit-transform 0.2s, opacity 0.2s, visibility 0s 0.2s;
-  transition: transform 0.2s, opacity 0.2s, visibility 0s 0.2s;
+  -webkit-transition: -webkit-transform 0.2s, opacity 0.2s, visibility 0s 0.2s, background 0s 0.2s ease;
+  transition: transform 0.2s, opacity 0.2s, visibility 0s 0.2s, background 0s 0.2s ease;
   &.active{
     visibility: visible;
     opacity: 1;
     -webkit-transform: scale(1);
     transform: scale(1);
-    -webkit-transition: -webkit-transform 0.3s ease, opacity 0.3s ease;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    -webkit-transition: -webkit-transform 0.3s ease, opacity 0.3s ease, background 0.3s 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s 0.3s ease;
   }
   .editToggle {
     position: absolute;
     right:10px;
     top:10px;
+  }
+}
+.detail-view {
+  padding: 1em;
+  background: transparent;
+  height:0;
+  @include transform(translateY(100%) scale(0.9));
+  &.active{
+    height:100%;
+    background: rgba(0,0,0,0.2);
+    @include transform(translateY(0%) scale(1));
+    -webkit-transition: -webkit-transform 0.3s 0.3s ease, opacity 0.3s 0.3s ease, background 0.3s 0.3s ease;
+    transition: transform 0.3s 0.3s ease, opacity 0.3s 0.3s ease, background 0.3s 0.3s ease;
+  }
+  .detail-closer {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    margin: 1px;
+    left: inherit;
   }
 }
 
@@ -65,6 +86,60 @@ html, body {
 
   }
 
+}
+.dk-panel {
+  position: relative;
+  background: #fafafa;
+  border: 1px solid #ebebeb;
+  box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
+  max-width: 100%;
+  height: 100%;
+  .sidebar {
+    width: 30%;
+    min-width: 400px;
+    background: $primary;
+
+    .sidebar-header {
+      text-align: center;
+      width: 100%;
+      background: tint($primary,20);
+      font-size: 16px;
+      padding:5px;
+      color: white;
+    }
+    .activity-img {
+      border-radius:50%;
+      height:200px;
+      width: 200px;
+      background: rgba(0,0,0,0.4);
+    }
+    .activity-title{
+      padding: 15px 0;
+    }
+    .sidebar-footer {
+      text-align: center;
+      width: 100%;
+      color:white;
+      background: $dark-grey;
+      font-size: 16px;
+      padding:5px;
+      color: white;
+    }
+    a{
+      display: block;
+      height:100%;
+      width:100%;
+      color:white;
+      cursor: pointer;
+      @include on-event {
+        color: $primary;
+        text-decoration: none;
+      }
+    }
+  }
+  .map {
+    width: 70%;
+  }
 }
 
 .group {
@@ -115,7 +190,8 @@ html, body {
     visibility: visible;
     opacity: 1;
     padding: 5px;
-    width: 200px;
+    width: auto;
+    min-width: 200px;
     -webkit-transition: -webkit-transform 0.3s 0s ease, opacity 0.3s ease, padding 0.3s ease, width 0.3s ease;
     transition: transform 0.3s 0s ease, opacity 0.3s ease, padding 0.3s ease, width 0.3s ease;
   }
