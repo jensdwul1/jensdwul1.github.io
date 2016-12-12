@@ -48,7 +48,11 @@ ready(function(){
         "_processing":{
             "value":false,
             "animating":false,
-            "quotes":["Fetching your position","C"]
+            "step":0,
+            "quotes":["Fetching your position","Spinning the button","Checking if the city still exists","Asking google nicely for a map","They said no","Threatening google with a knife for a map","Serving map"],
+            "animate":function(step){
+                App._doekeewaButton.classList.add('doekeewa-animate-'+step);
+            }
         },
         "_location":{
             "_latitude":51.0500363,
@@ -153,14 +157,25 @@ ready(function(){
 
         "registerEventListeners": function() {
 
+            // Event Listeners for the Core
+            this._doekeewaButton = document.querySelector('.app-button');
+            this._doekeewaButton.addEventListener('click', getDoekeewa, false);
+
+            // Register all other forms
+            this.registerForms();
+
+
+        },
+        "registerForms": function() {
+
             // Event Listeners for Form Login
             if(this._frmLogin != null) {
                 var self = this; // Hack for this keyword within an event listener of another object
 
                 this._frmLogin.addEventListener('submit', function(ev) {
                     ev.preventDefault();
-                    document.querySelector('[name="login_email"]').className = document.querySelector('[name="login_email"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
-                    document.querySelector('[name="login_password"]').className = document.querySelector('[name="login_password"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
+                    document.querySelector('[name="login_email"]').classList.remove('error');
+                    document.querySelector('[name="login_password"]').classList.remove('error');
                     var error = false;
                     var errorMessages = [];
                     var email = Utils.trim(this.querySelectorAll('[name="login_email"]')[0].value);
@@ -189,11 +204,12 @@ ready(function(){
 
                 this._frmRegister.addEventListener('submit', function(ev) {
                     ev.preventDefault();
-                    document.querySelector('[name="register_email"]').className = document.querySelector('[name="register_email"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
-                    document.querySelector('[name="register_firstName"]').className = document.querySelector('[name="register_firstName"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
-                    document.querySelector('[name="register_lastName"]').className = document.querySelector('[name="register_lastName"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
-                    document.querySelector('[name="register_username"]').className = document.querySelector('[name="register_username"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
-                    document.querySelector('[name="register_password"]').className = document.querySelector('[name="register_password"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
+                    
+                    document.querySelector('[name="register_email"]').classList.remove('error');
+                    document.querySelector('[name="register_firstName"]').classList.remove('error');
+                    document.querySelector('[name="register_lastName"]').classList.remove('error');
+                    document.querySelector('[name="register_username"]').classList.remove('error');
+                    document.querySelector('[name="register_password"]').classList.remove('error');
                     var error = false;
                     var errorMessages = [];
                     var email = Utils.trim(this.querySelectorAll('[name="register_email"]')[0].value);
@@ -233,10 +249,10 @@ ready(function(){
 
                 this._frmProfile.addEventListener('submit', function(ev) {
                     ev.preventDefault();
-                    document.querySelector('[name="profile_email"]').className = document.querySelector('[name="profile_email"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
-                    document.querySelector('[name="profile_firstName"]').className = document.querySelector('[name="profile_firstName"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
-                    document.querySelector('[name="profile_lastName"]').className = document.querySelector('[name="profile_lastName"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
-                    document.querySelector('[name="profile_username"]').className = document.querySelector('[name="profile_username"]').className.replace(new RegExp('(?:^|\\s)'+ 'error' + '(?:\\s|$)'), ' ');
+                    document.querySelector('[name="profile_email"]').classList.remove('error');
+                    document.querySelector('[name="profile_firstName"]').classList.remove('error');
+                    document.querySelector('[name="profile_lastName"]').classList.remove('error');
+                    document.querySelector('[name="profile_username"]').classList.remove('error');
                     var error = false;
                     var errorMessages = [];
                     var email = Utils.trim(this.querySelectorAll('[name="profile_email"]')[0].value);
@@ -267,7 +283,7 @@ ready(function(){
                 });
 
             }
-            
+
             // Event Listeners for Form forgot
             if(this._frmForgot != null) {
                 var self = this; // Hack for this keyword within an event listener of another object
@@ -292,11 +308,6 @@ ready(function(){
                 });
 
             }
-
-
-        },
-        "updateUI": function() {
-
         },
         'Profile':{
             "state":"view",

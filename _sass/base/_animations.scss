@@ -24,3 +24,25 @@
     opacity: 0;
   }
 }
+
+@include keyframes(doekeewa-animate-1)
+{
+  0% {
+    @include scale(.75);
+  }
+  20% {
+    @include scale(1);
+  }
+  40% {
+    @include scale(.75);
+  }
+  60% {
+    @include scale(1);
+  }
+  80% {
+    @include scale(.75);
+  }
+  100% {
+    @include scale(.75);
+  }
+}
