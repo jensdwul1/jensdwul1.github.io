@@ -36,7 +36,13 @@ title   : "Discover more..."
                 <a class="">Bekijk op Google Maps</a>
             </div>
         </div>
+        <div class="map-box flex-child stretch">
+        <div class="zoomControls">
+            <div id="zoomin" class="zoomControl"><div class="line animate-250"></div><div class="line animate-250"></div></div>
+            <div id="zoomout" class="zoomControl"><div class="line animate-250"></div></div>
+        </div>
         <div class="map flex-child stretch">
+        </div>
         </div>
     </div>
 </div>

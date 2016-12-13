@@ -93,7 +93,7 @@ ready(function(){
                     if (!self._emailVerified) {
 
                     }
-                    if(!user.isAnonymous){
+                    if(!App.isAnon){
                         self._profile = getUserProfile();
                         App.Navigation.updateNavigation(true);
                         App.Overlay.toggle('login','close');
@@ -452,7 +452,7 @@ ready(function(){
                 "outdoor": true,
             },
             "init": function (settings) {
-                if(App._user && App._user.isAnon === false) {
+                if(App._user && App.isAnon === false) {
 
                         var settings = App.Settings.properties;
 
@@ -674,17 +674,22 @@ ready(function(){
                 document.querySelector('.wrapper').classList.remove('navigation-open');
             }
         },
-        "gmap":{
+        "Gmap":{
             "isInitalised":false,
+            "directionsService": false,
+            "directionsDisplay": false,
+            "startMarker":false,
+            "endMarker":false,
+            "map":false,
             load: function () {
                 console.log('googlemaps load');
                 if(!this.isInitalised){
-                    $('body').append('<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBERKK_GMpzcqRn9sI-RcykvZLHa2i2TfQ' + '&callback=App.gmap.init' +'"></script>');
+                    $('body').append('<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBhq3LeCDgb1jSTq_Eps-8_6DrQca8AIeo' + '&callback=App.Gmap.init' +'"></script>');
                 }
             },
             init: function () {
                 this.isInitalised = true;
-                var myLatlng = new google.maps.LatLng(51.002652, 3.320676); // Add the coordinates
+                var myLatlng = new google.maps.LatLng(App._processing.currentCoords[1],  App._processing.currentCoords[0]); // Add the coordinates
                 var mapOptions = {
                     zoom: 15, // The initial zoom level when your map loads (0-20)
                     center: myLatlng, // Centre the Map to our coordinates variable
@@ -701,7 +706,7 @@ ready(function(){
                             "elementType": "geometry",
                             "stylers": [
                                 {
-                                    "color": "#C41F51"
+                                    "color": "#000000"
                                 },
                                 {
                                     "lightness": 17
@@ -713,7 +718,7 @@ ready(function(){
                             "elementType": "geometry",
                             "stylers": [
                                 {
-                                    "color": "#C41F51"
+                                    "color": "#000000"
                                 },
                                 {
                                     "lightness": 25
@@ -725,7 +730,7 @@ ready(function(){
                             "elementType": "geometry.fill",
                             "stylers": [
                                 {
-                                    "color": "#C41F51"
+                                    "color": "#000000"
                                 },
                                 {
                                     "lightness": 17
@@ -737,7 +742,7 @@ ready(function(){
                             "elementType": "geometry.stroke",
                             "stylers": [
                                 {
-                                    "color": "#C41F51"
+                                    "color": "#000000"
                                 },
                                 {
                                     "lightness": 29
@@ -752,7 +757,7 @@ ready(function(){
                             "elementType": "geometry",
                             "stylers": [
                                 {
-                                    "color": "#C41F51"
+                                    "color": "#000000"
                                 },
                                 {
                                     "lightness": 18
@@ -764,7 +769,7 @@ ready(function(){
                             "elementType": "geometry",
                             "stylers": [
                                 {
-                                    "color": "#C41F51"
+                                    "color": "#000000"
                                 },
                                 {
                                     "lightness": 16
@@ -776,7 +781,7 @@ ready(function(){
                             "elementType": "geometry",
                             "stylers": [
                                 {
-                                    "color": "#C41F51"
+                                    "color": "#000000"
                                 },
                                 {
                                     "lightness": 21
@@ -790,7 +795,7 @@ ready(function(){
                                     "visibility": "on"
                                 },
                                 {
-                                    "color": "#C41F51"
+                                    "color": "#000000"
                                 },
                                 {
                                     "lightness": 16
@@ -804,7 +809,7 @@ ready(function(){
                                     "saturation": 36
                                 },
                                 {
-                                    "color": "#C41F51"
+                                    "color": "#000000"
                                 },
                                 {
                                     "lightness": 60
@@ -824,7 +829,7 @@ ready(function(){
                             "elementType": "geometry",
                             "stylers": [
                                 {
-                                    "color": "#C41F51"
+                                    "color": "#000000"
                                 },
                                 {
                                     "lightness": 19
@@ -836,7 +841,7 @@ ready(function(){
                             "elementType": "geometry.fill",
                             "stylers": [
                                 {
-                                    "color": "#C41F51"
+                                    "color": "#000000"
                                 },
                                 {
                                     "lightness": 20
@@ -848,7 +853,7 @@ ready(function(){
                             "elementType": "geometry.stroke",
                             "stylers": [
                                 {
-                                    "color": "#C41F51"
+                                    "color": "#000000"
                                 },
                                 {
                                     "lightness": 17
@@ -863,29 +868,71 @@ ready(function(){
                 };
 
                 var map = new google.maps.Map(document.querySelector('.detail-view .map'), mapOptions); // Render our map within the empty div
-                var marker = new google.maps.Marker({
-                    position: myLatlng,
-                    icon: 'public/img/icon/marker.png',
-                    title: 'Doekeewa hier he'
+                App.Gmap.map = map;
+                App.Gmap.directionsService = new google.maps.DirectionsService;
+                App.Gmap.directionsDisplay = new google.maps.DirectionsRenderer({
+                    suppressMarkers: "true",
+                    polylineOptions: {
+                        strokeColor: "#c41f51",
+                    }
                 });
+                App.Gmap.directionsDisplay.setMap(map);
 
-                google.maps.event.addListener(marker, 'click', function() {
-                    infowindow.open(map,marker);
-                });
                 google.maps.event.addListenerOnce(map, 'idle', function(){
                     console.log('Loaded Map');
                     setTimeout(function() {
 
                     },400);
                 });
-                marker.setMap(map);
                 $(window).resize(function(){
-                    App.maps.resize(map,myLatlng);
+                    App.Gmap.resize(map,myLatlng);
                 });
-                App.maps.controlBind(map);
+                App.Gmap.controlBind(map);
 
             },
-            update:function(){
+            update:function(userLocation,destination){
+                //Markers delete and creation
+                var startMarkerCoords = new google.maps.LatLng(userLocation.latitude,userLocation.longitude);
+                if(App.Gmap.startMarker !== false){
+                    App.Gmap.startMarker.setMap(null);
+                }
+                App.Gmap.startMarker = new google.maps.Marker({
+                    position: startMarkerCoords,
+                    icon: '/assets/img/icons/startmarker.png',
+                    title: 'Doekeewa'
+                });
+                App.Gmap.startMarker.setMap(App.Gmap.map);
+                var endMarkerCoords = new google.maps.LatLng(destination[1],  destination[0]);
+                if(App.Gmap.endMarker !== false){
+                    App.Gmap.endMarker.setMap(null);
+                }
+                App.Gmap.endMarker = new google.maps.Marker({
+                    position: endMarkerCoords,
+                    icon: '/assets/img/logo/marker.png',
+                    title: 'Doekeewa'
+                });
+                App.Gmap.endMarker.setMap(App.Gmap.map);
+
+
+                //Setting Directions
+                console.log("Userlocation",userLocation);
+                console.log("Departure",destination);
+                var departure = userLocation.latitude+","+userLocation.longitude;
+                var arrival = destination[1]+","+destination[0];
+
+                this.directionsService.route({
+                    origin: departure,
+                    destination: arrival,
+                    travelMode: 'DRIVING'
+                }, function(response, status) {
+                    if (status === 'OK') {
+                        App.Gmap.directionsDisplay.setDirections(response);
+                    } else {
+                        window.alert('Directions request failed due to ' + status);
+                    }
+                });
+
+                //Set Link for external directions
 
             },
             resize: function(map,myLatlng){

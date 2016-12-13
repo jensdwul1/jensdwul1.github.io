@@ -1,0 +1,53 @@
+
+.zoomControls {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+}
+
+.zoomControls .zoomControl,
+.zoomControls.active .zoomControl:hover {
+  display: block;
+  width: 35px;
+  height: 35px;
+  box-sizing: border-box;
+  padding: 16.8px 10.5px;
+  margin: 0 0 3px;
+  background-color: $primary;
+  -webkit-transition: background-color 200ms ease-in;
+  -moz-transition: background-color 200ms ease-in;
+  -o-transition: background-color 200ms ease-in;
+  transition: background-color 200ms ease-in;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+  .line{
+    height: 1px;
+    width: 14px;
+    background-color: #F2F2F2;
+    -webkit-transition: background-color 200ms ease-in,opacity 200ms ease-in,-webkit-transform 200ms ease-in;
+    -moz-transition: background-color 200ms ease-in,opacity 200ms ease-in,-moz-transform 200ms ease-in;
+    -o-transition: background-color 200ms ease-in,opacity 200ms ease-in,-o-transform 200ms ease-in;
+    transition: background-color 200ms ease-in,opacity 200ms ease-in,transform 200ms ease-in;
+  }
+}
+
+.zoomControls #zoomin.zoomControl .line:nth-child(2) {
+  -webkit-transform: rotate(90deg) translateX(-1px);
+  -moz-transform: rotate(90deg) translateX(-1px);
+  -o-transform: rotate(90deg) translateX(-1px);
+  -ms-transform: rotate(90deg) translateX(-1px);
+  transform: rotate(90deg) translateX(-1px);
+}
+.zoomControls .zoomControl:hover,
+.zoomControls.active .zoomControl {
+  background-color: shade($primary,20);
+}
+
+.map {
+  a img,
+  .gm-style-cc {
+    display: none;
+  }
+}

@@ -398,6 +398,8 @@ function getDoekeewa(){
     App._processing.step = 1;
     App._processing.animate(App._processing.step);
     App._processing.setQuotes();
+    attempts = 0;
+    fetched = false;
     getRandomActivityType();
 }
 function getRandomActivityType(){
@@ -642,18 +644,20 @@ function getActivity(type){
 function calculateClosest(userLocation,activityLocations){
     var mindif = 99999;
     var closest;
-
-    for (var i = 0; i < activityLocations.length; ++i) {
+    //console.log("All Locations",activityLocations);
+    //console.log("All Locations Length",activityLocations.length);
+    for (var i = 0; i < activityLocations.length; ) {
         var dif = PythagorasEquirectangular(userLocation.latitude, userLocation.longitude, activityLocations[i][0], activityLocations[i][1]);
         if (dif < mindif) {
             closest = i;
             mindif = dif;
         }
+        ++i
     }
 
     // echo the nearest activityLocation
     console.log(activityLocations[closest]);
-    App._processing.properties.currentCoords = activityLocations[closest];
+    App._processing.currentCoords = activityLocations[closest];
     return activityLocations[closest];
 }
 
@@ -662,7 +666,11 @@ function mapRoute(userLocation,destination){
         App._processing.step++;
         App._processing.animate(App._processing.step);
     }
+    App.Gmap.load();
+    setTimeout(function(){
+        App.Gmap.update(userLocation,destination);
 
+    },1000)
 }
 
 
@@ -797,8 +805,14 @@ function getDrinkLocations(){
         function(data) {
             that.results = data.features;
             for (var i = 0; i < that.results.length; i++) {
-                that.results[i] = that.results[i].geometry.coordinates[0][0];
+
+                if(that.results[i].geometry.type == "Point"){
+                    that.results[i] = that.results[i].geometry.coordinates;
+                }else if(that.results[i].geometry.type == "Polygon") {
+                    that.results[i] = that.results[i].geometry.coordinates[0][0];
+                }
             }
+
 
             App._locations.drink = that.results;
             return that.results;
