@@ -669,10 +669,13 @@ function mapRoute(userLocation,destination){
     App.Gmap.load();
     setTimeout(function(){
         App.Gmap.update(userLocation,destination);
-
+        createActivity();
     },1000)
 }
 
+function createActivity(){
+    
+}
 
 /* DATASETS */
 //DATA: Bibliotheek

@@ -81,15 +81,6 @@ ready(function(){
                     self._user = user;
                     self.isAnon = user.isAnonymous;
                     // User is signed in.
-                    /*
-                    self._displayName = user.displayName;
-                    self._email = user.email;
-                    self._emailVerified = user.emailVerified;
-                    self._photoURL = user.photoURL;
-                    self._isAnonymous = user.isAnonymous;
-                    self._uid = user.uid;
-                    self._providerData = user.providerData;
-                    */
                     if (!self._emailVerified) {
 
                     }
@@ -142,11 +133,8 @@ ready(function(){
             this._sidebar.img = document.querySelector('.detail-view .sidebar .activity-img');
             this._sidebar.title = document.querySelector('.detail-view .sidebar .activity-title');
 
-
             // Register all other forms
             this.registerForms();
-
-
         },
         "registerForms": function() {
 
@@ -920,7 +908,7 @@ ready(function(){
                 var departure = userLocation.latitude+","+userLocation.longitude;
                 var arrival = destination[1]+","+destination[0];
 
-                this.directionsService.route({
+                App.Gmap.directionsService.route({
                     origin: departure,
                     destination: arrival,
                     travelMode: 'DRIVING'
@@ -931,9 +919,24 @@ ready(function(){
                         window.alert('Directions request failed due to ' + status);
                     }
                 });
+                /* SCORE CALCULATION DISTANCE
+                directionsService.route(request, function(response, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
 
+                        // Display the distance:
+                        document.getElementById('distance').innerHTML +=
+                            response.routes[0].legs[0].distance.value + " meters";
+
+                        // Display the duration:
+                        document.getElementById('duration').innerHTML +=
+                            response.routes[0].legs[0].duration.value + " seconds";
+
+                        directionsDisplay.setDirections(response);
+                    }
+                });
+                */
                 //Set Link for external directions
-
+                document.querySelector(".google-maps-link").href = 'https://maps.google.com?saddr=Current+Location&daddr='+arrival;
             },
             resize: function(map,myLatlng){
                 google.maps.event.trigger(map, 'resize');

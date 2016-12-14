@@ -33,7 +33,7 @@ title   : "Discover more..."
                 <div class="activity-title">Activity Name goes here</div>
             </div>
             <div class="sidebar-footer row flex-child ">
-                <a class="">Bekijk op Google Maps</a>
+                <a target="_blank" rel="noopener noreferrer" class="google-maps-link">Bekijk op Google Maps</a>
             </div>
         </div>
         <div class="map-box flex-child stretch">
