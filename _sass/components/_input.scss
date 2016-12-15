@@ -43,7 +43,14 @@
   &.error{
     border-bottom: 1px solid #ff0000;
   }
-
+  &.score {
+    border: 4px solid $primary;
+    margin-top: 10px;
+    width: 140px;
+    text-align: center;
+    min-width: 140px;
+    font-weight: bold;
+  }
 }
 
 /* Label */

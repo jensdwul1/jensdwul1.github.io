@@ -287,6 +287,16 @@ ready(function(){
             if(App._activityTypes){
                 App._sidebar.img.src = App._activityTypes[type].url;
                 App._sidebar.title.innerHTML = App._activityTypes[type].name;
+
+                var date = new Date();
+                App._processing.currentActivity = {
+                    id : null,
+                    user : ((App.isAnon === false)?App._user.uid:"anon"),
+                    name : App._activityTypes[type].name,
+                    coords: {},
+                    score : 0,
+                    createdAt : Date.now(),
+                }
             }
         },
         resetUI:function(){
@@ -305,6 +315,7 @@ ready(function(){
             "animating":false,
             "step":0,
             "currentCoords":{},
+            "currentActivity":{},
             "quotes":[
                 "Fetching your position",
                 "Spinning the button",
@@ -380,6 +391,7 @@ ready(function(){
 
                     document.querySelector('#frm-profile #profile_firstName').value = App._profile.firstName;
                     document.querySelector('#frm-profile #profile_lastName').value = App._profile.lastName;
+                    document.querySelector('#frm-profile #profile_score').value = App._profile.score;
                     document.querySelector('#frm-profile #profile_username').value = App._user.displayName;
                     document.querySelector('#frm-profile #profile_email').value = App._user.email;
                 }
@@ -914,27 +926,19 @@ ready(function(){
                     travelMode: 'DRIVING'
                 }, function(response, status) {
                     if (status === 'OK') {
+                        //console.log(response.routes[0].legs[0].distance.value + " meters");
+                        //console.log(response.routes[0].legs[0].duration.value + " seconds");
+                        var distance = Math.floor(response.routes[0].legs[0].distance.value / 1000);
+                        var duration = Math.floor(response.routes[0].legs[0].duration.value / 60);
+                        var score = Math.floor((distance * duration) / 10);
+                        App._processing.currentActivity.score = score;
+                        App._processing.currentActivity.coords = {latitude:destination[1],longitude:destination[0]};
+                        postActivity(App._processing.currentActivity);
                         App.Gmap.directionsDisplay.setDirections(response);
                     } else {
                         window.alert('Directions request failed due to ' + status);
                     }
                 });
-                /* SCORE CALCULATION DISTANCE
-                directionsService.route(request, function(response, status) {
-                    if (status == google.maps.DirectionsStatus.OK) {
-
-                        // Display the distance:
-                        document.getElementById('distance').innerHTML +=
-                            response.routes[0].legs[0].distance.value + " meters";
-
-                        // Display the duration:
-                        document.getElementById('duration').innerHTML +=
-                            response.routes[0].legs[0].duration.value + " seconds";
-
-                        directionsDisplay.setDirections(response);
-                    }
-                });
-                */
                 //Set Link for external directions
                 document.querySelector(".google-maps-link").href = 'https://maps.google.com?saddr=Current+Location&daddr='+arrival;
             },

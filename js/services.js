@@ -108,13 +108,13 @@ function createUserProfile(data) {
             displayName: data.username,
             photoURL: data.avatar
         }).then(function () {
-            firebase.database().ref('users/' + usr.uid).set({
+            database.ref('users/' + usr.uid).set({
                 firstName: data.firstName,
                 lastName: data.lastName,
                 score: 0
             });
 
-            firebase.database().ref('settings/' + usr.uid).set({
+            database.ref('settings/' + usr.uid).set({
                 "weather": true,
                 "indoor": true,
                 "outdoor": true
@@ -138,7 +138,7 @@ function updateUserProfile(data) {
             displayName: data.username,
             photoURL: data.avatar
         }).then(function () {
-            firebase.database().ref('users/' + usr.uid).set({
+            database.ref('users/' + usr.uid).set({
                 firstName: data.firstName,
                 lastName: data.lastName,
                 score: data.score
@@ -174,7 +174,7 @@ function updateEmail(newEmail){
 function getUserProfile(){
     var usr = auth.currentUser;
     if (usr != null) {
-        var ref = firebase.database().ref('/users/' + usr.uid);
+        var ref = database.ref('/users/' + usr.uid);
         ref.on("value", function(snapshot) {
             //console.log(snapshot.val());
             App._profile = snapshot.val();
@@ -189,7 +189,7 @@ function getUserProfile(){
 function getSettings(){
     var usr = auth.currentUser;
     if (usr != null) {
-        var ref = firebase.database().ref('/settings/' + usr.uid);
+        var ref = database.ref('/settings/' + usr.uid);
         ref.on("value", function (snapshot) {
             //console.log(snapshot.val());
             return snapshot.val();
@@ -201,7 +201,19 @@ function getSettings(){
 }
 function setSettings(settings){
     var usr = auth.currentUser;
-    firebase.database().ref('settings/' + usr.uid).set(settings);
+    database.ref('settings/' + usr.uid).set(settings);
+}
+
+function postActivity(activity){
+    var usr = auth.currentUser;
+    var newActivityKey = database.ref().child('activities').push().key;
+    var updates = {};
+    activity.id = newActivityKey;
+    updates['/activities/' + newActivityKey] = activity;
+    updates['/user-activities/' + usr.uid + '/' + newActivityKey] = activity;
+    updates['/users/' + usr.uid + '/score'] = App._profile.score + activity.score;
+
+    return firebase.database().ref().update(updates);
 }
 
 /**
@@ -277,7 +289,7 @@ function seedActivityTypes(){
             name: "Rent a book",
             type:"indoor",
             url:"/assets/img/activity/"+(i - 1)+".png",
-            neutralWeather:"1",
+            neutralWeather:"2",
             goodWeather:"1",
             badWeather:"2"
         },
@@ -286,7 +298,7 @@ function seedActivityTypes(){
             name: "See a movie",
             type:"indoor",
             url:"/assets/img/activity/"+(i - 1)+".png",
-            neutralWeather:"1",
+            neutralWeather:"2",
             goodWeather:"1",
             badWeather:"2"
         },
@@ -295,39 +307,39 @@ function seedActivityTypes(){
             name: "Do some sportsball",
             type:"indoor",
             url:"/assets/img/activity/"+(i - 1)+".png",
-            neutralWeather:"1",
-            goodWeather:"1",
-            badWeather:"1"
+            neutralWeather:"2",
+            goodWeather:"2",
+            badWeather:"2"
         },
         3:{
             id:i++,
             name: "It's time to play extreme frisbee",
             type:"outdoor",
             url:"/assets/img/activity/"+(i - 1)+".png",
-            neutralWeather:"1",
-            goodWeather:"1",
-            badWeather:"0"
+            neutralWeather:"2",
+            goodWeather:"3",
+            badWeather:"1"
         },
         4:{
             id:i++,
             name: "Play some badminton",
             type:"outdoor",
             url:"/assets/img/activity/"+(i - 1)+".png",
-            neutralWeather:"1",
-            goodWeather:"1",
-            badWeather:"1"
+            neutralWeather:"2",
+            goodWeather:"3",
+            badWeather:"2"
         },
         5:{
             id:i++,
             name: "Get a drink",
             type:"indoor",
             url:"/assets/img/activity/"+(i - 1)+".png",
-            neutralWeather:"1",
-            goodWeather:"1",
-            badWeather:"1"
+            neutralWeather:"2",
+            goodWeather:"2",
+            badWeather:"3"
         },
     };
-    firebase.database().ref('activitytypes').set(activityTypesData);
+    database.ref('activitytypes').set(activityTypesData);
 
 }
 function getLocation(){
@@ -402,60 +414,53 @@ function getDoekeewa(){
     fetched = false;
     getRandomActivityType();
 }
+var lastActivityType = 0;
 function getRandomActivityType(){
     var date = new Date();
     date = Date.now();
     var last = App._weather.properties.dt; // or a previous millisecond timestamp
     var activityTypesArray = [];
 
-    firebase.database().ref('/activitytypes').once('value').then(function(snapshot) {
+    database.ref('/activitytypes').once('value').then(function(snapshot) {
         //console.log('These are the activityTypes', snapshot.val());
         App._activityTypes = snapshot.val();
-        if(App.Settings.properties.weather){
-            if ( ( date - last ) > ( 10 * 60 * 1000 ) ) {
-                for(var i=0;i<App._activityTypes.length;) {
-                    if(App.Settings.properties.indoor && App.Settings.properties.outdoor){
-                        for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
-                            activityTypesArray.push(App._activityTypes[i].id);
-                        }
-                    } else if(App.Settings.properties.indoor){
-                        for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
-                            if(App._activityTypes[i].type == 'indoor'){
-                                activityTypesArray.push(App._activityTypes[i].id);
-                            }
-                        }
-                    } else if(App.Settings.properties.outdoor){
-                        for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
-                            if(App._activityTypes[i].type == 'outdoor'){
-                                activityTypesArray.push(App._activityTypes[i].id);
-                            }
-                        }
-                    } else {
-                        for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
+        if(!App.Settings.properties.weather){
+            App._weather.state = "Neutral";
+        }
+        if ( ( date - last ) > ( 10 * 60 * 1000 ) || !App.Settings.properties.weather) {
+            for(var i=0;i<App._activityTypes.length;) {
+                if(App.Settings.properties.indoor && App.Settings.properties.outdoor){
+                    for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
+                        if(App._activityTypes[i].id !== lastActivityType){
                             activityTypesArray.push(App._activityTypes[i].id);
                         }
                     }
-                    i++;
-                }
-                var activityType = activityTypesArray[Math.floor(Math.random()*activityTypesArray.length)];
-                getActivity(activityType);
-            } else {
-                getWeather(App._location), getRandomActivityType();
-            }
-        } else {
-            for(var i=0;i<App._activityTypes.length;i++) {
-                if(App.Settings.properties.indoor && App.Settings.properties.outdoor) {
-                    activityTypesArray.push(App._activityTypes[i].id);
-                } else if(App.Settings.properties.indoor && App._activityTypes[i].type == "indoor"){
-                    activityTypesArray.push(App._activityTypes[i].id);
-                } else if(App.Settings.properties.outdoor && App._activityTypes[i].type == "outdoor"){
-                    activityTypesArray.push(App._activityTypes[i].id);
+                } else if(App.Settings.properties.indoor){
+                    for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
+                        if(App._activityTypes[i].type == 'indoor' && App._activityTypes[i].id !== lastActivityType){
+                            activityTypesArray.push(App._activityTypes[i].id);
+                        }
+                    }
+                } else if(App.Settings.properties.outdoor){
+                    for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
+                        if(App._activityTypes[i].type == 'outdoor' && App._activityTypes[i].id !== lastActivityType){
+                            activityTypesArray.push(App._activityTypes[i].id);
+                        }
+                    }
                 } else {
-                    activityTypesArray.push(App._activityTypes[i].id);
+                    for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
+                        if(App._activityTypes[i].id !== lastActivityType){
+                            activityTypesArray.push(App._activityTypes[i].id);
+                        }
+                    }
                 }
+                i++;
             }
             var activityType = activityTypesArray[Math.floor(Math.random()*activityTypesArray.length)];
+            lastActivityType = activityType;
             getActivity(activityType);
+        } else {
+            getWeather(App._location), getRandomActivityType();
         }
     });
 
@@ -552,9 +557,8 @@ function getActivity(type){
             break;
         case 3://Frisbee
             console.log("Activity Type: Frisbee");
-            /* DATASET IS BROKEN -- REPORTED @ Pieter Colpaert
             if(App._locations.frisbee.length > 0){
-                console.log("Prep for Closest Calculation",App._locations.frisbee);
+                //console.log("Prep for Closest Calculation",App._locations.frisbee);
                 var userLocation = {latitude: App._location._latitude,longitude: App._location._longitude};
                 var destination = calculateClosest(userLocation,App._locations.frisbee);
                 setTimeout(function(){
@@ -578,8 +582,7 @@ function getActivity(type){
                     }
                 }
             }
-            */
-            getActivity(4);
+
             break;
         case 4://Badminton
             console.log("Activity Type: Badminton");
@@ -758,7 +761,12 @@ function getFrisbeeLocations(){
         function(data) {
             that.results = data.features;
             for (var i = 0; i < that.results.length; i++) {
-                //that.results[i] = that.results[i].geometry.coordinates;
+
+                if(that.results[i].geometry.type == "Point"){
+                    that.results[i] = that.results[i].geometry.coordinates;
+                }else if(that.results[i].geometry.type == "Polygon") {
+                    that.results[i] = that.results[i].geometry.coordinates[0][0];
+                }
             }
 
             App._locations.frisbee = that.results;

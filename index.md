@@ -25,7 +25,7 @@ title   : "Discover more..."
     </button>
     <div class="dk-panel flex row flex-child center">
         <div class="sidebar flex column centered">
-            <div class="sidebar-header row flex-child ">
+            <div class="sidebar-header row flex-child flex centered justified-c">
                 <h2 class="">Doekeewa says:</h2>
             </div>
             <div class="column flex-child stretch padded-bottom-xl flex centered justified-c">

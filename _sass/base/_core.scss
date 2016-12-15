@@ -151,6 +151,10 @@ $paddedXL: $padded * 2;
     padding-bottom: $padded+px;
     &-xl{
       padding-bottom: $paddedXL+px;
+
+      @media (max-width: $sm){
+        padding-bottom: $padded+px;
+      }
     }
   }
   &-right {
