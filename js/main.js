@@ -684,7 +684,7 @@ ready(function(){
             load: function () {
                 console.log('googlemaps load');
                 if(!this.isInitalised){
-                    $('body').append('<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBhq3LeCDgb1jSTq_Eps-8_6DrQca8AIeo' + '&callback=App.Gmap.init' +'"></script>');
+                    $('body').append('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhq3LeCDgb1jSTq_Eps-8_6DrQca8AIeo' + '&callback=App.Gmap.init' +'"></script>');
                 }
             },
             init: function () {
