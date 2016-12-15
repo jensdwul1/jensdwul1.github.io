@@ -378,7 +378,7 @@ function getLocation(){
 
 }
 function getWeather(location){
-    this.API_URL_PREFIX = 'http://api.openweathermap.org/data/2.5/weather?';
+    this.API_URL_PREFIX = 'https://api.openweathermap.org/data/2.5/weather?';
     this.API_URL_SUFFIX = '&APPID=5f05044f9f56b8f03c563bcdf64547e9&units=metric&callback=json_callback';
     // The results within the JSON-object
     this.results;
