@@ -378,18 +378,19 @@ function getLocation(){
 
 }
 function getWeather(location){
-    this.API_URL_PREFIX = 'https://api.openweathermap.org/data/2.5/weather?';
-    this.API_URL_SUFFIX = '&APPID=5f05044f9f56b8f03c563bcdf64547e9&units=metric&callback=json_callback';
+    this.API_URL_PREFIX = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D%22http%3A%2F%2Fapi.openweathermap.org%2Fdata%2F2.5%2Fweather%3F';
+    this.API_URL_SUFFIX = '%26APPID%3D5f05044f9f56b8f03c563bcdf64547e9%26units%3Dmetric%22&format=json&diagnostics=true&callback=json_callback';
     // The results within the JSON-object
     this.results;
     // Hack --> Closure
     var that = this;
 
-    var API_URL = this.API_URL_PREFIX + 'lat=' + location._latitude + '&lon=' + location._longitude + this.API_URL_SUFFIX;
+    var API_URL = this.API_URL_PREFIX + 'lat%3D' + location._latitude + '%26lon%3D' + location._longitude + this.API_URL_SUFFIX;
     //console.log(API_URL);
     Utils.getJSONPByPromise(API_URL).then(
         function(data) {
-            that.results = data;
+            //console.log('Data',data.query.results.json);
+            that.results = data.query.results.json;
             App._weather.properties = that.results;
             App._weather.fetchTime = new Date();
             App._weather.state = ((App._weather.properties.main.humidity > 50)?"bad":"good");
