@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aa2bb6fc-95ce-48d9-a43f-80017122411e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/services.js" afterPath="$PROJECT_DIR$/js/services.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_sass/themes/_default.scss" afterPath="$PROJECT_DIR$/_sass/themes/_default.scss" />
     </list>
     <ignored path="jensdwul1.github.io.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,7 +33,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="services.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="services.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/services.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="288">
@@ -1371,22 +1371,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_default.scss" pinned="false" current-in-tab="false">
+      <file leaf-file-name="_default.scss" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/_sass/themes/_default.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3060">
-              <caret line="180" column="13" selection-start-line="180" selection-start-column="13" selection-end-line="180" selection-end-column="13" />
-              <folding>
-                <marker date="1481875127510" expanded="true" signature="265:303" ph="{...}" />
-                <marker date="1481875127510" expanded="true" signature="315:485" ph="{...}" />
-                <marker date="1481875127510" expanded="true" signature="504:522" ph="{...}" />
-                <marker date="1481875127510" expanded="true" signature="547:1306" ph="{...}" />
-                <marker date="1481875127510" expanded="true" signature="949:1235" ph="{...}" />
-                <marker date="1481875127510" expanded="true" signature="1250:1306" ph="{...}" />
-                <marker date="1481875127510" expanded="true" signature="5170:5172" ph="{...}" />
-                <marker date="1481875127510" expanded="true" signature="5180:5889" ph="{...}" />
-                <marker date="1481875127510" expanded="true" signature="5578:5887" ph="{...}" />
-              </folding>
+            <state relative-caret-position="391">
+              <caret line="32" column="8" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1521,9 +1511,9 @@
         <option value="$PROJECT_DIR$/_sass/components/_input.scss" />
         <option value="$PROJECT_DIR$/_sass/base/_core.scss" />
         <option value="$PROJECT_DIR$/index.md" />
-        <option value="$PROJECT_DIR$/_sass/themes/_default.scss" />
         <option value="$PROJECT_DIR$/js/main.js" />
         <option value="$PROJECT_DIR$/js/services.js" />
+        <option value="$PROJECT_DIR$/_sass/themes/_default.scss" />
       </list>
     </option>
   </component>
@@ -2100,7 +2090,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="188937000" />
+    <option name="totallyTimeSpent" value="189370000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1932" height="1056" extended-state="0" />
@@ -3751,24 +3741,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_sass/themes/_default.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3060">
-          <caret line="180" column="13" selection-start-line="180" selection-start-column="13" selection-end-line="180" selection-end-column="13" />
-          <folding>
-            <marker date="1481875127510" expanded="true" signature="265:303" ph="{...}" />
-            <marker date="1481875127510" expanded="true" signature="315:485" ph="{...}" />
-            <marker date="1481875127510" expanded="true" signature="504:522" ph="{...}" />
-            <marker date="1481875127510" expanded="true" signature="547:1306" ph="{...}" />
-            <marker date="1481875127510" expanded="true" signature="949:1235" ph="{...}" />
-            <marker date="1481875127510" expanded="true" signature="1250:1306" ph="{...}" />
-            <marker date="1481875127510" expanded="true" signature="5170:5172" ph="{...}" />
-            <marker date="1481875127510" expanded="true" signature="5180:5889" ph="{...}" />
-            <marker date="1481875127510" expanded="true" signature="5578:5887" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
@@ -3784,6 +3756,14 @@
           <folding>
             <element signature="n#!!block;n#getBadmintonLocations#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_sass/themes/_default.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="32" column="8" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
