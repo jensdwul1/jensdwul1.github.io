@@ -423,26 +423,30 @@ function getRandomActivityType(){
     var activityTypesArray = [];
 
     database.ref('/activitytypes').once('value').then(function(snapshot) {
-        //console.log('These are the activityTypes', snapshot.val());
+        console.log('These are the activityTypes', snapshot.val());
         App._activityTypes = snapshot.val();
         if(!App.Settings.properties.weather){
-            App._weather.state = "Neutral";
+            App._weather.state = "neutral";
         }
         if ( ( date - last ) > ( 10 * 60 * 1000 ) || !App.Settings.properties.weather) {
             for(var i=0;i<App._activityTypes.length;) {
                 if(App.Settings.properties.indoor && App.Settings.properties.outdoor){
+                    //console.log('Weather is?', App._activityTypes[i]);
                     for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
+                        console.log('Activity',App._activityTypes[i].id);
                         if(App._activityTypes[i].id !== lastActivityType){
                             activityTypesArray.push(App._activityTypes[i].id);
                         }
                     }
                 } else if(App.Settings.properties.indoor){
+                    console.log('We get here? - Indoor');
                     for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
                         if(App._activityTypes[i].type == 'indoor' && App._activityTypes[i].id !== lastActivityType){
                             activityTypesArray.push(App._activityTypes[i].id);
                         }
                     }
                 } else if(App.Settings.properties.outdoor){
+                    console.log('We get here? - Outdoor');
                     for(var o=0;o<App._activityTypes[i][App._weather.state+'Weather'];o++){
                         if(App._activityTypes[i].type == 'outdoor' && App._activityTypes[i].id !== lastActivityType){
                             activityTypesArray.push(App._activityTypes[i].id);
@@ -461,6 +465,7 @@ function getRandomActivityType(){
             lastActivityType = activityType;
             getActivity(activityType);
         } else {
+            console.log('Weather is outdated');
             getWeather(App._location), getRandomActivityType();
         }
     });
