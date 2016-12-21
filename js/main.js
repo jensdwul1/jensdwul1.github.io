@@ -471,7 +471,7 @@ ready(function(){
                                 }
                             }
                         }, function (error) {
-                            console.log("An Error occured while loading your settings: " + error.code);
+                            //console.log("An Error occured while loading your settings: " + error.code);
                             toastr.options.timeOut = 5000;
                             toastr.error("An error occured while loading your settings. Default settings have been applied.");
                             for(var propertyName in App.Settings.properties) {
@@ -682,7 +682,7 @@ ready(function(){
             "endMarker":false,
             "map":false,
             load: function () {
-                console.log('googlemaps load');
+                //console.log('googlemaps load');
                 if(!this.isInitalised){
                     $('body').append('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhq3LeCDgb1jSTq_Eps-8_6DrQca8AIeo' + '&callback=App.Gmap.init' +'"></script>');
                 }
@@ -879,7 +879,7 @@ ready(function(){
                 App.Gmap.directionsDisplay.setMap(map);
 
                 google.maps.event.addListenerOnce(map, 'idle', function(){
-                    console.log('Loaded Map');
+                    //console.log('Loaded Map');
                     setTimeout(function() {
 
                     },400);
@@ -915,8 +915,8 @@ ready(function(){
 
 
                 //Setting Directions
-                console.log("Userlocation",userLocation);
-                console.log("Destination",destination);
+                //console.log("Userlocation",userLocation);
+                //console.log("Destination",destination);
                 var departure = userLocation.latitude+","+userLocation.longitude;
                 var arrival = destination[1]+","+destination[0];
 
@@ -926,8 +926,8 @@ ready(function(){
                     travelMode: 'DRIVING'
                 }, function(response, status) {
                     if (status === 'OK') {
-                        console.log(response.routes[0].legs[0].distance.value + " meters");
-                        console.log(response.routes[0].legs[0].duration.value + " seconds");
+                        //console.log(response.routes[0].legs[0].distance.value + " meters");
+                        //console.log(response.routes[0].legs[0].duration.value + " seconds");
                         var distance = Math.floor(response.routes[0].legs[0].distance.value / 1000);
                         var duration = Math.floor(response.routes[0].legs[0].duration.value / 60);
                         var score = Math.floor((distance * duration) / 10);
