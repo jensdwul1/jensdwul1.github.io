@@ -916,7 +916,7 @@ ready(function(){
 
                 //Setting Directions
                 console.log("Userlocation",userLocation);
-                console.log("Departure",destination);
+                console.log("Destination",destination);
                 var departure = userLocation.latitude+","+userLocation.longitude;
                 var arrival = destination[1]+","+destination[0];
 
@@ -926,8 +926,8 @@ ready(function(){
                     travelMode: 'DRIVING'
                 }, function(response, status) {
                     if (status === 'OK') {
-                        //console.log(response.routes[0].legs[0].distance.value + " meters");
-                        //console.log(response.routes[0].legs[0].duration.value + " seconds");
+                        console.log(response.routes[0].legs[0].distance.value + " meters");
+                        console.log(response.routes[0].legs[0].duration.value + " seconds");
                         var distance = Math.floor(response.routes[0].legs[0].distance.value / 1000);
                         var duration = Math.floor(response.routes[0].legs[0].duration.value / 60);
                         var score = Math.floor((distance * duration) / 10);

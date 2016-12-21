@@ -211,7 +211,9 @@ function postActivity(activity){
     activity.id = newActivityKey;
     updates['/activities/' + newActivityKey] = activity;
     updates['/user-activities/' + usr.uid + '/' + newActivityKey] = activity;
-    updates['/users/' + usr.uid + '/score'] = App._profile.score + activity.score;
+    if(!App.isAnon){
+        updates['/users/' + usr.uid + '/score'] = App._profile.score + activity.score;
+    }
 
     return firebase.database().ref().update(updates);
 }

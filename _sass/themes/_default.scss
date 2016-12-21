@@ -30,6 +30,7 @@ html, body {
   width: 100%;
   background-color: $light-grey;
   z-index: 1000;
+  top:0;
   visibility: hidden;
   opacity: 0;
   -webkit-transform: scale(0.9);
